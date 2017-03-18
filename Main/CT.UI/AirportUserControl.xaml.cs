@@ -164,8 +164,8 @@ namespace CT.UI
                 {
                     if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
                     {
-                        FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
-                        double duration = entityMoq.Checkpoint.Duration;
+                        //FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
+                        double duration = flight.Checkpoint.Duration; //entityMoq.Checkpoint.Duration;
                         SimProxy.flightsTimers[flight].Interval = duration;
                     }
                     else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
@@ -262,11 +262,9 @@ namespace CT.UI
                     return isFound = null;
                 case "Departed!":
                     SimProxy.OnDispose(flight.FlightSerial);
-                    //DisposeFlightObject(flight.FlightSerial.ToString());
                     return isFound = null;
                 case "No access to field!":
                     SimProxy.OnDispose(flight.FlightSerial);
-                    //DisposeFlightObject(flight.FlightSerial.ToString());
                     return isFound = null;
             }
             return isFound = false;
@@ -374,19 +372,6 @@ namespace CT.UI
             }
             return lstvwNameFlightsListHash;
         }
-
-        //void DisposeFlightObject(string flightSerial)
-        //{
-        //    RequestDisposeFlight reqDis = new RequestDisposeFlight() { FlightSerial = int.Parse(flightSerial) };
-        //    ResponseDisposeFlight resDis = SimProxy.DisposeFlight(reqDis);
-        //    if (resDis.IsSuccess)
-        //    {
-        //        txtblckFlightDepart.Text = "---";
-        //        imgPlanDepart.Source = PlaneImageSource.NoPlane;
-        //        return;
-        //    }
-        //    else throw new Exception("[UI] Service was unable to dispose the flight.");
-        //}
         #endregion
 
         void Button_Click(object sender, RoutedEventArgs e)
