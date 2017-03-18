@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfFlightDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FlightDTO" nillable="true" type="tns:FlightDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFlightDTO" nillable="true" type="tns:ArrayOfFlightDTO" />
+  <xs:complexType name="FlightDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Checkpoint" nillable="true" type="tns:CheckpointDTO" />
+      <xs:element minOccurs="0" name="CheckpointId" type="xs:int" />
+      <xs:element minOccurs="0" name="FlightId" type="xs:int" />
+      <xs:element minOccurs="0" name="FlightSerial" type="xs:int" />
+      <xs:element minOccurs="0" name="IsAlive" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Process" nillable="true" type="tns:ProcessDTO" />
+      <xs:element minOccurs="0" name="ProcessId" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FlightDTO" nillable="true" type="tns:FlightDTO" />
+  <xs:complexType name="CheckpointDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CheckpointId" type="xs:int" />
+      <xs:element minOccurs="0" name="CheckpointType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Duration" type="xs:int" />
+      <xs:element minOccurs="0" name="Flights" nillable="true" type="tns:ArrayOfFlightDTO" />
+      <xs:element minOccurs="0" name="Process" nillable="true" type="tns:ProcessDTO" />
+      <xs:element minOccurs="0" name="ProcessId" type="xs:int" />
+      <xs:element minOccurs="0" name="Serial" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckpointDTO" nillable="true" type="tns:CheckpointDTO" />
+  <xs:complexType name="ProcessDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Checkpoints" nillable="true" type="tns:ArrayOfCheckpointDTO" />
+      <xs:element minOccurs="0" name="Flights" nillable="true" type="tns:ArrayOfFlightDTO" />
+      <xs:element minOccurs="0" name="ProcessId" type="xs:int" />
+      <xs:element minOccurs="0" name="ProcessType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProcessDTO" nillable="true" type="tns:ProcessDTO" />
+  <xs:complexType name="ArrayOfCheckpointDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CheckpointDTO" nillable="true" type="tns:CheckpointDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCheckpointDTO" nillable="true" type="tns:ArrayOfCheckpointDTO" />
+</xs:schema>

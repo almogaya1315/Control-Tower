@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="14e4cbff-8350-4ed2-87d6-7250e1b6cc63" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:4767/Services/SimService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SimService.disco" MetadataType="Disco" ID="20b5cc2a-3f8b-4588-92f3-a13a4ab34abf" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?disco" />
+    <MetadataFile FileName="SimService.wsdl" MetadataType="Wsdl" ID="a2eb8a31-5878-47ea-86c7-a48be02a929e" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?wsdl" />
+    <MetadataFile FileName="SimService.xsd" MetadataType="Schema" ID="c02b31f8-8909-4351-9cd7-68f3bcba248f" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd0" />
+    <MetadataFile FileName="SimService1.xsd" MetadataType="Schema" ID="b398b22c-d61c-4a0c-8945-a7644eb0d90b" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd1" />
+    <MetadataFile FileName="SimService2.xsd" MetadataType="Schema" ID="0c764992-d559-40c5-9454-0d19ccb9e3a7" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd2" />
+    <MetadataFile FileName="SimService3.xsd" MetadataType="Schema" ID="e0f01170-5334-4e55-9e7f-73072bf02b6f" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd3" />
+    <MetadataFile FileName="SimService4.xsd" MetadataType="Schema" ID="0af9053d-9b5b-4688-842c-55d68dac4514" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd4" />
+    <MetadataFile FileName="SimService5.xsd" MetadataType="Schema" ID="d71ab837-3c4f-4460-850f-8cd0294ef1e4" SourceId="1" SourceUrl="http://localhost:4767/Services/SimService.svc?xsd=xsd5" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
