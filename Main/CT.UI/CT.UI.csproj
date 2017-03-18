@@ -65,6 +65,7 @@
     <Compile Include="AirportUserControl.xaml.cs">
       <DependentUpon>AirportUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AirportViewModel.cs" />
     <Compile Include="Proxy\SimServiceProxy.cs" />
     <Compile Include="Service References\SimulatorServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
