@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Abstracts\RepositoryConvertor.cs" />
     <Compile Include="Abstracts\ResponseBase.cs" />
+    <Compile Include="AddFlightCommand.cs" />
     <Compile Include="DTO Models\CheckpointDTO.cs" />
     <Compile Include="DTO Models\FlightDTO.cs" />
     <Compile Include="DTO Models\ProcessDTO.cs" />
