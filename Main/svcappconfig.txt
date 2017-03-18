@@ -1,0 +1,51 @@
+<configuration>
+  <configSections>
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+  <appSettings>
+    <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />
+  </appSettings>
+  <system.web>
+    <compilation debug="true" />
+  </system.web>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors>
+        <behavior name="defualt">
+          <serviceMetadata httpGetEnabled="True" httpsGetEnabled="True" />
+          <serviceDebug includeExceptionDetailInFaults="False" />
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="basicHttpBinding_ISimService" />
+      </basicHttpBinding>
+    </bindings>
+    <services>
+      <service behaviorConfiguration="defualt" name="CT.SVC.Services.SimService">
+        <!--<endpoint address="http://localhost:8888/Services/SimService.cs"
+          binding="basicHttpBinding" bindingConfiguration="basicHttpBinding_ISimService"
+          name="basicHttpBinding_ISimService" contract="CT.Contracts.SimOperationContracts.ISimService">
+          <identity>
+            <dns value="localhost" />
+          </identity>
+        </endpoint>-->
+        <host>
+          <baseAddresses>
+            <add baseAddress="http://localhost:8888/" /> <!--Services/SimService.cs-->
+          </baseAddresses>
+        </host>
+      </service>
+    </services>
+    <protocolMapping>
+      <add binding="basicHttpBinding" scheme="http" />
+    </protocolMapping>
+  </system.serviceModel>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+</configuration>

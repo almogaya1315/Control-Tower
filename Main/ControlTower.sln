@@ -1,0 +1,100 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.UI", "CT.UI\CT.UI.csproj", "{4EFCBFB0-E391-4388-9234-6DC5F568961B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393} = {C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.SRV", "CT.SRV\CT.SRV.csproj", "{92E9075C-1D2E-4119-A6B2-5E411F9C58A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393} = {C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.DAL", "CT.DAL\CT.DAL.csproj", "{A7EFA346-7D99-495A-B517-BADD098A5A69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.Common", "CT.Common\CT.Common.csproj", "{A258CB91-3DC7-4FF6-97E8-BC2B4F576A12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.Contracts", "CT.Contracts\CT.Contracts.csproj", "{C8B10F7D-20DB-45FF-8E9A-860EB9C10723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.Simulator", "CT.Simulator\CT.Simulator.csproj", "{C27E7552-3268-44CB-864B-E9613C69BB5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.BL", "CT.BL\CT.BL.csproj", "{9FD74AA7-C785-4818-91D8-081F23A03750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CT.SVC", "CT.SVC\CT.SVC.csproj", "{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EFCBFB0-E391-4388-9234-6DC5F568961B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFCBFB0-E391-4388-9234-6DC5F568961B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFCBFB0-E391-4388-9234-6DC5F568961B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFCBFB0-E391-4388-9234-6DC5F568961B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92E9075C-1D2E-4119-A6B2-5E411F9C58A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E9075C-1D2E-4119-A6B2-5E411F9C58A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E9075C-1D2E-4119-A6B2-5E411F9C58A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E9075C-1D2E-4119-A6B2-5E411F9C58A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7EFA346-7D99-495A-B517-BADD098A5A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7EFA346-7D99-495A-B517-BADD098A5A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7EFA346-7D99-495A-B517-BADD098A5A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7EFA346-7D99-495A-B517-BADD098A5A69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A258CB91-3DC7-4FF6-97E8-BC2B4F576A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A258CB91-3DC7-4FF6-97E8-BC2B4F576A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A258CB91-3DC7-4FF6-97E8-BC2B4F576A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A258CB91-3DC7-4FF6-97E8-BC2B4F576A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B10F7D-20DB-45FF-8E9A-860EB9C10723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B10F7D-20DB-45FF-8E9A-860EB9C10723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B10F7D-20DB-45FF-8E9A-860EB9C10723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B10F7D-20DB-45FF-8E9A-860EB9C10723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C27E7552-3268-44CB-864B-E9613C69BB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C27E7552-3268-44CB-864B-E9613C69BB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C27E7552-3268-44CB-864B-E9613C69BB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C27E7552-3268-44CB-864B-E9613C69BB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD74AA7-C785-4818-91D8-081F23A03750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD74AA7-C785-4818-91D8-081F23A03750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD74AA7-C785-4818-91D8-081F23A03750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD74AA7-C785-4818-91D8-081F23A03750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DACFF7-F6EE-4830-8D0E-B31E8B05D393}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 9
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://almogaya.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = CT.UI\\CT.UI.csproj
+		SccProjectName1 = CT.UI
+		SccLocalPath1 = CT.UI
+		SccProjectUniqueName2 = CT.SRV\\CT.SRV.csproj
+		SccProjectName2 = CT.SRV
+		SccLocalPath2 = CT.SRV
+		SccProjectUniqueName3 = CT.DAL\\CT.DAL.csproj
+		SccProjectName3 = CT.DAL
+		SccLocalPath3 = CT.DAL
+		SccProjectUniqueName4 = CT.Common\\CT.Common.csproj
+		SccProjectName4 = CT.Common
+		SccLocalPath4 = CT.Common
+		SccProjectUniqueName5 = CT.Contracts\\CT.Contracts.csproj
+		SccProjectName5 = CT.Contracts
+		SccLocalPath5 = CT.Contracts
+		SccProjectUniqueName6 = CT.Simulator\\CT.Simulator.csproj
+		SccProjectName6 = CT.Simulator
+		SccLocalPath6 = CT.Simulator
+		SccProjectUniqueName7 = CT.BL\\CT.BL.csproj
+		SccProjectName7 = CT.BL
+		SccLocalPath7 = CT.BL
+		SccProjectUniqueName8 = CT.SVC\\CT.SVC.csproj
+		SccProjectName8 = CT.SVC
+		SccLocalPath8 = CT.SVC
+	EndGlobalSection
+EndGlobal

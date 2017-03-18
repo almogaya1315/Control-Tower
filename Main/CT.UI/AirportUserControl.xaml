@@ -1,0 +1,147 @@
+﻿<UserControl x:Name="AirportUC"
+             x:Class="CT.UI.AirportUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CT.UI"
+             mc:Ignorable="d" 
+             d:DesignHeight="796" d:DesignWidth="1369" Loaded="AirportUC_Loaded">
+    <Grid Name="grdMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="E:\TFS_Code\ControlTower\Main\CT.UI\Images\airport.jpg"/>
+        </Grid.Background>
+
+        <Border Grid.Row="0" Grid.Column="4" Height="30" Width="100">
+            <Button Content="Promote" Click="Button_Click"/>
+        </Border>
+        
+        <Border Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <TextBlock Text="Arrivals" FontSize="30" Foreground="Red"/>
+        </Border>
+        <Canvas Grid.Row="1" Grid.Column="4">
+            <Grid Canvas.Right="10">
+                <Border Margin="10,40,10,70" >
+                    <Image Name="imgPlaneArr1" Width="60" Height="53"/>
+                </Border>
+                <Border Margin="10,100,10,10" >
+                    <TextBlock Name="txtblckFlightArr1" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+            <Grid Canvas.Right="110">
+                <Border Margin="10,40,10,70" >
+                    <Image Name="imgPlaneArr2" Width="60" Height="53"/>
+                </Border>
+                <Border Margin="10,100,10,10" >
+                    <TextBlock Name="txtblckFlightArr2" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+            <Grid Canvas.Right="210">
+                <Border Margin="10,40,10,70" >
+                    <Image Name="imgPlaneArr3" Width="60" Height="53"/>
+                </Border>
+                <Border Margin="10,100,10,10" >
+                    <TextBlock Name="txtblckFlightArr3" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+        </Canvas>
+
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Border Margin="10,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightRunway}">
+                <Image Name="imgPlaneRunway" Width="60" Height="53"/>
+            </Border>
+            <Border Margin="10,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightRunway}">
+                <TextBlock Name="txtblckFlightRunway" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <Border Grid.Column="1" Grid.Row="2" Margin="120,10,10,10">
+            <TextBlock Name="txtblckTerminal1Message" FontSize="20" Foreground="Aqua"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="1" Margin="160,100,10,10">
+            <TextBlock Text="1" FontSize="30" Foreground="Red"/>
+        </Border>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Border Margin="10,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" HorizontalAlignment="Right">
+                <Image Name="imgPlaneTerminal1" Width="60" Height="53"/>
+            </Border>
+            <Border Margin="10,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" HorizontalAlignment="Right">
+                <TextBlock Name="txtblckFlightTerminal1" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <Border Grid.Column="3" Grid.Row="2" Margin="80,10,10,10">
+            <TextBlock Name="txtblckTerminal2Message" FontSize="20" Foreground="Aqua"/>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="3" Margin="120,100,10,10">
+            <TextBlock Text="2" FontSize="30" Foreground="Red"/>
+        </Border>
+        <Grid Grid.Row="2" Grid.Column="3">
+            <Border Margin="40,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal2}" HorizontalAlignment="Left">
+                <Image Name="imgPlaneTerminal2" Width="60" Height="53"/>
+            </Border>
+            <Border Margin="40,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal2}" HorizontalAlignment="Left">
+                <TextBlock Name="txtblckFlightTerminal2" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <TextBlock Text="Departures" FontSize="30" Foreground="Red"/>
+        </Border>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Border Margin="40,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightDepart}" HorizontalAlignment="Center">
+                <Image Name="imgPlanDepart" Width="60" Height="53"/>
+            </Border>
+            <Border Margin="40,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightDepart}" HorizontalAlignment="Center">
+                <TextBlock Name="txtblckFlightDepart" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+            </Border>
+        </Grid>
+
+        <Canvas Grid.Row="2" Grid.Column="0">
+            <Grid>
+                <Border Margin="150,10,10,10">
+                    <TextBlock Text="Stand by" FontSize="30" Foreground="Red"/>
+                </Border>
+                <Border Margin="150,45,10,10">
+                    <TextBlock Text="for unloading" FontSize="19" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid>
+                <Border Margin="150,80,10,10">
+                    <ListView Name="lstvwParkUnload" Width="110" Height="200"/>
+                </Border>
+            </Grid>
+        </Canvas>
+
+        <Canvas Grid.Row="2" Grid.Column="4">
+            <Grid>
+                <Border Margin="-20,10,10,10">
+                    <TextBlock Text="Stand by" FontSize="30" Foreground="Red"/>
+                </Border>
+                <Border Margin="-20,45,10,10">
+                    <TextBlock Text="for departure" FontSize="19" Foreground="Red"/>
+                </Border>
+            </Grid>
+            <Grid>
+                <Border Margin="-20,80,10,10">
+                    <ListView Name="lstvwParkDepart" Width="110" Height="200"/>
+                </Border>
+            </Grid>
+        </Canvas>
+    </Grid>
+</UserControl>

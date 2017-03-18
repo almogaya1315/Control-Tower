@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CT.Contracts.SimDataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CT.Contracts.SimDataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:4767/Services/SimService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" />
+  <xs:import schemaLocation="http://localhost:4767/Services/SimService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" />
+  <xs:import schemaLocation="http://localhost:4767/Services/SimService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="RequestInitializeSimulator">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsWindowLoaded" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestInitializeSimulator" nillable="true" type="tns:RequestInitializeSimulator" />
+  <xs:complexType name="ResponseInitializeSimulator">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q1:ResponseBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="TimerInterval" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseInitializeSimulator" nillable="true" type="tns:ResponseInitializeSimulator" />
+  <xs:complexType name="ResponseFlightsCollection">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q2:ResponseBase">
+        <xs:sequence>
+          <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" minOccurs="0" name="Flights" nillable="true" type="q3:ArrayOfFlightDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseFlightsCollection" nillable="true" type="tns:ResponseFlightsCollection" />
+  <xs:complexType name="RequestFlightObject">
+    <xs:sequence>
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" minOccurs="0" name="CurrentFlights" nillable="true" type="q4:ArrayOfFlightDTO" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestFlightObject" nillable="true" type="tns:RequestFlightObject" />
+  <xs:complexType name="ResponseFlightObject">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q5:ResponseBase">
+        <xs:sequence>
+          <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CT.Common.DTO_Models" minOccurs="0" name="Flight" nillable="true" type="q6:FlightDTO" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseFlightObject" nillable="true" type="tns:ResponseFlightObject" />
+  <xs:complexType name="RequestFlightPosition">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FlightSerial" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsBoarding" type="xs:boolean" />
+      <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="LstvwNameFlightsListHash" nillable="true" type="q7:ArrayOfKeyValueOfstringArrayOfstringty7Ep6D1" />
+      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="TxtblckNameFlightNumberHash" nillable="true" type="q8:ArrayOfKeyValueOfstringstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestFlightPosition" nillable="true" type="tns:RequestFlightPosition" />
+  <xs:complexType name="ResponseFlightPosition">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q9="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q9:ResponseBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CheckpointSerial" type="xs:int" />
+          <xs:element minOccurs="0" name="CheckpointType" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="LastCheckpointPosition" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="NextCheckpointName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseFlightPosition" nillable="true" type="tns:ResponseFlightPosition" />
+  <xs:complexType name="RequestCheckpointDuration">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CheckpointSerial" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CheckpointType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestCheckpointDuration" nillable="true" type="tns:RequestCheckpointDuration" />
+  <xs:complexType name="ResponseCheckpointDuration">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q10:ResponseBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CheckpointDuration" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseCheckpointDuration" nillable="true" type="tns:ResponseCheckpointDuration" />
+  <xs:complexType name="RequestDisposeFlight">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FlightSerial" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestDisposeFlight" nillable="true" type="tns:RequestDisposeFlight" />
+  <xs:complexType name="ResponseDisposeFlight">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q11="http://schemas.datacontract.org/2004/07/CT.Common.Abstracts" base="q11:ResponseBase">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResponseDisposeFlight" nillable="true" type="tns:ResponseDisposeFlight" />
+</xs:schema>
