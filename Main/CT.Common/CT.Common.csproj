@@ -51,13 +51,14 @@
   <ItemGroup>
     <Compile Include="Abstracts\RepositoryConvertor.cs" />
     <Compile Include="Abstracts\ResponseBase.cs" />
-    <Compile Include="AddFlightCommand.cs" />
+    <Compile Include="Commands\AddFlightCommand.cs" />
     <Compile Include="DTO Models\CheckpointDTO.cs" />
     <Compile Include="DTO Models\FlightDTO.cs" />
     <Compile Include="DTO Models\ProcessDTO.cs" />
     <Compile Include="Enums\CheckpointType.cs" />
     <Compile Include="Enums\ProcessType.cs" />
     <Compile Include="IRepositories\IControlTowerRepository.cs" />
+    <Compile Include="Locators\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CallbackChannelsFactory.cs" />
     <Compile Include="Utilities\GlobalValues.cs" />
@@ -65,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
