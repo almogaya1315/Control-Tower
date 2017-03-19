@@ -33,7 +33,7 @@ namespace CT.Common.DTO_Models
         {
             get
             {
-                return IsAlive;
+                return isAlive;
             }
             set
             {
