@@ -19,22 +19,26 @@ using CT.UI.SimulatorServiceReference;
 using CT.Common.Utilities;
 using System.Threading;
 using CT.Common.DTO_Models;
+using CT.UI.Locators;
 
 namespace CT.UI.Views
 {
     public partial class AirportUserControl : UserControl
     {
-        MainWindow coreWindow { get; set; }
-        SimServiceProxy SimProxy { get; set; }
-        ICollection<TextBlock> txtblckCheckpoints { get; set; }
-        ICollection<ListView> lstvwsCheckpoints { get; set; }
-        ICollection<Image> imgPlanes { get; set; }
+        //MainWindow coreWindow { get; set; }
+        //SimServiceProxy SimProxy { get; set; }
+        //ICollection<TextBlock> txtblckCheckpoints { get; set; }
+        //ICollection<ListView> lstvwsCheckpoints { get; set; }
+        //ICollection<Image> imgPlanes { get; set; }
 
         public AirportUserControl(MainWindow core)
         {
             //try
             //{
-                InitializeComponent();
+            InitializeComponent();
+            SimServiceProxy SimProxy = new SimServiceProxy();
+            ViewModelLocator locator = new ViewModelLocator(this, SimProxy);
+            DataContext = locator.AirportViewModel;
             //    coreWindow = core;
             //}
             //catch (Exception e)
@@ -53,8 +57,6 @@ namespace CT.UI.Views
             //    imgPlanes = InitializeImgPlanes();
             //}
         }
-
-
 
         #region service events
         void SimProxy_OnLoadEvent(object sender, bool isLoaded)
