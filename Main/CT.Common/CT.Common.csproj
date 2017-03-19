@@ -47,11 +47,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\RepositoryConvertor.cs" />
     <Compile Include="Abstracts\ResponseBase.cs" />
     <Compile Include="Commands\AddFlightCommand.cs" />
+    <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="DTO Models\CheckpointDTO.cs" />
     <Compile Include="DTO Models\FlightDTO.cs" />
     <Compile Include="DTO Models\ProcessDTO.cs" />
@@ -66,9 +68,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

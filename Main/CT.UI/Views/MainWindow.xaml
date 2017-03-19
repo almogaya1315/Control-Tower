@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:viewmodels="clr-namespace:CT.UI.ViewModels"
-        xmlns:local="clr-namespace:CT.UI.Views"
+        xmlns:views="clr-namespace:CT.UI.Views"
         mc:Ignorable="d"
-        DataContext=""
+        DataContext="{Binding Source={StaticResource mainViewModelLocator}, Path=AirportViewModel}"
         Title="Tower control" Height="796" Width="1369" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         
