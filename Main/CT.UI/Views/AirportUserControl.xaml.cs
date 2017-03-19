@@ -20,7 +20,7 @@ using CT.Common.Utilities;
 using System.Threading;
 using CT.Common.DTO_Models;
 
-namespace CT.UI
+namespace CT.UI.Views
 {
     public partial class AirportUserControl : UserControl
     {

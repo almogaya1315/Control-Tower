@@ -14,12 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 
-namespace CT.UI
+namespace CT.UI.Views
 {
     public partial class MainWindow : Window
     {
         AirportUserControl airportUserControl { get; set; }
-
 
         public MainWindow()
         {
