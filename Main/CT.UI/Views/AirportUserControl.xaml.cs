@@ -124,7 +124,6 @@ namespace CT.UI.Views
                 }
             }
 
-
             if (flight != null)
             {
                 SimProxy.flightsTimers.Remove(keyToRemove.Key);
