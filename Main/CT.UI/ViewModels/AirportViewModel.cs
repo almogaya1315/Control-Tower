@@ -146,6 +146,10 @@ namespace CT.UI.ViewModels
 
             if (resFlight.IsSuccess)
             {
+                //currentFlight = resFlight.Flight;
+                //flights = new ObservableCollection<FlightDTO>(simProxy.GetFlightsCollection().Flights);
+                //flights = simProxy.GetFlightsCollection().Flights.ToList().ToObservableCollection();
+
                 double initialDuration = 2000;
                 simProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
