@@ -58,7 +58,6 @@
     <Compile Include="Enums\CheckpointType.cs" />
     <Compile Include="Enums\ProcessType.cs" />
     <Compile Include="IRepositories\IControlTowerRepository.cs" />
-    <Compile Include="Locators\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CallbackChannelsFactory.cs" />
     <Compile Include="Utilities\GlobalValues.cs" />
