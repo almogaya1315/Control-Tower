@@ -7,10 +7,12 @@ using CT.UI.SimulatorServiceReference;
 using CT.UI.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,14 +20,17 @@ using System.Windows.Media.Imaging;
 
 namespace CT.UI.ViewModels
 {
-    public class AirportViewModel : ControlInitializer<AirportUserControl>, INotifyPropertyChanged
+    public class AirportViewModel : ControlInitializer, INotifyPropertyChanged
     {
         #region private props & ctor
         SimServiceProxy simProxy;
         AirportUserControl airportUserControl;
+
         ICollection<TextBlock> txtblckCheckpoints { get; set; }
         ICollection<ListView> lstvwsCheckpoints { get; set; }
         ICollection<Image> imgPlanes { get; set; }
+
+        
 
         public AirportViewModel(AirportUserControl control, SimServiceProxy proxy)
         {
@@ -33,15 +38,15 @@ namespace CT.UI.ViewModels
             airportUserControl.Loaded += airportUserControl_Loaded;
             simProxy = proxy;
 
-            AddFlightCommand = new AddFlightCommand(AddFlight);
+            //AddFlightCommand = new AddFlightCommand(AddFlight);
 
             simProxy.OnLoadEvent += SimProxy_OnLoadEvent;
             simProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
             simProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
 
-            txtblckCheckpoints = InitializeTxtblckCheckpoints(airportUserControl, txtblckCheckpoints);
-            lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl, lstvwsCheckpoints);
-            imgPlanes = InitializeImgPlanes(airportUserControl, imgPlanes);
+            txtblckCheckpoints = InitializeTxtblckCheckpoints(airportUserControl.grdMain.Children, txtblckCheckpoints);
+            lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
+            imgPlanes = InitializeImgPlanes(airportUserControl.grdMain.Children, imgPlanes);
         }
         #endregion
 
@@ -55,17 +60,17 @@ namespace CT.UI.ViewModels
 
         public ICommand AddFlightCommand { get; set; }
 
-        BitmapImage planeImage;
-        public BitmapImage PlaneImage
+        ObservableCollection<FlightDTO> flights;
+        public ObservableCollection<FlightDTO> Flights
         {
             get
             {
-                return planeImage;
+                return flights;
             }
             set
             {
-                planeImage = value;
-                RaisePropertyChanged("PlaneImage");
+                flights = value;
+                RaisePropertyChanged("Flights");
             }
         }
 
@@ -80,6 +85,20 @@ namespace CT.UI.ViewModels
             {
                 currentFlight = value;
                 RaisePropertyChanged("CurrentFlight");
+            }
+        }
+
+        BitmapImage planeImage;
+        public BitmapImage PlaneImage
+        {
+            get
+            {
+                return planeImage;
+            }
+            set
+            {
+                planeImage = value;
+                RaisePropertyChanged("PlaneImage");
             }
         }
         #endregion
@@ -107,12 +126,43 @@ namespace CT.UI.ViewModels
                 //CreateFlight_ArrivalTimerElapsed(this, null);
             }
         }
+        void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (sender is System.Timers.Timer) (sender as System.Timers.Timer).Stop();
+
+            ResponseFlightObject resFlight = null;
+            try
+            {
+                RequestFlightObject reqFlight = new RequestFlightObject()
+                {
+                    CurrentFlights = simProxy.GetFlightsCollection().Flights
+                };
+                resFlight = simProxy.CreateFlightObject(reqFlight);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Could not retrieve collection OR create flight object. {ex.Message}");
+            }
+
+            if (resFlight.IsSuccess)
+            {
+                double initialDuration = 2000;
+                simProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
+                simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
+
+                simProxy.flightsTimers[resFlight.Flight].Start();
+            }
+            else throw new Exception("No success retrieving flight response.");
+
+            (sender as System.Timers.Timer).Start();
+        }
         #endregion
 
-        public void AddFlight()
-        {
-            RequestFlightObject 
-            simProxy.CreateFlightObject();
-        }
+        //#region public commands
+        //public void AddFlight()
+        //{
+            
+        //}
+        //#endregion
     }
 }
