@@ -2,6 +2,7 @@
 using CT.Common.DTO_Models;
 using CT.Common.Utilities;
 using CT.UI.Proxy;
+using CT.UI.SimulatorServiceReference;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +18,9 @@ namespace CT.UI.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         SimServiceProxy simProxy;
+        ICollection<TextBlock> txtblckCheckpoints { get; set; }
+        ICollection<ListView> lstvwsCheckpoints { get; set; }
+        ICollection<Image> imgPlanes { get; set; }
 
         void RaisePropertyChanged(string propertyName)
         {
@@ -59,11 +63,20 @@ namespace CT.UI.ViewModels
             simProxy = proxy;
 
             AddFlightCommand = new AddFlightCommand(AddFlight);
+
+            simProxy.OnLoadEvent += SimProxy_OnLoadEvent;
+            simProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
+            simProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
+
+            txtblckCheckpoints = InitializeTxtblckCheckpoints();
+            lstvwsCheckpoints = InitializeLstvwsCheckpoints();
+            imgPlanes = InitializeImgPlanes();
         }
 
         public void AddFlight()
         {
-            //simProxy.CreateFlightObject();
+            RequestFlightObject 
+            simProxy.CreateFlightObject();
         }
     }
 }
