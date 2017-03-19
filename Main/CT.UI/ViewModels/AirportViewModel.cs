@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CT.UI
+namespace CT.UI.ViewModels
 {
     public class AirportViewModel
     {
