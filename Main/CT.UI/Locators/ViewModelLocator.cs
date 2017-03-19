@@ -1,4 +1,5 @@
-﻿using CT.UI.ViewModels;
+﻿using CT.UI.Proxy;
+using CT.UI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace CT.UI.Locators
 
         public ViewModelLocator()
         {
-            airportViewModel = new AirportViewModel();
+            airportViewModel = new AirportViewModel(new SimServiceProxy());
         }
 
         public static AirportViewModel AirportViewModel

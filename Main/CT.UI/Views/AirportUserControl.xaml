@@ -27,17 +27,13 @@
             <ImageBrush ImageSource="E:\TFS_Code\ControlTower\Main\CT.UI\Images\airport.jpg"/>
         </Grid.Background>
 
-        <Border Grid.Row="0" Grid.Column="4" Height="30" Width="100">
-            <Button Content="Promote" Click="Button_Click"/>
-        </Border>
-        
         <Border Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <TextBlock Text="Arrivals" FontSize="30" Foreground="Red"/>
         </Border>
         <Canvas Grid.Row="1" Grid.Column="4">
             <Grid Canvas.Right="10">
                 <Border Margin="10,40,10,70" >
-                    <Image Name="imgPlaneArr1" Width="60" Height="53"/>
+                    <Image Source="{Binding }" Name="imgPlaneArr1" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
                     <TextBlock Name="txtblckFlightArr1" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
