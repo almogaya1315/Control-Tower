@@ -33,26 +33,26 @@
         <Canvas Grid.Row="1" Grid.Column="4">
             <Grid Canvas.Right="10">
                 <Border Margin="10,40,10,70" >
-                    <Image Source="{Binding }" Name="imgPlaneArr1" Width="60" Height="53"/>
+                    <Image Source="{Binding PlaneImage, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr1" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
-                    <TextBlock Name="txtblckFlightArr1" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                    <TextBlock Name="txtblckFlightArr1" Text="{Binding CurrentFlight.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center"/>
                 </Border>
             </Grid>
             <Grid Canvas.Right="110">
                 <Border Margin="10,40,10,70" >
-                    <Image Name="imgPlaneArr2" Width="60" Height="53"/>
+                    <Image Source="{Binding PlaneImage, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr2" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
-                    <TextBlock Name="txtblckFlightArr2" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                    <TextBlock Name="txtblckFlightArr2" Text="{Binding CurrentFlight.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center"/>
                 </Border>
             </Grid>
             <Grid Canvas.Right="210">
                 <Border Margin="10,40,10,70" >
-                    <Image Name="imgPlaneArr3" Width="60" Height="53"/>
+                    <Image Source="{Binding PlaneImage, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr3" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
-                    <TextBlock Name="txtblckFlightArr3" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                    <TextBlock Name="txtblckFlightArr3" Text="{Binding CurrentFlight.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center"/>
                 </Border>
             </Grid>
         </Canvas>
