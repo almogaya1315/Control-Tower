@@ -1,5 +1,6 @@
 ﻿using CT.Common.Commands;
 using CT.Common.DTO_Models;
+using CT.Common.Utilities;
 using CT.UI.Proxy;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace CT.UI.ViewModels
 {
@@ -23,6 +25,20 @@ namespace CT.UI.ViewModels
         }
 
         public ICommand AddFlightCommand { get; set; }
+
+        BitmapImage planeImage;
+        public BitmapImage PlaneImage
+        {
+            get
+            {
+                return planeImage;
+            }
+            set
+            {
+                planeImage = value;
+                RaisePropertyChanged("PlaneImage");
+            }
+        }
 
         FlightDTO currentFlight;
         public FlightDTO CurrentFlight
