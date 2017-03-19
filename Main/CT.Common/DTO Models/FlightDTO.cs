@@ -57,11 +57,11 @@ namespace CT.Common.DTO_Models
         {
             get
             {
-                return processId;
+                return checkpointId;
             }
             set
             {
-                processId = value;
+                checkpointId = value;
                 RaisePropertyChanged("CheckpointId");
             }
         }
