@@ -32,26 +32,26 @@ namespace CT.UI.Views
 
         public AirportUserControl(MainWindow core)
         {
-            try
-            {
+            //try
+            //{
                 InitializeComponent();
-                coreWindow = core;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Airport UC did not initialize. {e.Message}");
-            }
-            finally
-            {
-                SimProxy = new SimServiceProxy();
-                SimProxy.OnLoadEvent += SimProxy_OnLoadEvent;
-                SimProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
-                SimProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
+            //    coreWindow = core;
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception($"Airport UC did not initialize. {e.Message}");
+            //}
+            //finally
+            //{
+            //    SimProxy = new SimServiceProxy();
+            //    SimProxy.OnLoadEvent += SimProxy_OnLoadEvent;
+            //    SimProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
+            //    SimProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
 
-                txtblckCheckpoints = InitializeTxtblckCheckpoints();
-                lstvwsCheckpoints = InitializeLstvwsCheckpoints();
-                imgPlanes = InitializeImgPlanes();
-            }
+            //    txtblckCheckpoints = InitializeTxtblckCheckpoints();
+            //    lstvwsCheckpoints = InitializeLstvwsCheckpoints();
+            //    imgPlanes = InitializeImgPlanes();
+            //}
         }
 
 
