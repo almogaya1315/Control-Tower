@@ -7,25 +7,30 @@ using System.Windows.Controls;
 
 namespace CT.Common.Abstracts
 {
-    public abstract class ControlInitializer
+    public abstract class ControlInitializer<AirportUC> where AirportUC : UserControl
     {
-        ICollection<TextBlock> InitializeTxtblckCheckpoints(ICollection<TextBlock> txtblckCheckpoints)
+        public ICollection<TextBlock> InitializeTxtblckCheckpoints(UserControl control, ICollection<TextBlock> txtblckCheckpoints)
         {
-            return txtblckCheckpoints = new List<TextBlock>()
+            if (control is AirportUC)
             {
-                txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
-                txtblckFlightRunway, txtblckFlightTerminal1,
-                txtblckFlightTerminal2, txtblckFlightDepart
-            };
+                txtblckCheckpoints = (control as AirportUC).
+            }
+
+            //return txtblckCheckpoints = new List<TextBlock>()
+            //{
+            //    (control as AirportUC).txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
+            //    txtblckFlightRunway, txtblckFlightTerminal1,
+            //    txtblckFlightTerminal2, txtblckFlightDepart
+            //};
         }
-        ICollection<ListView> InitializeLstvwsCheckpoints(ICollection<ListView> lstvwsCheckpoints)
+        public ICollection<ListView> InitializeLstvwsCheckpoints(UserControl control, ICollection<ListView> lstvwsCheckpoints)
         {
             return lstvwsCheckpoints = new List<ListView>()
             {
                 lstvwParkUnload, lstvwParkDepart
             };
         }
-        ICollection<Image> InitializeImgPlanes(ICollection<Image> imgPlanes)
+        public ICollection<Image> InitializeImgPlanes(UserControl control, ICollection<Image> imgPlanes)
         {
             return imgPlanes = new List<Image>()
             {
