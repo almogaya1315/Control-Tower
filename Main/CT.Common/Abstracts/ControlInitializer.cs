@@ -3,41 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CT.Common.Abstracts
 {
-    public abstract class ControlInitializer<AirportUC> where AirportUC : UserControl
+    public abstract class ControlInitializer
     {
-        public ICollection<TextBlock> InitializeTxtblckCheckpoints(UserControl control, ICollection<TextBlock> txtblckCheckpoints)
+        public ICollection<TextBlock> InitializeTxtblckCheckpoints(UIElementCollection children, ICollection<TextBlock> txtblckCheckpoints)
         {
-            if (control is AirportUC)
-            {
-                txtblckCheckpoints = (control as AirportUC).
-            }
+            foreach (UIElement element in children)
+                if (element is TextBlock)
+                    if ((element as TextBlock).Name.Contains("txtblckFlight"))
+                        txtblckCheckpoints.Add(element as TextBlock);
+            return txtblckCheckpoints;
 
             //return txtblckCheckpoints = new List<TextBlock>()
             //{
-            //    (control as AirportUC).txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
+            //    txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
             //    txtblckFlightRunway, txtblckFlightTerminal1,
             //    txtblckFlightTerminal2, txtblckFlightDepart
             //};
         }
-        public ICollection<ListView> InitializeLstvwsCheckpoints(UserControl control, ICollection<ListView> lstvwsCheckpoints)
+        public ICollection<ListView> InitializeLstvwsCheckpoints(UIElementCollection children, ICollection<ListView> lstvwsCheckpoints)
         {
-            return lstvwsCheckpoints = new List<ListView>()
-            {
-                lstvwParkUnload, lstvwParkDepart
-            };
+            foreach (UIElement element in children)
+                if (element is ListView)
+                    if ((element as ListView).Name.Contains("lstvwPark"))
+                        lstvwsCheckpoints.Add(element as ListView);
+            return lstvwsCheckpoints;
+
+            //return lstvwsCheckpoints = new List<ListView>()
+            //{
+            //    lstvwParkUnload, lstvwParkDepart
+            //};
         }
-        public ICollection<Image> InitializeImgPlanes(UserControl control, ICollection<Image> imgPlanes)
+        public ICollection<Image> InitializeImgPlanes(UIElementCollection children, ICollection<Image> imgPlanes)
         {
-            return imgPlanes = new List<Image>()
-            {
-                imgPlaneArr1, imgPlaneArr2, imgPlaneArr3,
-                imgPlaneRunway, imgPlaneTerminal1,
-                imgPlaneTerminal2, imgPlanDepart
-            };
+            foreach (UIElement element in children)
+                if (element is Image)
+                    if ((element as Image).Name.Contains("imgPlane"))
+                        imgPlanes.Add(element as Image);
+            return imgPlanes;
+
+            //return imgPlanes = new List<Image>()
+            //{
+            //    imgPlaneArr1, imgPlaneArr2, imgPlaneArr3,
+            //    imgPlaneRunway, imgPlaneTerminal1,
+            //    imgPlaneTerminal2, imgPlanDepart
+            //};
         }
     }
 }
