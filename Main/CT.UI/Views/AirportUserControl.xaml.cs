@@ -138,82 +138,82 @@ namespace CT.UI.Views
 
             //SimProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Start();
         //}
-        void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                bool isBoarding = default(bool);
-                if (txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
-                {
-                    if (txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
-                    else if (txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
-                }
-                else if (txtblckFlightTerminal2.Text == flight.FlightSerial.ToString())
-                {
-                    if (txtblckTerminal2Message.Text == "Unloading...") isBoarding = false;
-                    else if (txtblckTerminal2Message.Text == "...Boarding") isBoarding = true;
-                }
-                RequestFlightPosition reqPosition = new RequestFlightPosition()
-                {
-                    TxtblckNameFlightNumberHash = SetTxtblckHash(),
-                    LstvwNameFlightsListHash = SetLstvwHash(),
-                    FlightSerial = flight.FlightSerial.ToString(),
-                    IsBoarding = isBoarding
-                };
-                ResponseFlightPosition resPosition = SimProxy.GetFlightPosition(reqPosition);
-                if (resPosition.IsSuccess)
-                {
-                    if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
-                    {
-                        //FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
-                        double duration = flight.Checkpoint.Duration; //entityMoq.Checkpoint.Duration;
-                        SimProxy.flightsTimers[flight].Interval = duration;
-                    }
-                    else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
-                    {
-                        RequestCheckpointDuration reqDur = new RequestCheckpointDuration()
-                        { CheckpointSerial = resPosition.CheckpointSerial.ToString() };
-                        ResponseCheckpointDuration resDur = SimProxy.GetCheckpointDuration(reqDur);
-                        if (resDur.IsSuccess)
-                        { SimProxy.flightsTimers[flight].Interval = resDur.CheckpointDuration; }
-                    }
+        //void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        bool isBoarding = default(bool);
+        //        if (txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
+        //        {
+        //            if (txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
+        //            else if (txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
+        //        }
+        //        else if (txtblckFlightTerminal2.Text == flight.FlightSerial.ToString())
+        //        {
+        //            if (txtblckTerminal2Message.Text == "Unloading...") isBoarding = false;
+        //            else if (txtblckTerminal2Message.Text == "...Boarding") isBoarding = true;
+        //        }
+        //        RequestFlightPosition reqPosition = new RequestFlightPosition()
+        //        {
+        //            TxtblckNameFlightNumberHash = SetTxtblckHash(),
+        //            LstvwNameFlightsListHash = SetLstvwHash(),
+        //            FlightSerial = flight.FlightSerial.ToString(),
+        //            IsBoarding = isBoarding
+        //        };
+        //        ResponseFlightPosition resPosition = SimProxy.GetFlightPosition(reqPosition);
+        //        if (resPosition.IsSuccess)
+        //        {
+        //            if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
+        //            {
+        //                //FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
+        //                double duration = flight.Checkpoint.Duration; //entityMoq.Checkpoint.Duration;
+        //                SimProxy.flightsTimers[flight].Interval = duration;
+        //            }
+        //            else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
+        //            {
+        //                RequestCheckpointDuration reqDur = new RequestCheckpointDuration()
+        //                { CheckpointSerial = resPosition.CheckpointSerial.ToString() };
+        //                ResponseCheckpointDuration resDur = SimProxy.GetCheckpointDuration(reqDur);
+        //                if (resDur.IsSuccess)
+        //                { SimProxy.flightsTimers[flight].Interval = resDur.CheckpointDuration; }
+        //            }
 
-                    if (resPosition.LastCheckpointPosition == "txtblckFlightTerminal1" || resPosition.LastCheckpointPosition == "txtblckFlightTerminal2")
-                    {
-                        SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
-                            resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
-                        return;
-                    }
-                    bool? isFound = SwitchOnNextCheckpointName(resPosition.NextCheckpointName, flight);
-                    if (isFound == null) return;
-                    if (isFound == false)
-                    {
-                        SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
-                            resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
-                    }
-                }
-            });
-        }
+        //            if (resPosition.LastCheckpointPosition == "txtblckFlightTerminal1" || resPosition.LastCheckpointPosition == "txtblckFlightTerminal2")
+        //            {
+        //                SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+        //                    resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
+        //                return;
+        //            }
+        //            bool? isFound = SwitchOnNextCheckpointName(resPosition.NextCheckpointName, flight);
+        //            if (isFound == null) return;
+        //            if (isFound == false)
+        //            {
+        //                SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+        //                    resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
+        //            }
+        //        }
+        //    });
+        //}
 
-        void SimProxy_OnDisposeEvent(object sender, int flightSerial)
-        {
-            RequestDisposeFlight reqDis = new RequestDisposeFlight() { FlightSerial = flightSerial };
-            ResponseDisposeFlight resDis = SimProxy.DisposeFlight(reqDis);
-            if (resDis.IsSuccess)
-            {
-                txtblckFlightDepart.Text = "---";
-                imgPlanDepart.Source = PlaneImageSource.NoPlane;
-                return;
-            }
-            else throw new Exception("[UI] Service was unable to dispose the flight.");
-        }
+        //void SimProxy_OnDisposeEvent(object sender, int flightSerial)
+        //{
+        //    RequestDisposeFlight reqDis = new RequestDisposeFlight() { FlightSerial = flightSerial };
+        //    ResponseDisposeFlight resDis = SimProxy.DisposeFlight(reqDis);
+        //    if (resDis.IsSuccess)
+        //    {
+        //        txtblckFlightDepart.Text = "---";
+        //        imgPlanDepart.Source = PlaneImageSource.NoPlane;
+        //        return;
+        //    }
+        //    else throw new Exception("[UI] Service was unable to dispose the flight.");
+        //}
         #endregion
 
         #region ui events
-        void AirportUC_Loaded(object sender, RoutedEventArgs e)
-        {
-            SimProxy.OnLoad(IsLoaded);
-        }
+        //void AirportUC_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    SimProxy.OnLoad(IsLoaded);
+        //}
         #endregion
 
         #region private methods
@@ -243,136 +243,136 @@ namespace CT.UI.Views
         //    };
         //}
 
-        bool? SwitchOnNextCheckpointName(string nextCheckpointName, FlightDTO flight)
-        {
-            bool? isFound = default(bool);
-            switch (nextCheckpointName)
-            {
-                case "lstvwParkUnload":
-                    lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
-                    txtblckFlightRunway.Text = "---";
-                    imgPlaneRunway.Source = PlaneImageSource.NoPlane;
-                    return isFound = true;
-                case "txtblckFlightDepart":
-                    txtblckFlightDepart.Text = flight.FlightSerial.ToString();
-                    imgPlanDepart.Source = PlaneImageSource.PlaneLeft;
-                    txtblckFlightRunway.Text = "---";
-                    imgPlaneRunway.Source = PlaneImageSource.NoPlane;
-                    return isFound = true;
-                case "Stay in checkpoint!":
-                    return isFound = null;
-                case "Departed!":
-                    SimProxy.OnDispose(flight.FlightSerial);
-                    return isFound = null;
-                case "No access to field!":
-                    SimProxy.OnDispose(flight.FlightSerial);
-                    return isFound = null;
-            }
-            return isFound = false;
-        }
-        void SwitchOnCheckpointSerial(int checkpointSerial, string checkpointType,
-            string nextCheckpointName, string lastCheckpointPosition, FlightDTO flight)
-        {
-            switch (checkpointSerial)
-            {
-                case 1:
-                    imgPlaneArr1.Source = PlaneImageSource.PlaneLeft;
-                    txtblckFlightArr1.Text = flight.FlightSerial.ToString();
-                    break;
-                case 2:
-                    imgPlaneArr1.Source = PlaneImageSource.NoPlane;
-                    txtblckFlightArr1.Text = "---";
-                    imgPlaneArr2.Source = PlaneImageSource.PlaneLeft;
-                    txtblckFlightArr2.Text = flight.FlightSerial.ToString();
-                    break;
-                case 3:
-                    imgPlaneArr2.Source = PlaneImageSource.NoPlane;
-                    txtblckFlightArr2.Text = "---";
-                    imgPlaneArr3.Source = PlaneImageSource.PlaneLeft;
-                    txtblckFlightArr3.Text = flight.FlightSerial.ToString();
-                    break;
-                case 4:
-                    if (checkpointType == "RunwayLanded")
-                    {
-                        imgPlaneArr3.Source = PlaneImageSource.NoPlane;
-                        txtblckFlightArr3.Text = "---";
-                        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
-                        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
-                    }
-                    else if (checkpointType == "RunwayDeparting")
-                    {
-                        lstvwParkDepart.Items.Remove(flight.FlightSerial.ToString());
-                        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
-                        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
-                    }
-                    break;
-                case 6:
-                    if (nextCheckpointName == "FlightTerminal1")
-                    {
-                        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
-                        txtblckFlightTerminal1.Text = flight.FlightSerial.ToString();
-                        imgPlaneTerminal1.Source = PlaneImageSource.PlaneDown;
-                        txtblckTerminal1Message.Text = "Unloading...";
-                    }
-                    if (nextCheckpointName == "FlightTerminal2")
-                    {
-                        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
-                        txtblckFlightTerminal2.Text = flight.FlightSerial.ToString();
-                        imgPlaneTerminal2.Source = PlaneImageSource.PlaneDown;
-                        txtblckTerminal2Message.Text = "Unloading...";
-                    }
-                    break;
-                case 7:
-                    if (nextCheckpointName == "txtblckFlightTerminal1")
-                        txtblckTerminal1Message.Text = "...Boarding";
-                    if (nextCheckpointName == "txtblckFlightTerminal2")
-                        txtblckTerminal2Message.Text = "...Boarding";
-                    break;
-                case 8:
-                    if (lastCheckpointPosition == "txtblckFlightTerminal1")
-                    {
-                        txtblckFlightTerminal1.Text = "---";
-                        imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
-                        txtblckTerminal1Message.Text = string.Empty;
-                        lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
-                    }
-                    if (lastCheckpointPosition == "txtblckFlightTerminal2")
-                    {
-                        txtblckFlightTerminal2.Text = "---";
-                        imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;
-                        txtblckTerminal2Message.Text = string.Empty;
-                        lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
-                    }
-                    break;
-            }
-        }
+        //bool? SwitchOnNextCheckpointName(string nextCheckpointName, FlightDTO flight)
+        //{
+        //    bool? isFound = default(bool);
+        //    switch (nextCheckpointName)
+        //    {
+        //        case "lstvwParkUnload":
+        //            lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
+        //            txtblckFlightRunway.Text = "---";
+        //            imgPlaneRunway.Source = PlaneImageSource.NoPlane;
+        //            return isFound = true;
+        //        case "txtblckFlightDepart":
+        //            txtblckFlightDepart.Text = flight.FlightSerial.ToString();
+        //            imgPlanDepart.Source = PlaneImageSource.PlaneLeft;
+        //            txtblckFlightRunway.Text = "---";
+        //            imgPlaneRunway.Source = PlaneImageSource.NoPlane;
+        //            return isFound = true;
+        //        case "Stay in checkpoint!":
+        //            return isFound = null;
+        //        case "Departed!":
+        //            SimProxy.OnDispose(flight.FlightSerial);
+        //            return isFound = null;
+        //        case "No access to field!":
+        //            SimProxy.OnDispose(flight.FlightSerial);
+        //            return isFound = null;
+        //    }
+        //    return isFound = false;
+        //}
+        //void SwitchOnCheckpointSerial(int checkpointSerial, string checkpointType,
+        //    string nextCheckpointName, string lastCheckpointPosition, FlightDTO flight)
+        //{
+        //    switch (checkpointSerial)
+        //    {
+        //        case 1:
+        //            imgPlaneArr1.Source = PlaneImageSource.PlaneLeft;
+        //            txtblckFlightArr1.Text = flight.FlightSerial.ToString();
+        //            break;
+        //        case 2:
+        //            imgPlaneArr1.Source = PlaneImageSource.NoPlane;
+        //            txtblckFlightArr1.Text = "---";
+        //            imgPlaneArr2.Source = PlaneImageSource.PlaneLeft;
+        //            txtblckFlightArr2.Text = flight.FlightSerial.ToString();
+        //            break;
+        //        case 3:
+        //            imgPlaneArr2.Source = PlaneImageSource.NoPlane;
+        //            txtblckFlightArr2.Text = "---";
+        //            imgPlaneArr3.Source = PlaneImageSource.PlaneLeft;
+        //            txtblckFlightArr3.Text = flight.FlightSerial.ToString();
+        //            break;
+        //        case 4:
+        //            if (checkpointType == "RunwayLanded")
+        //            {
+        //                imgPlaneArr3.Source = PlaneImageSource.NoPlane;
+        //                txtblckFlightArr3.Text = "---";
+        //                imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
+        //                txtblckFlightRunway.Text = flight.FlightSerial.ToString();
+        //            }
+        //            else if (checkpointType == "RunwayDeparting")
+        //            {
+        //                lstvwParkDepart.Items.Remove(flight.FlightSerial.ToString());
+        //                imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
+        //                txtblckFlightRunway.Text = flight.FlightSerial.ToString();
+        //            }
+        //            break;
+        //        case 6:
+        //            if (nextCheckpointName == "FlightTerminal1")
+        //            {
+        //                lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
+        //                txtblckFlightTerminal1.Text = flight.FlightSerial.ToString();
+        //                imgPlaneTerminal1.Source = PlaneImageSource.PlaneDown;
+        //                txtblckTerminal1Message.Text = "Unloading...";
+        //            }
+        //            if (nextCheckpointName == "FlightTerminal2")
+        //            {
+        //                lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
+        //                txtblckFlightTerminal2.Text = flight.FlightSerial.ToString();
+        //                imgPlaneTerminal2.Source = PlaneImageSource.PlaneDown;
+        //                txtblckTerminal2Message.Text = "Unloading...";
+        //            }
+        //            break;
+        //        case 7:
+        //            if (nextCheckpointName == "txtblckFlightTerminal1")
+        //                txtblckTerminal1Message.Text = "...Boarding";
+        //            if (nextCheckpointName == "txtblckFlightTerminal2")
+        //                txtblckTerminal2Message.Text = "...Boarding";
+        //            break;
+        //        case 8:
+        //            if (lastCheckpointPosition == "txtblckFlightTerminal1")
+        //            {
+        //                txtblckFlightTerminal1.Text = "---";
+        //                imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
+        //                txtblckTerminal1Message.Text = string.Empty;
+        //                lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
+        //            }
+        //            if (lastCheckpointPosition == "txtblckFlightTerminal2")
+        //            {
+        //                txtblckFlightTerminal2.Text = "---";
+        //                imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;
+        //                txtblckTerminal2Message.Text = string.Empty;
+        //                lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
+        //            }
+        //            break;
+        //    }
+        //}
 
-        Dictionary<string, string> SetTxtblckHash()
-        {
-            Dictionary<string, string> txtblckNameFlightNumberHash = new Dictionary<string, string>();
-            foreach (TextBlock txtblck in txtblckCheckpoints)
-                txtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
-            return txtblckNameFlightNumberHash;
-        }
-        Dictionary<string, string[]> SetLstvwHash()
-        {
-            Dictionary<string, string[]> lstvwNameFlightsListHash = new Dictionary<string, string[]>();
-            foreach (ListView lstvw in lstvwsCheckpoints)
-            {
-                lstvwNameFlightsListHash[lstvw.Name] = new string[100];
-                if (lstvw.Items.Count > 0)
-                {
-                    foreach (string lvi in lstvw.Items)
-                    {
-                        List<string> list = lstvwNameFlightsListHash[lstvw.Name].ToList();
-                        list.RemoveAll(i => i == null);
-                        list.Add(lvi);
-                        lstvwNameFlightsListHash[lstvw.Name] = list.ToArray();
-                    }
-                }
-            }
-            return lstvwNameFlightsListHash;
-        }
+        //Dictionary<string, string> SetTxtblckHash()
+        //{
+        //    Dictionary<string, string> txtblckNameFlightNumberHash = new Dictionary<string, string>();
+        //    foreach (TextBlock txtblck in txtblckCheckpoints)
+        //        txtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
+        //    return txtblckNameFlightNumberHash;
+        //}
+        //Dictionary<string, string[]> SetLstvwHash()
+        //{
+        //    Dictionary<string, string[]> lstvwNameFlightsListHash = new Dictionary<string, string[]>();
+        //    foreach (ListView lstvw in lstvwsCheckpoints)
+        //    {
+        //        lstvwNameFlightsListHash[lstvw.Name] = new string[100];
+        //        if (lstvw.Items.Count > 0)
+        //        {
+        //            foreach (string lvi in lstvw.Items)
+        //            {
+        //                List<string> list = lstvwNameFlightsListHash[lstvw.Name].ToList();
+        //                list.RemoveAll(i => i == null);
+        //                list.Add(lvi);
+        //                lstvwNameFlightsListHash[lstvw.Name] = list.ToArray();
+        //            }
+        //        }
+        //    }
+        //    return lstvwNameFlightsListHash;
+        //}
         #endregion
     }
 }
