@@ -40,7 +40,7 @@
                 <Border Margin="10,100,10,10" >
                     <TextBlock Name="txtblckFlightArr1" Text="{Binding CurrentFlight.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="">
+                            <i:EventTrigger EventName="DataContextChanged">
                                 <i:InvokeCommandAction Command="{Binding AddFlightCommand}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>

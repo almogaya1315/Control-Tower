@@ -46,6 +46,7 @@ namespace CT.UI.ViewModels
             lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
             imgPlanes = InitializeImgPlanes(airportUserControl.grdMain.Children, imgPlanes);
         }
+
         #endregion
 
         #region mvvm data
