@@ -59,85 +59,85 @@ namespace CT.UI.Views
         }
 
         #region service events
-        void SimProxy_OnLoadEvent(object sender, bool isLoaded)
-        {
-            RequestInitializeSimulator reqInitSim =
-                new RequestInitializeSimulator() { IsWindowLoaded = isLoaded };
-            ResponseInitializeSimulator resInitSim = SimProxy.InitializeSimulator(reqInitSim);
-            if (resInitSim.IsSuccess)
-            {
-                System.Timers.Timer arrivalTimer = new System.Timers.Timer(resInitSim.TimerInterval);
-                arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
-                arrivalTimer.Start();
-                //CreateFlight_ArrivalTimerElapsed(this, null);
-            }
-        }
-        void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (sender is System.Timers.Timer) (sender as System.Timers.Timer).Stop();
+        //void SimProxy_OnLoadEvent(object sender, bool isLoaded)
+        //{
+        //    RequestInitializeSimulator reqInitSim =
+        //        new RequestInitializeSimulator() { IsWindowLoaded = isLoaded };
+        //    ResponseInitializeSimulator resInitSim = SimProxy.InitializeSimulator(reqInitSim);
+        //    if (resInitSim.IsSuccess)
+        //    {
+        //        System.Timers.Timer arrivalTimer = new System.Timers.Timer(resInitSim.TimerInterval);
+        //        arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
+        //        arrivalTimer.Start();
+        //        //CreateFlight_ArrivalTimerElapsed(this, null);
+        //    }
+        //}
+        //void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    if (sender is System.Timers.Timer) (sender as System.Timers.Timer).Stop();
 
-            ResponseFlightObject resFlight = null;
-            try
-            {
-                RequestFlightObject reqFlight = new RequestFlightObject()
-                {
-                    CurrentFlights = SimProxy.GetFlightsCollection().Flights
-                };
-                resFlight = SimProxy.CreateFlightObject(reqFlight);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Could not retrieve collection OR create flight object. {ex.Message}");
-            }
+        //    ResponseFlightObject resFlight = null;
+        //    try
+        //    {
+        //        RequestFlightObject reqFlight = new RequestFlightObject()
+        //        {
+        //            CurrentFlights = SimProxy.GetFlightsCollection().Flights
+        //        };
+        //        resFlight = SimProxy.CreateFlightObject(reqFlight);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception($"Could not retrieve collection OR create flight object. {ex.Message}");
+        //    }
 
-            if (resFlight.IsSuccess)
-            {
-                double initialDuration = 2000;
-                SimProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
-                SimProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
+        //    if (resFlight.IsSuccess)
+        //    {
+        //        double initialDuration = 2000;
+        //        SimProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
+        //        SimProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
 
-                SimProxy.flightsTimers[resFlight.Flight].Start();
-            }
-            else throw new Exception("No success retrieving flight response.");
+        //        SimProxy.flightsTimers[resFlight.Flight].Start();
+        //    }
+        //    else throw new Exception("No success retrieving flight response.");
 
-            (sender as System.Timers.Timer).Start();
-        }
+        //    (sender as System.Timers.Timer).Start();
+        //}
 
-        public void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            SimProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Stop();
+        //public void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+            //SimProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Stop();
 
-            FlightDTO flight = null;
-            KeyValuePair<FlightDTO, System.Timers.Timer> keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>();
-            KeyValuePair<FlightDTO, System.Timers.Timer> keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>();
+            //FlightDTO flight = null;
+            //KeyValuePair<FlightDTO, System.Timers.Timer> keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>();
+            //KeyValuePair<FlightDTO, System.Timers.Timer> keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>();
 
-            foreach (FlightDTO fdto in SimProxy.flightsTimers.Keys)
-            {
-                if (SimProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
-                {
-                    SimProxy.OnPromotion(fdto);
-                    flight = SimProxy.GetFlight(fdto.FlightSerial);
-                    keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>(fdto, SimProxy.flightsTimers[fdto]);
-                    if (flight != null)
-                        keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>(flight, SimProxy.flightsTimers[fdto]);
-                    break;
-                }
-            }
+            //foreach (FlightDTO fdto in SimProxy.flightsTimers.Keys)
+            //{
+            //    if (SimProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
+            //    {
+            //        SimProxy.OnPromotion(fdto);
+            //        flight = SimProxy.GetFlight(fdto.FlightSerial);
+            //        keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>(fdto, SimProxy.flightsTimers[fdto]);
+            //        if (flight != null)
+            //            keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>(flight, SimProxy.flightsTimers[fdto]);
+            //        break;
+            //    }
+            //}
 
-            if (flight != null)
-            {
-                SimProxy.flightsTimers.Remove(keyToRemove.Key);
-                SimProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
-            }
-            else
-            {
-                SimProxy.flightsTimers[keyToRemove.Key].Dispose();
-                SimProxy.flightsTimers.Remove(keyToRemove.Key);
-                return;
-            }
+            //if (flight != null)
+            //{
+            //    SimProxy.flightsTimers.Remove(keyToRemove.Key);
+            //    SimProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
+            //}
+            //else
+            //{
+            //    SimProxy.flightsTimers[keyToRemove.Key].Dispose();
+            //    SimProxy.flightsTimers.Remove(keyToRemove.Key);
+            //    return;
+            //}
 
-            SimProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Start();
-        }
+            //SimProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Start();
+        //}
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
             Dispatcher.Invoke(() =>
@@ -217,31 +217,31 @@ namespace CT.UI.Views
         #endregion
 
         #region private methods
-        ICollection<TextBlock> InitializeTxtblckCheckpoints()
-        {
-            return txtblckCheckpoints = new List<TextBlock>()
-            {
-                txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
-                txtblckFlightRunway, txtblckFlightTerminal1,
-                txtblckFlightTerminal2, txtblckFlightDepart
-            };
-        }
-        ICollection<ListView> InitializeLstvwsCheckpoints()
-        {
-            return lstvwsCheckpoints = new List<ListView>()
-            {
-                lstvwParkUnload, lstvwParkDepart
-            };
-        }
-        ICollection<Image> InitializeImgPlanes()
-        {
-            return imgPlanes = new List<Image>()
-            {
-                imgPlaneArr1, imgPlaneArr2, imgPlaneArr3,
-                imgPlaneRunway, imgPlaneTerminal1,
-                imgPlaneTerminal2, imgPlanDepart
-            };
-        }
+        //ICollection<TextBlock> InitializeTxtblckCheckpoints()
+        //{
+        //    return txtblckCheckpoints = new List<TextBlock>()
+        //    {
+        //        txtblckFlightArr1, txtblckFlightArr2, txtblckFlightArr3,
+        //        txtblckFlightRunway, txtblckFlightTerminal1,
+        //        txtblckFlightTerminal2, txtblckFlightDepart
+        //    };
+        //}
+        //ICollection<ListView> InitializeLstvwsCheckpoints()
+        //{
+        //    return lstvwsCheckpoints = new List<ListView>()
+        //    {
+        //        lstvwParkUnload, lstvwParkDepart
+        //    };
+        //}
+        //ICollection<Image> InitializeImgPlanes()
+        //{
+        //    return imgPlanes = new List<Image>()
+        //    {
+        //        imgPlaneArr1, imgPlaneArr2, imgPlaneArr3,
+        //        imgPlaneRunway, imgPlaneTerminal1,
+        //        imgPlaneTerminal2, imgPlanDepart
+        //    };
+        //}
 
         bool? SwitchOnNextCheckpointName(string nextCheckpointName, FlightDTO flight)
         {
@@ -374,11 +374,5 @@ namespace CT.UI.Views
             return lstvwNameFlightsListHash;
         }
         #endregion
-
-        void Button_Click(object sender, RoutedEventArgs e)
-        {
-            System.Timers.Timer timer = SimProxy.flightsTimers.Values.FirstOrDefault();
-            PromotionTimer_Elapsed(timer, null);
-        }
     }
 }

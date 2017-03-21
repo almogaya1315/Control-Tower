@@ -10,6 +10,7 @@ namespace CT.Common.Abstracts
 {
     public abstract class ControlInitializer
     {
+        #region initializers
         public ICollection<TextBlock> InitializeTxtblckCheckpoints(UIElementCollection children, ICollection<TextBlock> txtblckCheckpoints)
         {
             foreach (UIElement element in children)
@@ -53,5 +54,35 @@ namespace CT.Common.Abstracts
             //    imgPlaneTerminal2, imgPlanDepart
             //};
         }
+        #endregion
+
+        #region setters
+        public Dictionary<string, string> SetTxtblckHash(ICollection<TextBlock> txtblckCheckpoints)
+        {
+            Dictionary<string, string> txtblckNameFlightNumberHash = new Dictionary<string, string>();
+            foreach (TextBlock txtblck in txtblckCheckpoints)
+                txtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
+            return txtblckNameFlightNumberHash;
+        }
+        public Dictionary<string, string[]> SetLstvwHash(ICollection<ListView> lstvwsCheckpoints)
+        {
+            Dictionary<string, string[]> lstvwNameFlightsListHash = new Dictionary<string, string[]>();
+            foreach (ListView lstvw in lstvwsCheckpoints)
+            {
+                lstvwNameFlightsListHash[lstvw.Name] = new string[100];
+                if (lstvw.Items.Count > 0)
+                {
+                    foreach (string lvi in lstvw.Items)
+                    {
+                        List<string> list = lstvwNameFlightsListHash[lstvw.Name].ToList();
+                        list.RemoveAll(i => i == null);
+                        list.Add(lvi);
+                        lstvwNameFlightsListHash[lstvw.Name] = list.ToArray();
+                    }
+                }
+            }
+            return lstvwNameFlightsListHash;
+        }
+        #endregion
     }
 }

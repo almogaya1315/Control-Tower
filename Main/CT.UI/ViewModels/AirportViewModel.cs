@@ -30,8 +30,6 @@ namespace CT.UI.ViewModels
         ICollection<ListView> lstvwsCheckpoints { get; set; }
         ICollection<Image> imgPlanes { get; set; }
 
-
-
         public AirportViewModel(AirportUserControl control, SimServiceProxy proxy)
         {
             airportUserControl = control;
@@ -158,6 +156,106 @@ namespace CT.UI.ViewModels
             else throw new Exception("No success retrieving flight response.");
 
             (sender as System.Timers.Timer).Start();
+        }
+        void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Stop();
+
+            FlightDTO flight = null;
+            KeyValuePair<FlightDTO, System.Timers.Timer> keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>();
+            KeyValuePair<FlightDTO, System.Timers.Timer> keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>();
+
+            foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
+            {
+                if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
+                {
+                    simProxy.OnPromotion(fdto);
+                    flight = simProxy.GetFlight(fdto.FlightSerial);
+                    keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>(fdto, simProxy.flightsTimers[fdto]);
+                    if (flight != null)
+                        keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>(flight, simProxy.flightsTimers[fdto]);
+                    break;
+                }
+            }
+
+            if (flight != null)
+            {
+                simProxy.flightsTimers.Remove(keyToRemove.Key);
+                simProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
+            }
+            else
+            {
+                simProxy.flightsTimers[keyToRemove.Key].Dispose();
+                simProxy.flightsTimers.Remove(keyToRemove.Key);
+                return;
+            }
+
+            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Start();
+        }
+        void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
+        {
+            bool isBoarding = default(bool);
+            if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
+            {
+                if (airportUserControl.txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
+                else if (airportUserControl.txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
+            }
+            else if (airportUserControl.txtblckFlightTerminal2.Text == flight.FlightSerial.ToString())
+            {
+                if (airportUserControl.txtblckTerminal2Message.Text == "Unloading...") isBoarding = false;
+                else if (airportUserControl.txtblckTerminal2Message.Text == "...Boarding") isBoarding = true;
+            }
+            RequestFlightPosition reqPosition = new RequestFlightPosition()
+            {
+                TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
+                LstvwNameFlightsListHash = SetLstvwHash(lstvwsCheckpoints),
+                FlightSerial = flight.FlightSerial.ToString(),
+                IsBoarding = isBoarding
+            };
+            ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
+            if (resPosition.IsSuccess)
+            {
+                if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
+                {
+                    //FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
+                    double duration = flight.Checkpoint.Duration; //entityMoq.Checkpoint.Duration;
+                    simProxy.flightsTimers[flight].Interval = duration;
+                }
+                else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
+                {
+                    RequestCheckpointDuration reqDur = new RequestCheckpointDuration()
+                    { CheckpointSerial = resPosition.CheckpointSerial.ToString() };
+                    ResponseCheckpointDuration resDur = simProxy.GetCheckpointDuration(reqDur);
+                    if (resDur.IsSuccess)
+                    { simProxy.flightsTimers[flight].Interval = resDur.CheckpointDuration; }
+                }
+
+                if (resPosition.LastCheckpointPosition == "txtblckFlightTerminal1" || resPosition.LastCheckpointPosition == "txtblckFlightTerminal2")
+                {
+                    SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+                        resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
+                    return;
+                }
+                bool? isFound = SwitchOnNextCheckpointName(resPosition.NextCheckpointName, flight);
+                if (isFound == null) return;
+                if (isFound == false)
+                {
+                    SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+                        resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
+                }
+            }
+        }
+        void SimProxy_OnDisposeEvent(object sender, int flightSerial)
+        {
+            RequestDisposeFlight reqDis = new RequestDisposeFlight() { FlightSerial = flightSerial };
+            ResponseDisposeFlight resDis = simProxy.DisposeFlight(reqDis);
+            if (resDis.IsSuccess)
+            {
+                airportUserControl.txtblckFlightDepart.Text = "---";
+                airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
+                return;
+            }
+            else throw new Exception("[UI] Service was unable to dispose the flight.");
         }
         #endregion
 
