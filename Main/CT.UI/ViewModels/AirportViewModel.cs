@@ -38,7 +38,7 @@ namespace CT.UI.ViewModels
             airportUserControl.Loaded += airportUserControl_Loaded;
             simProxy = proxy;
 
-            //AddFlightCommand = new AddFlightCommand(AddFlight);
+            AddFlightCommand = new AddFlightCommand(AddFlight);
 
             simProxy.OnLoadEvent += SimProxy_OnLoadEvent;
             simProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
@@ -161,11 +161,11 @@ namespace CT.UI.ViewModels
         }
         #endregion
 
-        //#region public commands
-        //public void AddFlight()
-        //{
+        #region public commands
+        public void AddFlight()
+        {
 
-        //}
-        //#endregion
+        }
+        #endregion
     }
 }
