@@ -12,7 +12,7 @@ namespace CT.UI.Locators
 {
     public class ViewModelLocator
     {
-        
+        public ViewModelLocator() { }
 
         public ViewModelLocator(AirportUserControl control, SimServiceProxy proxy) : this()
         {
