@@ -30,7 +30,7 @@ namespace CT.UI.ViewModels
         ICollection<ListView> lstvwsCheckpoints { get; set; }
         ICollection<Image> imgPlanes { get; set; }
 
-        
+
 
         public AirportViewModel(AirportUserControl control, SimServiceProxy proxy)
         {
@@ -54,8 +54,7 @@ namespace CT.UI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public ICommand AddFlightCommand { get; set; }
@@ -165,7 +164,7 @@ namespace CT.UI.ViewModels
         //#region public commands
         //public void AddFlight()
         //{
-            
+
         //}
         //#endregion
     }
