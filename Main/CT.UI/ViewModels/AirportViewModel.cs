@@ -49,7 +49,7 @@ namespace CT.UI.ViewModels
 
         #endregion
 
-        #region mvvm data
+        #region bindings
         public event PropertyChangedEventHandler PropertyChanged;
         void RaisePropertyChanged(string propertyName)
         {
