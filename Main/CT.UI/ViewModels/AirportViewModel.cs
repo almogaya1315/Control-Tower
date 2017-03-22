@@ -34,13 +34,13 @@ namespace CT.UI.ViewModels
         {
             airportUserControl = control;
             airportUserControl.Loaded += airportUserControl_Loaded;
+
             simProxy = proxy;
-
-            AddFlightCommand = new AddFlightCommand(AddFlight);
-
             simProxy.OnLoadEvent += SimProxy_OnLoadEvent;
             simProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
             simProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
+
+            AddFlightCommand = new AddFlightCommand(AddFlight);
 
             txtblckCheckpoints = InitializeTxtblckCheckpoints(airportUserControl.grdMain.Children, txtblckCheckpoints);
             lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
@@ -65,7 +65,7 @@ namespace CT.UI.ViewModels
             ResponseInitializeSimulator resInitSim = simProxy.InitializeSimulator(reqInitSim);
             if (resInitSim.IsSuccess)
             {
-                System.Timers.Timer arrivalTimer = new System.Timers.Timer(resInitSim.TimerInterval);
+                Timer arrivalTimer = new Timer(resInitSim.TimerInterval);
                 arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
                 arrivalTimer.Start();
                 //CreateFlight_ArrivalTimerElapsed(this, null);
@@ -73,7 +73,7 @@ namespace CT.UI.ViewModels
         }
         void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (sender is System.Timers.Timer) (sender as System.Timers.Timer).Stop();
+            if (sender is Timer) (sender as Timer).Stop();
 
             ResponseFlightObject resFlight = null;
             try
@@ -92,7 +92,7 @@ namespace CT.UI.ViewModels
             if (resFlight.IsSuccess)
             {
                 double initialDuration = 2000;
-                simProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
+                simProxy.flightsTimers[resFlight.Flight] = new Timer(initialDuration);
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
 
                 simProxy.flightsTimers[resFlight.Flight].Start();

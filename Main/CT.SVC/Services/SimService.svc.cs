@@ -34,14 +34,6 @@ namespace CT.SVC.Services
             timingSim = new TimingSystem();
             ctRepo = new ControlTowerRepository();
             objectChannelFactory = new CallbackChannelFactory<ISimCallback>();
-            //try
-            //{
-            //    InitializeDatabase();
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new Exception($"Database was not initialized. {e.Message}");
-            //}
         }
 
         public ResponseInitializeSimulator InitializeSimulator(RequestInitializeSimulator req)
