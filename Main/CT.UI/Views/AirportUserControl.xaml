@@ -85,7 +85,7 @@
                 <Image Name="imgPlaneTerminal1" Width="60" Height="53"/>
             </Border>
             <Border Margin="10,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" HorizontalAlignment="Right">
-                <TextBlock Name="txtblckFlightTerminal1" Text="---" Width="60" FontSize="20" TextAlignment="Center"/>
+                <TextBlock Name="txtblckFlightTerminal1" Text="---" Width="60" FontSize="20" TextAlignment="Center" Height="49" VerticalAlignment="Bottom"/>
             </Border>
         </Grid>
 

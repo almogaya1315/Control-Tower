@@ -137,6 +137,7 @@ namespace CT.DAL
             Checkpoint arrival1 = new Checkpoint()
             {
                 Serial = 1,
+                Control = "txtblckFlightArr1",
                 CheckpointType = CheckpointType.Landing.ToString(),
                 Duration = 2000,
                 Process = landing,
@@ -149,6 +150,7 @@ namespace CT.DAL
             Checkpoint arrival2 = new Checkpoint()
             {
                 Serial = 2,
+                Control = "txtblckFlightArr2",
                 CheckpointType = CheckpointType.Landing.ToString(),
                 Duration = 2000,
                 Process = landing,
@@ -161,6 +163,7 @@ namespace CT.DAL
             Checkpoint arrival3 = new Checkpoint()
             {
                 Serial = 3,
+                Control = "txtblckFlightArr3",
                 CheckpointType = CheckpointType.Landing.ToString(),
                 Duration = 2000,
                 Process = landing,
@@ -172,7 +175,8 @@ namespace CT.DAL
 
             Checkpoint runwayLanded = new Checkpoint()
             {
-                Serial = 4,
+                Serial = 41,
+                Control = "txtblckFlightRunway",
                 CheckpointType = CheckpointType.RunwayLanded.ToString(),
                 Duration = 3000,
                 Process = landing,
@@ -185,6 +189,7 @@ namespace CT.DAL
             Checkpoint standbyLanded = new Checkpoint()
             {
                 Serial = 5,
+                Control = "lstvwParkUnload",
                 CheckpointType = CheckpointType.StandbyLanded.ToString(),
                 Duration = 2000,
                 Process = landing,
@@ -194,16 +199,30 @@ namespace CT.DAL
             landing.Checkpoints.Add(standbyLanded);
             SaveChanges();
 
-            Checkpoint parkingUnloading = new Checkpoint()
+            Checkpoint parkingUnloading_terminal1 = new Checkpoint()
             {
-                Serial = 6,
-                CheckpointType = CheckpointType.ParkingUnloading.ToString(),
+                Serial = 61,
+                Control = "txtblckFlightTerminal1",
+                CheckpointType = CheckpointType.ParkingUnloading_terminal1.ToString(),
                 Duration = 5000,
                 Process = landing,
                 Flights = new List<Flight>(1)
             };
-            Checkpoints.Add(parkingUnloading);
-            landing.Checkpoints.Add(parkingUnloading);
+            Checkpoints.Add(parkingUnloading_terminal1);
+            landing.Checkpoints.Add(parkingUnloading_terminal1);
+            SaveChanges();
+
+            Checkpoint parkingUnloading_terminal2 = new Checkpoint()
+            {
+                Serial = 62,
+                Control = "txtblckFlightTerminal2",
+                CheckpointType = CheckpointType.ParkingUnloading_terminal2.ToString(),
+                Duration = 5000,
+                Process = landing,
+                Flights = new List<Flight>(1)
+            };
+            Checkpoints.Add(parkingUnloading_terminal2);
+            landing.Checkpoints.Add(parkingUnloading_terminal2);
             SaveChanges();
         }
         void InitializeDepartureProcess()
@@ -215,21 +234,36 @@ namespace CT.DAL
             Processes.Add(departure);
             SaveChanges();
 
-            Checkpoint parkingBoarding = new Checkpoint()
+            Checkpoint parkingBoarding_terminal1 = new Checkpoint()
             {
-                Serial = 7,
-                CheckpointType = CheckpointType.ParkingBoarding.ToString(),
+                Serial = 71,
+                Control = "txtblckFlightTerminal1",
+                CheckpointType = CheckpointType.ParkingBoarding_terminal1.ToString(),
                 Duration = 5000,
                 Process = departure,
                 Flights = new List<Flight>(1)
             };
-            Checkpoints.Add(parkingBoarding);
-            departure.Checkpoints.Add(parkingBoarding);
+            Checkpoints.Add(parkingBoarding_terminal1);
+            departure.Checkpoints.Add(parkingBoarding_terminal1);
+            SaveChanges();
+
+            Checkpoint parkingBoarding_terminal2 = new Checkpoint()
+            {
+                Serial = 72,
+                Control = "txtblckFlightTerminal2",
+                CheckpointType = CheckpointType.ParkingBoarding_terminal2.ToString(),
+                Duration = 5000,
+                Process = departure,
+                Flights = new List<Flight>(1)
+            };
+            Checkpoints.Add(parkingBoarding_terminal2);
+            departure.Checkpoints.Add(parkingBoarding_terminal2);
             SaveChanges();
 
             Checkpoint standbyDeparting = new Checkpoint()
             {
                 Serial = 8,
+                Control = "lstvwParkDepart",
                 CheckpointType = CheckpointType.StandbyDeparting.ToString(),
                 Duration = 2000,
                 Process = departure,
@@ -241,7 +275,8 @@ namespace CT.DAL
 
             Checkpoint runwayDeparting = new Checkpoint()
             {
-                Serial = 4,
+                Serial = 42,
+                Control = "txtblckFlightRunway",
                 CheckpointType = CheckpointType.RunwayDeparting.ToString(),
                 Duration = 3000,
                 Process = departure,
@@ -254,6 +289,7 @@ namespace CT.DAL
             Checkpoint departed = new Checkpoint()
             {
                 Serial = 9,
+                Control = "txtblckFlightDepart",
                 CheckpointType = CheckpointType.Departed.ToString(),
                 Duration = 2000,
                 Process = departure,
