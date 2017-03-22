@@ -13,8 +13,10 @@ namespace CT.Common.Enums
         RunwayDeparting,
         StandbyLanded,
         StandbyDeparting,
-        ParkingUnloading,
-        ParkingBoarding,
+        ParkingUnloading_terminal1,
+        ParkingUnloading_terminal2,
+        ParkingBoarding_terminal1,
+        ParkingBoarding_terminal2,
         Departed
     }
 }
