@@ -197,7 +197,13 @@ namespace CT.UI.ViewModels
                     return;
                 }
                 bool? isFound = SwitchOnNextCheckpointName(resPosition.NextCheckpointName, flight);
-                if (isFound == null) return;
+                if (isFound == null)
+                {
+                    if (resPosition.NextCheckpointName == "Departed!" || resPosition.NextCheckpointName == "No access to field!")
+                        simProxy.OnDispose(flight.FlightSerial);
+                    
+                    return;
+                }
                 if (isFound == false)
                 {
                     SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
