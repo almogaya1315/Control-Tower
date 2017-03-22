@@ -96,7 +96,7 @@ namespace CT.Simulator
         {
             if (txtblckNameFlightNumber != null)
             {
-                if (txtblckNameFlightNumber[$"txtblck{controlName}"] == "---") return controlName;
+                if (txtblckNameFlightNumber[$"txtblck{controlName}"] == "0") return controlName;
                 else
                 {
                     if (isAlive) return "Stay in checkpoint!";
