@@ -16,6 +16,9 @@ namespace CT.DAL.Entities
         public string CheckpointType { get; set; }
 
         [Required]
+        public string Control { get; set; }
+
+        [Required]
         public int Serial { get; set; }
 
         [Required]

@@ -21,6 +21,8 @@ namespace CT.DAL.Entities
         //[ForeignKey("Checkpoint")]
         public int? CheckpointId { get; set; }
 
+        public string CheckpointControl { get; set; }
+
         public virtual Checkpoint Checkpoint { get; set; }
     }
 }

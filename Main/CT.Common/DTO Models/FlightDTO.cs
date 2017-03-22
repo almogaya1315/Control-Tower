@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CT.Common.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,24 +12,14 @@ namespace CT.Common.DTO_Models
 {
     public class FlightDTO : INotifyPropertyChanged
     {
-        int flightSerial;
         bool isAlive;
+        int flightSerial;
         int processId;
         int checkpointId;
+        string checkpointControl;
+        string planeImgPath;
 
         public int FlightId { get; set; }
-        public int FlightSerial
-        {
-            get
-            {
-                return flightSerial;
-            }
-            set
-            {
-                flightSerial = value;
-                RaisePropertyChanged("FlightSerial");
-            }
-        }
         public bool IsAlive
         {
             get
@@ -39,6 +30,18 @@ namespace CT.Common.DTO_Models
             {
                 isAlive = value;
                 RaisePropertyChanged("IsAlive");
+            }
+        }
+        public int FlightSerial
+        {
+            get
+            {
+                return flightSerial;
+            }
+            set
+            {
+                flightSerial = value;
+                RaisePropertyChanged("FlightSerial");
             }
         }
         public int ProcessId
@@ -65,6 +68,31 @@ namespace CT.Common.DTO_Models
                 RaisePropertyChanged("CheckpointId");
             }
         }
+        public string CheckpointControl
+        {
+            get
+            {
+                return checkpointControl;
+            }
+            set
+            {
+                checkpointControl = value;
+                RaisePropertyChanged("CheckpointControl");
+            }
+        }
+        public string PlaneImgPath
+        {
+            get
+            {
+                return planeImgPath;
+            }
+            set
+            {
+                planeImgPath = value;
+                RaisePropertyChanged("PlaneImgPath");
+            }
+        }
+
         public virtual CheckpointDTO Checkpoint { get; set; }
         public virtual ProcessDTO Process { get; set; }
 

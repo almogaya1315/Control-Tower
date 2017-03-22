@@ -35,10 +35,10 @@
         <Canvas Grid.Row="1" Grid.Column="4">
             <Grid Canvas.Right="10">
                 <Border Margin="10,40,10,70" >
-                    <Image Source="{Binding PlaneImage, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr1" Width="60" Height="53"/>
+                    <Image Source="{Binding FlightInLanding1.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr1" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
-                    <TextBlock Name="txtblckFlightArr1" Text="{Binding CurrentFlight.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center">
+                    <TextBlock Name="txtblckFlightArr1" Text="{Binding FlightInLanding1.FlightSerial, Mode=TwoWay, FallbackValue='---'}" Width="60" FontSize="20" TextAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataContextChanged">
                                 <i:InvokeCommandAction Command="{Binding AddFlightCommand}"></i:InvokeCommandAction>
@@ -127,7 +127,7 @@
             </Grid>
             <Grid>
                 <Border Margin="150,80,10,10">
-                    <ListView Name="lstvwParkUnload" Width="110" Height="200"/>
+                    <ListView ItemsSource="{Binding PreUnloading}" Name="lstvwParkUnload" Width="110" Height="200"/>
                 </Border>
             </Grid>
         </Canvas>
@@ -143,7 +143,7 @@
             </Grid>
             <Grid>
                 <Border Margin="-20,80,10,10">
-                    <ListView Name="lstvwParkDepart" Width="110" Height="200"/>
+                    <ListView ItemsSource="{Binding PreDeparting}" Name="lstvwParkDepart" Width="110" Height="200"/>
                 </Border>
             </Grid>
         </Canvas>

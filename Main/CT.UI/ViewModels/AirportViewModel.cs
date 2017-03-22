@@ -20,7 +20,7 @@ using System.Windows.Media.Imaging;
 
 namespace CT.UI.ViewModels
 {
-    public class AirportViewModel : ControlInitializer, INotifyPropertyChanged
+    public class AirportViewModel : ControlInitializer, CTBindingData
     {
         #region private props & ctor
         SimServiceProxy simProxy;
@@ -50,55 +50,10 @@ namespace CT.UI.ViewModels
         #endregion
 
         #region bindings
-        public event PropertyChangedEventHandler PropertyChanged;
-        void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
+        
 
-        public ICommand AddFlightCommand { get; set; }
-
-        ObservableCollection<FlightDTO> flights;
-        public ObservableCollection<FlightDTO> Flights
-        {
-            get
-            {
-                return flights;
-            }
-            set
-            {
-                flights = value;
-                RaisePropertyChanged("Flights");
-            }
-        }
-
-        FlightDTO currentFlight;
-        public FlightDTO CurrentFlight
-        {
-            get
-            {
-                return currentFlight;
-            }
-            set
-            {
-                currentFlight = value;
-                RaisePropertyChanged("CurrentFlight");
-            }
-        }
-
-        BitmapImage planeImage;
-        public BitmapImage PlaneImage
-        {
-            get
-            {
-                return planeImage;
-            }
-            set
-            {
-                planeImage = value;
-                RaisePropertyChanged("PlaneImage");
-            }
-        }
+        
         #endregion
 
         #region ui events
@@ -261,6 +216,8 @@ namespace CT.UI.ViewModels
         #endregion
 
         #region public commands
+        public ICommand AddFlightCommand { get; set; }
+
         public void AddFlight()
         {
 
