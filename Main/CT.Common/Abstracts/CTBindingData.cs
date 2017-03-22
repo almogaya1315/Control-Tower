@@ -21,23 +21,21 @@ namespace CT.Common.Abstracts
         {
             InitializeBindings();
         }
-
         void InitializeBindings()
         {
-            InitializeFlightObject(flightInLanding1);
-            InitializeFlightObject(flightInLanding2);
-            InitializeFlightObject(flightInLanding3);
-            InitializeFlightObject(flightInRunway);
-            flightsInStandbyForUnloading = new ObservableCollection<FlightDTO>() { InitializeFlightObject(new FlightDTO()) };
-            InitializeFlightObject(flightInTerminal1);
-            InitializeFlightObject(flightInTerminal2);
-            flightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightObject(new FlightDTO()) };
-            InitializeFlightObject(flightInDeparted);
+            FlightInLanding1 = InitializeFlightBindingObject();
+            FlightInLanding2 = InitializeFlightBindingObject();
+            FlightInLanding3 = InitializeFlightBindingObject();
+            FlightInRunway = InitializeFlightBindingObject();
+            FlightsInStandbyForUnloading = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
+            FlightInTerminal1 = InitializeFlightBindingObject();
+            FlightInTerminal2 = InitializeFlightBindingObject();
+            FlightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
+            FlightInDeparted = InitializeFlightBindingObject();
         }
-
-        FlightDTO InitializeFlightObject(FlightDTO nullObject)
+        FlightDTO InitializeFlightBindingObject()
         {
-            nullObject = new FlightDTO()
+            return new FlightDTO()
             {
                 Checkpoint = null,
                 CheckpointControl = string.Empty,
@@ -46,7 +44,6 @@ namespace CT.Common.Abstracts
                 PlaneImgPath = string.Empty,
                 Process = null
             };
-            return nullObject;
         }
 
         FlightDTO flightInLanding1;
