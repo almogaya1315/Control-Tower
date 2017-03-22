@@ -58,5 +58,19 @@ namespace CT.Common.Abstracts
                 RaisePropertyChanged("FlightInLanding1");
             }
         }
+
+        FlightDTO flightInLanding2;
+        public FlightDTO FlightInLanding2
+        {
+            get
+            {
+                return flightInLanding2;
+            }
+            set
+            {
+                flightInLanding2 = value;
+                RaisePropertyChanged("FlightInLanding2");
+            }
+        }
     }
 }
