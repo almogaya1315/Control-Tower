@@ -17,6 +17,33 @@ namespace CT.Common.Abstracts
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public CTBindingData()
+        {
+            InitializeBindings();
+        }
+
+        void InitializeBindings()
+        {
+            flightsInStandbyForUnloading = new ObservableCollection<FlightDTO>();
+            flightsInStandbyForBoarding = new ObservableCollection<FlightDTO>();
+
+            ICollection<FlightDTO> flightBindingObjects = new List<FlightDTO>()
+            {
+                FlightInLanding1, FlightInLanding2, FlightInLanding3,
+                flightInRunway, flightsInStandbyForUnloading.FirstOrDefault(), flightsInStandbyForBoarding.FirstOrDefault()
+            };
+
+            flightInLanding1 = new FlightDTO()
+            {
+                Checkpoint = null,
+                CheckpointControl = string.Empty,
+                FlightSerial = -1,
+                IsAlive = false,
+                PlaneImgPath = string.Empty,
+                Process = null
+            };
+        }
+
         FlightDTO flightInLanding1;
         public FlightDTO FlightInLanding1
         {

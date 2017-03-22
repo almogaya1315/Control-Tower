@@ -18,6 +18,30 @@ namespace CT.DAL.Migrations
 
         protected override void Seed(CTContext context)
         {
+            // bindings setup
+            Checkpoint landing1 = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 1);
+            landing1.Control = "txtblckFlightArr1";
+            context.SaveChanges();
+            Checkpoint landing2 = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 2);
+            landing2.Control = "txtblckFlightArr2";
+            context.SaveChanges();
+            Checkpoint landing3 = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 3);
+            landing3.Control = "txtblckFlightArr3";
+            context.SaveChanges();
+            ICollection<Checkpoint> CheckpointRunway = context.Checkpoints.Where(cp => cp.Serial == 4).ToList();
+            foreach (Checkpoint cp in CheckpointRunway) cp.Control = "txtblckFlightRunway";
+            context.SaveChanges();
+            Checkpoint preUnloading = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 5);
+            preUnloading.Control = "lstvwParkUnload";
+            context.SaveChanges();
+            Checkpoint unloading = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 6);
+            unloading.Control = "txtblckFlightTerminal1";
+            context.SaveChanges();
+            Checkpoint boarding = context.Checkpoints.FirstOrDefault(cp => cp.Serial == 7);
+            boarding.Control = "txtblckFlightTerminal2";
+            context.SaveChanges();
+
+            // initial setup
             //Process landing = new Process()
             //{
             //    ProcessType = ProcessType.LandingProcess.ToString()
