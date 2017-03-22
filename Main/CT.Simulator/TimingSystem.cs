@@ -28,10 +28,10 @@ namespace CT.Simulator
                     newCheckpointSerial = flight.Checkpoint.Serial + 1;
                     return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightArr3", flight.IsAlive, isBoarding);
                 case 3:
-                    newCheckpointSerial = flight.Checkpoint.Serial + 1;
+                    newCheckpointSerial = 41;
                     return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightRunway", flight.IsAlive, isBoarding);
                 case 41:
-                    newCheckpointSerial = flight.Checkpoint.Serial + 1;
+                    newCheckpointSerial = 5;
                     return "lstvwParkUnload";
                 case 42:
                     newCheckpointSerial = 9;
@@ -48,32 +48,41 @@ namespace CT.Simulator
                 //        return "txtblckFlightDepart";
                 //    }
                 case 5:
-                    newCheckpointSerial = flight.Checkpoint.Serial + 1;
                     if (txtblckNameFlightNumber["txtblckFlightTerminal1"] == "---")
+                    {
+                        newCheckpointSerial = 61;
                         return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightTerminal1", flight.IsAlive, isBoarding);
-                    if (txtblckNameFlightNumber["txtblckFlightTerminal2"] == "---")
+                    }
+                    else if (txtblckNameFlightNumber["txtblckFlightTerminal2"] == "---")
+                    {
+                        newCheckpointSerial = 62;
                         return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightTerminal2", flight.IsAlive, isBoarding);
-                    return "Stay in checkpoint!";
+                    }
+                    else
+                    {
+                        newCheckpointSerial = 5;
+                        return "Stay in checkpoint!";
+                    }
                 case 61:
-
-                    break;
+                    newCheckpointSerial = 71;
+                    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 case 62:
-
-                    break;
+                    newCheckpointSerial = 72;
+                    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 //case 6:
                 //    newCheckpointSerial = flight.Checkpoint.Serial + 1;
                 //    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 case 71:
-
-                    break;
+                    newCheckpointSerial = 8;
+                    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 case 72:
-
-                    break;
+                    newCheckpointSerial = 8;
+                    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 //case 7:
                 //    newCheckpointSerial = flight.Checkpoint.Serial + 1;
                 //    return RetrieveCheckpointName(null, lstvwNameFlightList, "lstvwParkDepart", flight.IsAlive, isBoarding);
                 case 8:
-                    newCheckpointSerial = 4;
+                    newCheckpointSerial = 42;
                     return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightRunway", flight.IsAlive, isBoarding);
                 case 9:
                     newCheckpointSerial = -1;
