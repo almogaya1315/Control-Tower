@@ -217,8 +217,9 @@ namespace CT.UI.ViewModels
             ResponseDisposeFlight resDis = simProxy.DisposeFlight(reqDis);
             if (resDis.IsSuccess)
             {
-                airportUserControl.txtblckFlightDepart.Text = "---";
-                airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
+                FlightInDeparted = InitializeFlightBindingObject();
+                //airportUserControl.txtblckFlightDepart.Text = "---";
+                //airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
                 return;
             }
             else throw new Exception("[UI] Service was unable to dispose the flight.");
