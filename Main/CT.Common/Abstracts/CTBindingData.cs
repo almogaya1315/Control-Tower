@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CT.Common.Abstracts
 {
-    public abstract class CTBindingData : INotifyPropertyChanged
+    public abstract class CTBindingData : ControlInitializer, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         void RaisePropertyChanged(string propertyName)

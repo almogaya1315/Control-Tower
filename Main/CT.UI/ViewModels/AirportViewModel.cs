@@ -20,7 +20,7 @@ using System.Windows.Media.Imaging;
 
 namespace CT.UI.ViewModels
 {
-    public class AirportViewModel : ControlInitializer, CTBindingData
+    public class AirportViewModel : CTBindingData
     {
         #region private props & ctor
         SimServiceProxy simProxy;
@@ -46,14 +46,6 @@ namespace CT.UI.ViewModels
             lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
             imgPlanes = InitializeImgPlanes(airportUserControl.grdMain.Children, imgPlanes);
         }
-
-        #endregion
-
-        #region bindings
-        
-        
-
-        
         #endregion
 
         #region ui events
@@ -99,10 +91,6 @@ namespace CT.UI.ViewModels
 
             if (resFlight.IsSuccess)
             {
-                //currentFlight = resFlight.Flight;
-                //flights = new ObservableCollection<FlightDTO>(simProxy.GetFlightsCollection().Flights);
-                //flights = simProxy.GetFlightsCollection().Flights.ToList().ToObservableCollection();
-
                 double initialDuration = 2000;
                 simProxy.flightsTimers[resFlight.Flight] = new System.Timers.Timer(initialDuration);
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
@@ -173,8 +161,7 @@ namespace CT.UI.ViewModels
             {
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
                 {
-                    //FlightDTO entityMoq = SimProxy.GetFlight(flight.FlightSerial);
-                    double duration = flight.Checkpoint.Duration; //entityMoq.Checkpoint.Duration;
+                    double duration = flight.Checkpoint.Duration; 
                     simProxy.flightsTimers[flight].Interval = duration;
                 }
                 else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
