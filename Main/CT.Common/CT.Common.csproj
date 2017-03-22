@@ -50,7 +50,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstracts\ControlInitializer.cs" />
     <Compile Include="Abstracts\CTBindingData.cs" />
     <Compile Include="Abstracts\RepositoryConvertor.cs" />
     <Compile Include="Abstracts\ResponseBase.cs" />

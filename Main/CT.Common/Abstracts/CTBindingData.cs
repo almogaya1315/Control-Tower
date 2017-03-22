@@ -13,12 +13,15 @@ namespace CT.Common.Abstracts
 {
     public abstract class CTBindingData : INotifyPropertyChanged
     {
+        #region interface data
         public event PropertyChangedEventHandler PropertyChanged;
         void RaisePropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
+        #region initialzer
         public CTBindingData()
         {
             InitializeBindings();
@@ -38,6 +41,9 @@ namespace CT.Common.Abstracts
             FlightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
             FlightInDeparted = InitializeFlightBindingObject();
         }
+        #endregion
+
+        #region protected methods
         protected FlightDTO InitializeFlightBindingObject()
         {
             return new FlightDTO()
@@ -62,7 +68,154 @@ namespace CT.Common.Abstracts
                 Process = flight.Process
             };
         }
+        #endregion
 
+        #region switchers
+        public bool? SwitchOnNextCheckpointName(string nextCheckpointName, FlightDTO flight)
+        {
+            bool? isFound = default(bool);
+            switch (nextCheckpointName)
+            {
+                case "lstvwParkUnload":
+                    FlightsInStandbyForUnloading.Add(flight);
+                    FlightInRunway = InitializeFlightBindingObject();
+                    //lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
+                    //txtblckFlightRunway.Text = "---";
+                    //imgPlaneRunway.Source = PlaneImageSource.NoPlane;
+                    return isFound = true;
+                case "txtblckFlightDepart":
+                    FlightInDeparted = InitializeFlightBindingObject(flight);
+                    FlightInRunway = InitializeFlightBindingObject();
+                    //txtblckFlightDepart.Text = flight.FlightSerial.ToString();
+                    //imgPlanDepart.Source = PlaneImageSource.PlaneLeft;
+                    //txtblckFlightRunway.Text = "---";
+                    //imgPlaneRunway.Source = PlaneImageSource.NoPlane;
+                    return isFound = true;
+                case "Stay in checkpoint!":
+                    return isFound = null;
+                case "Departed!":
+                    //SimProxy.OnDispose(flight.FlightSerial);
+                    return isFound = null;
+                case "No access to field!":
+                    //SimProxy.OnDispose(flight.FlightSerial);
+                    return isFound = null;
+            }
+            return isFound = false;
+        }
+        public void SwitchOnCheckpointSerial(int checkpointSerial, string checkpointType,
+            string nextCheckpointName, string lastCheckpointPosition, FlightDTO flight)
+        {
+            switch (checkpointSerial)
+            {
+                case 1:
+                    FlightInLanding1 = InitializeFlightBindingObject(flight);
+                    //imgPlaneArr1.Source = PlaneImageSource.PlaneLeft;
+                    //txtblckFlightArr1.Text = flight.FlightSerial.ToString();
+                    break;
+                case 2:
+                    FlightInLanding1 = InitializeFlightBindingObject();
+                    FlightInLanding2 = InitializeFlightBindingObject(flight);
+                    //imgPlaneArr1.Source = PlaneImageSource.NoPlane;
+                    //txtblckFlightArr1.Text = "---";
+                    //imgPlaneArr2.Source = PlaneImageSource.PlaneLeft;
+                    //txtblckFlightArr2.Text = flight.FlightSerial.ToString();
+                    break;
+                case 3:
+                    FlightInLanding2 = InitializeFlightBindingObject();
+                    FlightInLanding3 = InitializeFlightBindingObject(flight);
+                    //imgPlaneArr2.Source = PlaneImageSource.NoPlane;
+                    //txtblckFlightArr2.Text = "---";
+                    //imgPlaneArr3.Source = PlaneImageSource.PlaneLeft;
+                    //txtblckFlightArr3.Text = flight.FlightSerial.ToString();
+                    break;
+                case 41:
+                    FlightInLanding3 = InitializeFlightBindingObject();
+                    FlightInRunway = InitializeFlightBindingObject(flight);
+                    break;
+                case 42:
+                    FlightsInStandbyForBoarding.Remove(flight);
+                    FlightInRunway = InitializeFlightBindingObject(flight);
+                    break;
+                //case 4:
+                //    if (checkpointType == "RunwayLanded")
+                //    {
+                //        imgPlaneArr3.Source = PlaneImageSource.NoPlane;
+                //        txtblckFlightArr3.Text = "---";
+                //        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
+                //        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
+                //    }
+                //    else if (checkpointType == "RunwayDeparting")
+                //    {
+                //        lstvwParkDepart.Items.Remove(flight.FlightSerial.ToString());
+                //        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
+                //        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
+                //    }
+                //    break;
+                case 61:
+                    FlightsInStandbyForUnloading.Remove(flight);
+                    FlightInTerminal1 = InitializeFlightBindingObject(flight);
+                    break;
+                case 62:
+                    FlightsInStandbyForUnloading.Remove(flight);
+                    FlightInTerminal2 = InitializeFlightBindingObject(flight);
+                    break;
+                //case 6:
+                //    if (nextCheckpointName == "FlightTerminal1")
+                //    {
+                //        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
+                //        txtblckFlightTerminal1.Text = flight.FlightSerial.ToString();
+                //        imgPlaneTerminal1.Source = PlaneImageSource.PlaneDown;
+                //        txtblckTerminal1Message.Text = "Unloading...";
+                //    }
+                //    if (nextCheckpointName == "FlightTerminal2")
+                //    {
+                //        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
+                //        txtblckFlightTerminal2.Text = flight.FlightSerial.ToString();
+                //        imgPlaneTerminal2.Source = PlaneImageSource.PlaneDown;
+                //        txtblckTerminal2Message.Text = "Unloading...";
+                //    }
+                //    break;
+                case 71:
+                    FlightInTerminal1 = InitializeFlightBindingObject(flight);
+                    Terminal1State = $"...{TerminalState.Boarding}";
+                    break;
+                case 72:
+                    FlightInTerminal2 = InitializeFlightBindingObject(flight);
+                    Terminal2State = $"...{TerminalState.Boarding}";
+                    break;
+                //case 7:
+                //    if (nextCheckpointName == "txtblckFlightTerminal1")
+                //        txtblckTerminal1Message.Text = "...Boarding";
+                //    if (nextCheckpointName == "txtblckFlightTerminal2")
+                //        txtblckTerminal2Message.Text = "...Boarding";
+                //    break;
+                case 8:
+                    if (lastCheckpointPosition == "txtblckFlightTerminal1")
+                    {
+                        FlightInTerminal1 = InitializeFlightBindingObject();
+                        Terminal1State = TerminalState.Idil.ToString();
+                        FlightsInStandbyForBoarding.Add(flight);
+                        //txtblckFlightTerminal1.Text = "---";
+                        //imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
+                        //txtblckTerminal1Message.Text = string.Empty;
+                        //lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
+                    }
+                    if (lastCheckpointPosition == "txtblckFlightTerminal2")
+                    {
+                        FlightInTerminal2 = InitializeFlightBindingObject();
+                        Terminal2State = TerminalState.Idil.ToString();
+                        FlightsInStandbyForBoarding.Add(flight);
+                        //txtblckFlightTerminal2.Text = "---";
+                        //imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;
+                        //txtblckTerminal2Message.Text = string.Empty;
+                        //lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
+                    }
+                    break;
+            }
+        }
+        #endregion
+
+        #region binding props
         string terminal1State;
         public string Terminal1State
         {
@@ -216,5 +369,6 @@ namespace CT.Common.Abstracts
                 RaisePropertyChanged("FlightInDeparted");
             }
         }
+        #endregion
     }
 }
