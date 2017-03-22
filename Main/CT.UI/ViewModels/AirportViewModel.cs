@@ -1,6 +1,7 @@
 ﻿using CT.Common.Abstracts;
 using CT.Common.Commands;
 using CT.Common.DTO_Models;
+using CT.Common.Enums;
 using CT.Common.Utilities;
 using CT.UI.Proxy;
 using CT.UI.SimulatorServiceReference;
@@ -30,7 +31,7 @@ namespace CT.UI.ViewModels
         ICollection<ListView> lstvwsCheckpoints { get; set; }
         ICollection<Image> imgPlanes { get; set; }
 
-        public AirportViewModel(AirportUserControl control, SimServiceProxy proxy)
+        public AirportViewModel(AirportUserControl control, SimServiceProxy proxy) : base()
         {
             airportUserControl = control;
             airportUserControl.Loaded += airportUserControl_Loaded;
@@ -91,7 +92,8 @@ namespace CT.UI.ViewModels
 
             if (resFlight.IsSuccess)
             {
-                double initialDuration = 2000;
+                double initialDuration = simProxy.GetCheckpointDuration(new RequestCheckpointDuration()
+                { CheckpointSerial = "1", CheckpointType = CheckpointType.Landing.ToString() }).CheckpointDuration;
                 simProxy.flightsTimers[resFlight.Flight] = new Timer(initialDuration);
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
 
@@ -103,11 +105,11 @@ namespace CT.UI.ViewModels
         }
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Stop();
+            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Stop();
 
             FlightDTO flight = null;
-            KeyValuePair<FlightDTO, System.Timers.Timer> keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>();
-            KeyValuePair<FlightDTO, System.Timers.Timer> keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>();
+            KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
+            KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
 
             foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
             {
@@ -139,6 +141,10 @@ namespace CT.UI.ViewModels
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
             bool isBoarding = default(bool);
+
+            if(FlightInTerminal1.FlightSerial == flight.FlightSerial)
+
+
             if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
             {
                 if (airportUserControl.txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
