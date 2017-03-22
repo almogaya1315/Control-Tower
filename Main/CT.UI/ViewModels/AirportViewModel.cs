@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace CT.UI.ViewModels
 {
@@ -43,9 +44,25 @@ namespace CT.UI.ViewModels
 
             AddFlightCommand = new AddFlightCommand(AddFlight);
 
-            txtblckCheckpoints = InitializeTxtblckCheckpoints(airportUserControl.grdMain.Children, txtblckCheckpoints);
-            lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
-            imgPlanes = InitializeImgPlanes(airportUserControl.grdMain.Children, imgPlanes);
+            //txtblckCheckpoints = InitializeTxtblckCheckpoints(airportUserControl.grdMain.Children, txtblckCheckpoints);
+            txtblckCheckpoints = new List<TextBlock>()
+            {
+                airportUserControl.txtblckFlightArr1, airportUserControl.txtblckFlightArr2, airportUserControl.txtblckFlightArr3,
+                airportUserControl.txtblckFlightRunway, airportUserControl.txtblckFlightTerminal1,
+                airportUserControl.txtblckFlightTerminal2, airportUserControl.txtblckFlightDepart
+            };
+            //lstvwsCheckpoints = InitializeLstvwsCheckpoints(airportUserControl.grdMain.Children, lstvwsCheckpoints);
+            lstvwsCheckpoints = new List<ListView>()
+            {
+                airportUserControl.lstvwParkUnload, airportUserControl.lstvwParkDepart
+            };
+            //imgPlanes = InitializeImgPlanes(airportUserControl.grdMain.Children, imgPlanes);
+            imgPlanes = new List<Image>()
+            {
+                airportUserControl.imgPlaneArr1, airportUserControl.imgPlaneArr2, airportUserControl.imgPlaneArr3,
+                airportUserControl.imgPlaneRunway, airportUserControl.imgPlaneTerminal1,
+                airportUserControl.imgPlaneTerminal2, airportUserControl.imgPlanDepart
+            };
         }
         #endregion
 
@@ -168,11 +185,35 @@ namespace CT.UI.ViewModels
 
             RequestFlightPosition reqPosition = new RequestFlightPosition()
             {
-                TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
-                LstvwNameFlightsListHash = SetLstvwHash(lstvwsCheckpoints),
+                //TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
+                //LstvwNameFlightsListHash = SetLstvwHash(lstvwsCheckpoints),
                 FlightSerial = flight.FlightSerial.ToString(),
                 IsBoarding = isBoarding
             };
+
+            airportUserControl.Dispatcher.Invoke(() =>
+            {
+                reqPosition.TxtblckNameFlightNumberHash = new Dictionary<string, string>();
+                reqPosition.LstvwNameFlightsListHash = new Dictionary<string, string[]>();
+
+                foreach (TextBlock txtblck in txtblckCheckpoints)
+                    reqPosition.TxtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
+                foreach (ListView lstvw in lstvwsCheckpoints)
+                {
+                    reqPosition.LstvwNameFlightsListHash[lstvw.Name] = new string[100];
+                    if (lstvw.Items.Count > 0)
+                    {
+                        foreach (string lvi in lstvw.Items)
+                        {
+                            List<string> list = reqPosition.LstvwNameFlightsListHash[lstvw.Name].ToList();
+                            list.RemoveAll(i => i == null);
+                            list.Add(lvi);
+                            reqPosition.LstvwNameFlightsListHash[lstvw.Name] = list.ToArray();
+                        }
+                    }
+                }
+            });
+            
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
             if (resPosition.IsSuccess)
             {

@@ -14,8 +14,8 @@ namespace CT.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(ObservableCollection<FlightDTO>))
-                throw new InvalidOperationException("Target type must be System.Collections.ObjectModel.ObservableCollection<FlightDTO>");
+            if (targetType != typeof(System.Collections.IEnumerable))
+                throw new InvalidOperationException("Target type must be System.Collections.IEnumerable");
 
             if ((value as ObservableCollection<FlightDTO>).FirstOrDefault().FlightSerial == -1)
                 return new ObservableCollection<FlightDTO>();

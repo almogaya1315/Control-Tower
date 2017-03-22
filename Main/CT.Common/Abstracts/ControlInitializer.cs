@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace CT.Common.Abstracts
 {
@@ -19,7 +20,7 @@ namespace CT.Common.Abstracts
         public ICollection<TextBlock> InitializeTxtblckCheckpoints(UIElementCollection children, ICollection<TextBlock> txtblckCheckpoints)
         {
             foreach (UIElement element in children)
-                if (element is TextBlock)
+                if (element.GetType() != typeof(TextBlock))
                     if ((element as TextBlock).Name.Contains("txtblckFlight"))
                         txtblckCheckpoints.Add(element as TextBlock);
             return txtblckCheckpoints;
@@ -65,8 +66,11 @@ namespace CT.Common.Abstracts
         public Dictionary<string, string> SetTxtblckHash(ICollection<TextBlock> txtblckCheckpoints)
         {
             Dictionary<string, string> txtblckNameFlightNumberHash = new Dictionary<string, string>();
-            foreach (TextBlock txtblck in txtblckCheckpoints)
-                txtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
+            Dispatcher.CurrentDispatcher.Invoke(() =>
+            {
+                foreach (TextBlock txtblck in txtblckCheckpoints)
+                    txtblckNameFlightNumberHash[txtblck.Name] = txtblck.Text;
+            });
             return txtblckNameFlightNumberHash;
         }
         public Dictionary<string, string[]> SetLstvwHash(ICollection<ListView> lstvwsCheckpoints)
