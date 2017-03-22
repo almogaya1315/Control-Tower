@@ -13,15 +13,15 @@ namespace CT.Common.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(string))
-                throw new InvalidOperationException("Target type must be System.String");
+            //if (targetType != typeof(int))
+            //    throw new InvalidOperationException("Target type must be System.Int32");
 
             try
             {
-                if ((string)value == "-1") return "---";
+                if ((int)value == -1) return 000;
                 else return value;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return DependencyProperty.UnsetValue;
             }

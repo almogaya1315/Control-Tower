@@ -69,13 +69,13 @@ namespace CT.UI.ViewModels
             {
                 Timer arrivalTimer = new Timer(resInitSim.TimerInterval);
                 arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
-                arrivalTimer.Start();
-                //CreateFlight_ArrivalTimerElapsed(this, null);
+                //arrivalTimer.Start();
+                CreateFlight_ArrivalTimerElapsed(null, null);
             }
         }
         void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (sender is Timer) (sender as Timer).Stop();
+            //if (sender is Timer) (sender as Timer).Stop();
 
             ResponseFlightObject resFlight = null;
             try
@@ -102,7 +102,7 @@ namespace CT.UI.ViewModels
             }
             else throw new Exception("No success retrieving flight response.");
 
-            (sender as Timer).Start();
+            //(sender as Timer).Start();
         }
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -116,8 +116,8 @@ namespace CT.UI.ViewModels
             {
                 if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
                 {
-                    simProxy.OnPromotion(fdto);
                     flight = simProxy.GetFlight(fdto.FlightSerial);
+                    simProxy.OnPromotion(fdto);
                     keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
                     if (flight != null)
                         keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);

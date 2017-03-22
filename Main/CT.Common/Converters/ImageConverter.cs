@@ -26,7 +26,7 @@ namespace CT.Common.Converters
                 img.EndInit();
                 return img;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return DependencyProperty.UnsetValue;
             }
