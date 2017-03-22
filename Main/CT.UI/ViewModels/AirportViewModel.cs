@@ -136,7 +136,7 @@ namespace CT.UI.ViewModels
                 return;
             }
 
-            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as System.Timers.Timer).Start();
+            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
         }
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
