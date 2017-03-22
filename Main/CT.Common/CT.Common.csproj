@@ -62,6 +62,7 @@
     <Compile Include="DTO Models\ProcessDTO.cs" />
     <Compile Include="Enums\CheckpointType.cs" />
     <Compile Include="Enums\ProcessType.cs" />
+    <Compile Include="Enums\TerminalState.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="IRepositories\IControlTowerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
