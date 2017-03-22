@@ -1,4 +1,6 @@
 ﻿using CT.Common.DTO_Models;
+using CT.Common.Enums;
+using CT.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CT.Common.Abstracts
 {
-    public abstract class CTBindingData : ControlInitializer, INotifyPropertyChanged
+    public abstract class CTBindingData : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         void RaisePropertyChanged(string propertyName)
@@ -23,8 +25,8 @@ namespace CT.Common.Abstracts
         }
         void InitializeBindings()
         {
-            Terminal1State = string.Empty;
-            Terminal2State = string.Empty;
+            Terminal1State = TerminalState.Idil.ToString();
+            Terminal2State = TerminalState.Idil.ToString();
 
             FlightInLanding1 = InitializeFlightBindingObject();
             FlightInLanding2 = InitializeFlightBindingObject();
@@ -36,7 +38,7 @@ namespace CT.Common.Abstracts
             FlightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
             FlightInDeparted = InitializeFlightBindingObject();
         }
-        FlightDTO InitializeFlightBindingObject()
+        protected FlightDTO InitializeFlightBindingObject()
         {
             return new FlightDTO()
             {
@@ -44,8 +46,20 @@ namespace CT.Common.Abstracts
                 CheckpointControl = string.Empty,
                 FlightSerial = -1,
                 IsAlive = false,
-                PlaneImgPath = string.Empty,
+                PlaneImgPath = PlaneImageSource.NoPlane.ToString(),
                 Process = null
+            };
+        }
+        protected FlightDTO InitializeFlightBindingObject(FlightDTO flight)
+        {
+            return new FlightDTO()
+            {
+                Checkpoint = flight.Checkpoint,
+                CheckpointControl = flight.CheckpointControl,
+                FlightSerial = flight.FlightSerial,
+                IsAlive = flight.IsAlive,
+                PlaneImgPath = flight.PlaneImgPath,
+                Process = flight.Process
             };
         }
 

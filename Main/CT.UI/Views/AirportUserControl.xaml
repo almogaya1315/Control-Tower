@@ -35,7 +35,7 @@
         <Canvas Grid.Row="1" Grid.Column="4">
             <Grid Canvas.Right="10">
                 <Border Margin="10,40,10,70" >
-                    <Image Source="{Binding FlightInLanding1.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane'}" Name="imgPlaneArr1" Width="60" Height="53"/>
+                    <Image Source="{Binding FlightInLanding1.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneArr1" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
                     <TextBlock Name="txtblckFlightArr1" Text="{Binding FlightInLanding1.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Width="60" FontSize="20" TextAlignment="Center">
