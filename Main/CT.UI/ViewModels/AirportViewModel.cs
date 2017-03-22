@@ -21,7 +21,7 @@ using System.Windows.Media.Imaging;
 
 namespace CT.UI.ViewModels
 {
-    public class AirportViewModel : CTBindingData
+    public class AirportViewModel : ControlInitializer
     {
         #region private props & ctor
         SimServiceProxy simProxy;
@@ -144,13 +144,13 @@ namespace CT.UI.ViewModels
 
             if(FlightInTerminal1.FlightSerial == flight.FlightSerial)
             {
-                if (Terminal1State == "Unloading...") isBoarding = false;
-                else if (Terminal1State == "...Boarding") isBoarding = true;
+                if (Terminal1State == $"{TerminalState.Unloading}...") isBoarding = false;
+                else if (Terminal1State == $"...{TerminalState.Boarding}") isBoarding = true;
             }
             else if (FlightInTerminal2.FlightSerial == flight.FlightSerial)
             {
-                if (Terminal2State == "Unloading...") isBoarding = false;
-                else if (Terminal2State == "...Boarding") isBoarding = true;
+                if (Terminal2State == $"{TerminalState.Unloading}...") isBoarding = false;
+                else if (Terminal2State == $"...{TerminalState.Boarding}") isBoarding = true;
             }
 
 

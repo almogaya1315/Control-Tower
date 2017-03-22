@@ -126,8 +126,6 @@ namespace CT.SVC.Services
             }
             else if (newCheckpointName != "Stay in checkpoint!" && newCheckpointName != "No access to field!")
             {
-
-
                 checkpointType = ctRepo.UpdateCheckpoints(newCheckpointSerial, lastCheckpointPosition, lastCheckpointSerial, flight);
                 if (lastCheckpointPosition != "none")
                     ctRepo.UpdateFlightObject(flight, newCheckpointSerial, lastCheckpointSerial, false);

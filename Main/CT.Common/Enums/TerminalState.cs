@@ -8,6 +8,8 @@ namespace CT.Common.Enums
 {
     public enum TerminalState
     {
-
+        Unloading,
+        Boarding,
+        Idil
     }
 }
