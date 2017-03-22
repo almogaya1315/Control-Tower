@@ -17,34 +17,6 @@ namespace CT.Common.Abstracts
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        ObservableCollection<FlightDTO> preUnloading;
-        public ObservableCollection<FlightDTO> PreUnloading
-        {
-            get
-            {
-                return preUnloading;
-            }
-            set
-            {
-                preUnloading = value;
-                RaisePropertyChanged("PreUnloading");
-            }
-        }
-
-        ObservableCollection<FlightDTO> preDeparting;
-        public ObservableCollection<FlightDTO> PreDeparting
-        {
-            get
-            {
-                return preDeparting;
-            }
-            set
-            {
-                preDeparting = value;
-                RaisePropertyChanged("PreDeparting");
-            }
-        }
-
         FlightDTO flightInLanding1;
         public FlightDTO FlightInLanding1
         {
@@ -70,6 +42,104 @@ namespace CT.Common.Abstracts
             {
                 flightInLanding2 = value;
                 RaisePropertyChanged("FlightInLanding2");
+            }
+        }
+
+        FlightDTO flightInLanding3;
+        public FlightDTO FlightInLanding3
+        {
+            get
+            {
+                return flightInLanding3;
+            }
+            set
+            {
+                flightInLanding3 = value;
+                RaisePropertyChanged("FlightInLanding3");
+            }
+        }
+
+        FlightDTO flightInRunway;
+        public FlightDTO FlightInRunway
+        {
+            get
+            {
+                return flightInRunway;
+            }
+            set
+            {
+                flightInRunway = value;
+                RaisePropertyChanged("FlightInRunway");
+            }
+        }
+
+        ObservableCollection<FlightDTO> flightsInStandbyForUnloading;
+        public ObservableCollection<FlightDTO> FlightsInStandbyForUnloading
+        {
+            get
+            {
+                return flightsInStandbyForUnloading;
+            }
+            set
+            {
+                flightsInStandbyForUnloading = value;
+                RaisePropertyChanged("FlightsInStandbyForUnloading");
+            }
+        }
+
+        FlightDTO flightInTerminal1;
+        public FlightDTO FlightInTerminal1
+        {
+            get
+            {
+                return flightInTerminal1;
+            }
+            set
+            {
+                flightInTerminal1 = value;
+                RaisePropertyChanged("FlightInTerminal1");
+            }
+        }
+
+        FlightDTO flightInTerminal2;
+        public FlightDTO FlightInTerminal2
+        {
+            get
+            {
+                return flightInTerminal2;
+            }
+            set
+            {
+                flightInTerminal2 = value;
+                RaisePropertyChanged("FlightInTerminal2");
+            }
+        }
+
+        ObservableCollection<FlightDTO> flightsInStandbyForBoarding;
+        public ObservableCollection<FlightDTO> FlightsInStandbyForBoarding
+        {
+            get
+            {
+                return flightsInStandbyForBoarding;
+            }
+            set
+            {
+                flightsInStandbyForBoarding = value;
+                RaisePropertyChanged("FlightsInStandbyForBoarding");
+            }
+        }
+
+        FlightDTO flightInDeparted;
+        public FlightDTO FlightInDeparted
+        {
+            get
+            {
+                return flightInDeparted;
+            }
+            set
+            {
+                flightInDeparted = value;
+                RaisePropertyChanged("FlightInDeparted");
             }
         }
     }
