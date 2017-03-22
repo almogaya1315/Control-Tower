@@ -75,7 +75,7 @@
         </Grid>
 
         <Border Grid.Column="1" Grid.Row="2" Margin="120,10,10,10">
-            <TextBlock Name="txtblckTerminal1Message" FontSize="20" Foreground="Aqua"/>
+            <TextBlock Text="{Binding Terminal1State}" Name="txtblckTerminal1Message" FontSize="20" Foreground="Aqua"/>
         </Border>
         <Border Grid.Row="2" Grid.Column="1" Margin="160,100,10,10">
             <TextBlock Text="1" FontSize="30" Foreground="Red"/>
@@ -90,7 +90,7 @@
         </Grid>
 
         <Border Grid.Column="3" Grid.Row="2" Margin="80,10,10,10">
-            <TextBlock Name="txtblckTerminal2Message" FontSize="20" Foreground="Aqua"/>
+            <TextBlock Text="{Binding Terminal2State}" Name="txtblckTerminal2Message" FontSize="20" Foreground="Aqua"/>
         </Border>
         <Border Grid.Row="2" Grid.Column="3" Margin="120,100,10,10">
             <TextBlock Text="2" FontSize="30" Foreground="Red"/>
