@@ -7,6 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <converter:ImageConverter x:Key="localImageConverter"></converter:ImageConverter>
+            <converter:FlightSerialConverter x:Key="localSerialConverter"></converter:FlightSerialConverter>
             <locator:ViewModelLocator x:Key="mainViewModelLocator"></locator:ViewModelLocator>
         </ResourceDictionary>
     </Application.Resources>

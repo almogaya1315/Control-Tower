@@ -6,25 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace CT.Common.Converters
 {
-    public class ImageConverter : IValueConverter
+    public class FlightSerialConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (targetType != typeof(ImageSource))
-                throw new InvalidOperationException("Target type must be System.Windows.Media.ImageSource");
+            if (targetType != typeof(string))
+                throw new InvalidOperationException("Target type must be System.String");
 
             try
             {
-                BitmapImage img = new BitmapImage();
-                img.BeginInit();
-                img.UriSource = new Uri($@"E:\TFS_Code\ControlTower\Main\CT.UI\Images\{value}.png");
-                img.EndInit();
-                return img;
+                if ((string)value == "-1") return "---";
+                else return value;
             }
             catch (Exception)
             {
