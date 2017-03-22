@@ -101,7 +101,7 @@ namespace CT.UI.ViewModels
             }
             else throw new Exception("No success retrieving flight response.");
 
-            (sender as System.Timers.Timer).Start();
+            (sender as Timer).Start();
         }
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -117,9 +117,9 @@ namespace CT.UI.ViewModels
                 {
                     simProxy.OnPromotion(fdto);
                     flight = simProxy.GetFlight(fdto.FlightSerial);
-                    keyToRemove = new KeyValuePair<FlightDTO, System.Timers.Timer>(fdto, simProxy.flightsTimers[fdto]);
+                    keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
                     if (flight != null)
-                        keyToAdd = new KeyValuePair<FlightDTO, System.Timers.Timer>(flight, simProxy.flightsTimers[fdto]);
+                        keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);
                     break;
                 }
             }

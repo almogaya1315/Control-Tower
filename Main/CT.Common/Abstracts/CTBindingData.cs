@@ -24,16 +24,20 @@ namespace CT.Common.Abstracts
 
         void InitializeBindings()
         {
-            flightsInStandbyForUnloading = new ObservableCollection<FlightDTO>();
-            flightsInStandbyForBoarding = new ObservableCollection<FlightDTO>();
+            InitializeFlightObject(flightInLanding1);
+            InitializeFlightObject(flightInLanding2);
+            InitializeFlightObject(flightInLanding3);
+            InitializeFlightObject(flightInRunway);
+            flightsInStandbyForUnloading = new ObservableCollection<FlightDTO>() { InitializeFlightObject(new FlightDTO()) };
+            InitializeFlightObject(flightInTerminal1);
+            InitializeFlightObject(flightInTerminal2);
+            flightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightObject(new FlightDTO()) };
+            InitializeFlightObject(flightInDeparted);
+        }
 
-            ICollection<FlightDTO> flightBindingObjects = new List<FlightDTO>()
-            {
-                FlightInLanding1, FlightInLanding2, FlightInLanding3,
-                flightInRunway, flightsInStandbyForUnloading.FirstOrDefault(), flightsInStandbyForBoarding.FirstOrDefault()
-            };
-
-            flightInLanding1 = new FlightDTO()
+        FlightDTO InitializeFlightObject(FlightDTO nullObject)
+        {
+            nullObject = new FlightDTO()
             {
                 Checkpoint = null,
                 CheckpointControl = string.Empty,
@@ -42,6 +46,7 @@ namespace CT.Common.Abstracts
                 PlaneImgPath = string.Empty,
                 Process = null
             };
+            return nullObject;
         }
 
         FlightDTO flightInLanding1;
