@@ -143,6 +143,9 @@ namespace CT.UI.ViewModels
             bool isBoarding = default(bool);
 
             if(FlightInTerminal1.FlightSerial == flight.FlightSerial)
+            {
+
+            }
 
 
             if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())

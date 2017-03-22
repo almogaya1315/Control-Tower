@@ -55,6 +55,7 @@
     <Compile Include="Abstracts\RepositoryConvertor.cs" />
     <Compile Include="Abstracts\ResponseBase.cs" />
     <Compile Include="Commands\AddFlightCommand.cs" />
+    <Compile Include="Converters\FlightSerialConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
     <Compile Include="DTO Models\CheckpointDTO.cs" />
     <Compile Include="DTO Models\FlightDTO.cs" />
