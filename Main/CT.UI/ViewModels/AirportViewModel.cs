@@ -144,15 +144,17 @@ namespace CT.UI.ViewModels
 
             if(FlightInTerminal1.FlightSerial == flight.FlightSerial)
             {
-
+                if (Terminal1State == "Unloading...") isBoarding = false;
+                else if (Terminal1State == "...Boarding") isBoarding = true;
             }
+            else if ()
 
 
-            if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
-            {
-                if (airportUserControl.txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
-                else if (airportUserControl.txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
-            }
+            //if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
+            //{
+            //    if (airportUserControl.txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
+            //    else if (airportUserControl.txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
+            //}
             else if (airportUserControl.txtblckFlightTerminal2.Text == flight.FlightSerial.ToString())
             {
                 if (airportUserControl.txtblckTerminal2Message.Text == "Unloading...") isBoarding = false;

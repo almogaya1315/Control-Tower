@@ -23,6 +23,9 @@ namespace CT.Common.Abstracts
         }
         void InitializeBindings()
         {
+            Terminal1State = string.Empty;
+            Terminal2State = string.Empty;
+
             FlightInLanding1 = InitializeFlightBindingObject();
             FlightInLanding2 = InitializeFlightBindingObject();
             FlightInLanding3 = InitializeFlightBindingObject();
@@ -44,6 +47,34 @@ namespace CT.Common.Abstracts
                 PlaneImgPath = string.Empty,
                 Process = null
             };
+        }
+
+        string terminal1State;
+        public string Terminal1State
+        {
+            get
+            {
+                return terminal1State;
+            }
+            set
+            {
+                terminal1State = value;
+                RaisePropertyChanged("Terminal1State");
+            }
+        }
+
+        string terminal2State;
+        public string Terminal2State
+        {
+            get
+            {
+                return terminal2State;
+            }
+            set
+            {
+                terminal2State = value;
+                RaisePropertyChanged("Terminal2State");
+            }
         }
 
         FlightDTO flightInLanding1;
