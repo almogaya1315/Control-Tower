@@ -189,11 +189,11 @@ namespace CT.UI.ViewModels
 
                 if (resPosition.LastCheckpointPosition == "txtblckFlightTerminal1" || resPosition.LastCheckpointPosition == "txtblckFlightTerminal2")
                 {
-                    SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+                    SwitchOnCheckpointSerial(airportUserControl.Dispatcher, resPosition.CheckpointSerial, resPosition.CheckpointType,
                         resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
                     return;
                 }
-                bool? isFound = SwitchOnNextCheckpointName(resPosition.NextCheckpointName, flight);
+                bool? isFound = SwitchOnNextCheckpointName(airportUserControl.Dispatcher, resPosition.NextCheckpointName, flight);
                 if (isFound == null)
                 {
                     if (resPosition.NextCheckpointName == "Departed!" || resPosition.NextCheckpointName == "No access to field!")
@@ -203,7 +203,7 @@ namespace CT.UI.ViewModels
                 }
                 if (isFound == false)
                 {
-                    SwitchOnCheckpointSerial(resPosition.CheckpointSerial, resPosition.CheckpointType,
+                    SwitchOnCheckpointSerial(airportUserControl.Dispatcher, resPosition.CheckpointSerial, resPosition.CheckpointType,
                         resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
                 }
             }

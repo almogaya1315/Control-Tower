@@ -17,9 +17,19 @@ namespace CT.Common.Converters
             if (targetType != typeof(System.Collections.IEnumerable))
                 throw new InvalidOperationException("Target type must be System.Collections.IEnumerable");
 
-            if ((value as ObservableCollection<FlightDTO>).FirstOrDefault().FlightSerial == -1)
-                return new ObservableCollection<FlightDTO>();
-            else return value;
+            FlightDTO controlObject = null;
+            foreach (FlightDTO flight in (value as ObservableCollection<FlightDTO>))
+            {
+                if (flight.FlightSerial == -1)
+                {
+                    controlObject = flight;
+                    break;
+                }
+                else return value;
+            }
+
+            (value as ObservableCollection<FlightDTO>).Remove(controlObject);
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
