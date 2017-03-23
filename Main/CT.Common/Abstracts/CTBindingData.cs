@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace CT.Common.Abstracts
 {
@@ -71,14 +72,17 @@ namespace CT.Common.Abstracts
         #endregion
 
         #region switchers
-        public bool? SwitchOnNextCheckpointName(string nextCheckpointName, FlightDTO flight)
+        public bool? SwitchOnNextCheckpointName(Dispatcher dispatcher, string nextCheckpointName, FlightDTO flight)
         {
             bool? isFound = default(bool);
             switch (nextCheckpointName)
             {
                 case "lstvwParkUnload":
                     flight.PlaneImgPath = PlaneImageSource.NoPlane.ToString();
-                    FlightsInStandbyForUnloading.Add(flight);
+                    dispatcher.Invoke(() =>
+                    {
+                        FlightsInStandbyForUnloading.Add(flight.FlightSerial.ToString());
+                    });
                     FlightInRunway = InitializeFlightBindingObject();
                     //lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
                     //txtblckFlightRunway.Text = "---";
@@ -104,7 +108,7 @@ namespace CT.Common.Abstracts
             }
             return isFound = false;
         }
-        public void SwitchOnCheckpointSerial(int checkpointSerial, string checkpointType,
+        public void SwitchOnCheckpointSerial(Dispatcher dispatcher, int checkpointSerial, string checkpointType,
             string nextCheckpointName, string lastCheckpointPosition, FlightDTO flight)
         {
             switch (checkpointSerial)
@@ -140,7 +144,10 @@ namespace CT.Common.Abstracts
                     break;
                 case 42:
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
-                    FlightsInStandbyForBoarding.Remove(flight);
+                    dispatcher.Invoke(() =>
+                    {
+                        FlightsInStandbyForBoarding.Remove(flight.FlightSerial.ToString());
+                    });
                     FlightInRunway = InitializeFlightBindingObject(flight);
                     break;
                 //case 4:
@@ -160,12 +167,18 @@ namespace CT.Common.Abstracts
                 //    break;
                 case 61:
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
-                    if (FlightsInStandbyForUnloading.Remove(flight) == false) throw new Exception();
+                    dispatcher.Invoke(() =>
+                    {
+                        FlightsInStandbyForUnloading.Remove(flight.FlightSerial.ToString());
+                    });
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
                     break;
                 case 62:
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
-                    FlightsInStandbyForUnloading.Remove(flight);
+                    dispatcher.Invoke(() =>
+                    {
+                        FlightsInStandbyForUnloading.Remove(flight.FlightSerial.ToString());
+                    });
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     break;
                 //case 6:
@@ -204,7 +217,10 @@ namespace CT.Common.Abstracts
                         FlightInTerminal1 = InitializeFlightBindingObject();
                         Terminal1State = TerminalState.Idil.ToString();
                         flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
-                        FlightsInStandbyForBoarding.Add(flight);
+                        dispatcher.Invoke(() =>
+                        {
+                            FlightsInStandbyForBoarding.Add(flight.FlightSerial.ToString());
+                        });
                         //txtblckFlightTerminal1.Text = "---";
                         //imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
                         //txtblckTerminal1Message.Text = string.Empty;
@@ -215,7 +231,10 @@ namespace CT.Common.Abstracts
                         FlightInTerminal2 = InitializeFlightBindingObject();
                         Terminal2State = TerminalState.Idil.ToString();
                         flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
-                        FlightsInStandbyForBoarding.Add(flight);
+                        dispatcher.Invoke(() =>
+                        {
+                            FlightsInStandbyForBoarding.Add(flight.FlightSerial.ToString());
+                        });
                         //txtblckFlightTerminal2.Text = "---";
                         //imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;
                         //txtblckTerminal2Message.Text = string.Empty;
@@ -311,8 +330,8 @@ namespace CT.Common.Abstracts
             }
         }
 
-        ObservableCollection<FlightDTO> flightsInStandbyForUnloading;
-        public ObservableCollection<FlightDTO> FlightsInStandbyForUnloading
+        ObservableCollection<string> flightsInStandbyForUnloading;
+        public ObservableCollection<string> FlightsInStandbyForUnloading
         {
             get
             {
@@ -353,8 +372,8 @@ namespace CT.Common.Abstracts
             }
         }
 
-        ObservableCollection<FlightDTO> flightsInStandbyForBoarding;
-        public ObservableCollection<FlightDTO> FlightsInStandbyForBoarding
+        ObservableCollection<string> flightsInStandbyForBoarding;
+        public ObservableCollection<string> FlightsInStandbyForBoarding
         {
             get
             {
