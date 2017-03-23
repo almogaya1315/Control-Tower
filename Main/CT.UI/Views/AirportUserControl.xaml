@@ -57,7 +57,7 @@
             </Grid>
             <Grid Canvas.Right="210">
                 <Border Margin="10,40,10,70" >
-                    <Image Source="{Binding FlightInLanding3.FlightSerial, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneArr3" Width="60" Height="53"/>
+                    <Image Source="{Binding FlightInLanding3.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneArr3" Width="60" Height="53"/>
                 </Border>
                 <Border Margin="10,100,10,10" >
                     <TextBlock Name="txtblckFlightArr3" Text="{Binding FlightInLanding3.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Width="60" FontSize="20" TextAlignment="Center"/>
@@ -67,7 +67,7 @@
 
         <Grid Grid.Row="1" Grid.Column="2">
             <Border Margin="10,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightRunway}">
-                <Image Source="{Binding FlightInRunway.FlightSerial, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneRunway" Width="60" Height="53"/>
+                <Image Source="{Binding FlightInRunway.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneRunway" Width="60" Height="53"/>
             </Border>
             <Border Margin="10,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightRunway}">
                 <TextBlock Text="{Binding FlightInRunway.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Name="txtblckFlightRunway" Width="60" FontSize="20" TextAlignment="Center"/>

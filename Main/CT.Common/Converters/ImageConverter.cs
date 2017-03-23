@@ -22,7 +22,7 @@ namespace CT.Common.Converters
             {
                 BitmapImage img = new BitmapImage();
                 img.BeginInit();
-                img.UriSource = new Uri($@"E:\TFS_Code\ControlTower\Main\CT.UI\Images\{value}.png");
+                img.UriSource = new Uri(value.ToString());
                 img.EndInit();
                 return img;
             }

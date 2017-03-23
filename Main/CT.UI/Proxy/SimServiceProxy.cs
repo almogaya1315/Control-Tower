@@ -102,5 +102,20 @@ namespace CT.UI.Proxy
             OnDisposeEvent?.Invoke(this, flightSerial);
         }
         #endregion
+
+        public void UpdateflightsTimersHash(FlightDTO flight, KeyValuePair<FlightDTO, Timer> toRemove, KeyValuePair<FlightDTO, Timer> toAdd)
+        {
+            if (flight != null)
+            {
+                flightsTimers.Remove(toRemove.Key);
+                flightsTimers.Add(toAdd.Key, toAdd.Value);
+            }
+            else
+            {
+                flightsTimers[toRemove.Key].Dispose();
+                flightsTimers.Remove(toRemove.Key);
+                return;
+            }
+        }
     }
 }
