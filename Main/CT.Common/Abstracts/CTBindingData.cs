@@ -77,6 +77,7 @@ namespace CT.Common.Abstracts
             switch (nextCheckpointName)
             {
                 case "lstvwParkUnload":
+                    flight.PlaneImgPath = PlaneImageSource.NoPlane.ToString();
                     FlightsInStandbyForUnloading.Add(flight);
                     FlightInRunway = InitializeFlightBindingObject();
                     //lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
@@ -84,6 +85,7 @@ namespace CT.Common.Abstracts
                     //imgPlaneRunway.Source = PlaneImageSource.NoPlane;
                     return isFound = true;
                 case "txtblckFlightDepart":
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInDeparted = InitializeFlightBindingObject(flight);
                     FlightInRunway = InitializeFlightBindingObject();
                     //txtblckFlightDepart.Text = flight.FlightSerial.ToString();
@@ -108,11 +110,13 @@ namespace CT.Common.Abstracts
             switch (checkpointSerial)
             {
                 case 1:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding1 = InitializeFlightBindingObject(flight);
                     //imgPlaneArr1.Source = PlaneImageSource.PlaneLeft;
                     //txtblckFlightArr1.Text = flight.FlightSerial.ToString();
                     break;
                 case 2:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding1 = InitializeFlightBindingObject();
                     FlightInLanding2 = InitializeFlightBindingObject(flight);
                     //imgPlaneArr1.Source = PlaneImageSource.NoPlane;
@@ -121,6 +125,7 @@ namespace CT.Common.Abstracts
                     //txtblckFlightArr2.Text = flight.FlightSerial.ToString();
                     break;
                 case 3:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding2 = InitializeFlightBindingObject();
                     FlightInLanding3 = InitializeFlightBindingObject(flight);
                     //imgPlaneArr2.Source = PlaneImageSource.NoPlane;
@@ -129,10 +134,12 @@ namespace CT.Common.Abstracts
                     //txtblckFlightArr3.Text = flight.FlightSerial.ToString();
                     break;
                 case 41:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding3 = InitializeFlightBindingObject();
                     FlightInRunway = InitializeFlightBindingObject(flight);
                     break;
                 case 42:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightsInStandbyForBoarding.Remove(flight);
                     FlightInRunway = InitializeFlightBindingObject(flight);
                     break;
@@ -152,10 +159,12 @@ namespace CT.Common.Abstracts
                 //    }
                 //    break;
                 case 61:
-                    FlightsInStandbyForUnloading.Remove(flight);
+                    flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
+                    if (FlightsInStandbyForUnloading.Remove(flight) == false) throw new Exception();
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
                     break;
                 case 62:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     FlightsInStandbyForUnloading.Remove(flight);
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     break;
@@ -194,6 +203,7 @@ namespace CT.Common.Abstracts
                     {
                         FlightInTerminal1 = InitializeFlightBindingObject();
                         Terminal1State = TerminalState.Idil.ToString();
+                        flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                         FlightsInStandbyForBoarding.Add(flight);
                         //txtblckFlightTerminal1.Text = "---";
                         //imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
@@ -204,6 +214,7 @@ namespace CT.Common.Abstracts
                     {
                         FlightInTerminal2 = InitializeFlightBindingObject();
                         Terminal2State = TerminalState.Idil.ToString();
+                        flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                         FlightsInStandbyForBoarding.Add(flight);
                         //txtblckFlightTerminal2.Text = "---";
                         //imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;

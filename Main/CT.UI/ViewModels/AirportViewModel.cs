@@ -116,26 +116,28 @@ namespace CT.UI.ViewModels
             {
                 if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
                 {
-                    flight = simProxy.GetFlight(fdto.FlightSerial);
                     simProxy.OnPromotion(fdto);
-                    keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
-                    if (flight != null)
-                        keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);
+                    //flight = simProxy.GetFlight(fdto.FlightSerial);
+                    //keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
+                    //if (flight != null)
+                    //    keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);
                     break;
                 }
             }
 
-            if (flight != null)
-            {
-                simProxy.flightsTimers.Remove(keyToRemove.Key);
-                simProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
-            }
-            else
-            {
-                simProxy.flightsTimers[keyToRemove.Key].Dispose();
-                simProxy.flightsTimers.Remove(keyToRemove.Key);
-                return;
-            }
+            //simProxy.UpdateflightsTimersHash(flight, keyToRemove, keyToAdd);
+
+            //if (flight != null)
+            //{
+            //    simProxy.flightsTimers.Remove(keyToRemove.Key);
+            //    simProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
+            //}
+            //else
+            //{
+            //    simProxy.flightsTimers[keyToRemove.Key].Dispose();
+            //    simProxy.flightsTimers.Remove(keyToRemove.Key);
+            //    return;
+            //}
 
             simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
         }
@@ -176,7 +178,11 @@ namespace CT.UI.ViewModels
             };
 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
+            KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
+            FlightDTO previousFlightObject = flight;
             flight = simProxy.GetFlight(flight.FlightSerial);
+            KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[previousFlightObject]);
+            simProxy.UpdateflightsTimersHash(flight, keyToRemove, keyToAdd);
             if (resPosition.IsSuccess)
             {
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
