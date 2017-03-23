@@ -36,10 +36,10 @@ namespace CT.Common.Abstracts
             FlightInLanding2 = InitializeFlightBindingObject();
             FlightInLanding3 = InitializeFlightBindingObject();
             FlightInRunway = InitializeFlightBindingObject();
-            FlightsInStandbyForUnloading = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
+            FlightsInStandbyForUnloading = new ObservableCollection<string>() { InitializeFlightBindingObject().FlightSerial.ToString() };
             FlightInTerminal1 = InitializeFlightBindingObject();
             FlightInTerminal2 = InitializeFlightBindingObject();
-            FlightsInStandbyForBoarding = new ObservableCollection<FlightDTO>() { InitializeFlightBindingObject() };
+            FlightsInStandbyForBoarding = new ObservableCollection<string>() { InitializeFlightBindingObject().FlightSerial.ToString() };
             FlightInDeparted = InitializeFlightBindingObject();
         }
         #endregion

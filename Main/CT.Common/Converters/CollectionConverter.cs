@@ -17,18 +17,18 @@ namespace CT.Common.Converters
             if (targetType != typeof(System.Collections.IEnumerable))
                 throw new InvalidOperationException("Target type must be System.Collections.IEnumerable");
 
-            FlightDTO controlObject = null;
-            foreach (FlightDTO flight in (value as ObservableCollection<FlightDTO>))
+            string defaultSerial = default(string);
+            foreach (string serial in (value as ObservableCollection<string>))
             {
-                if (flight.FlightSerial == -1)
+                if (serial == "-1")
                 {
-                    controlObject = flight;
+                    defaultSerial = serial;
                     break;
                 }
                 else return value;
             }
 
-            (value as ObservableCollection<FlightDTO>).Remove(controlObject);
+            (value as ObservableCollection<string>).Remove(defaultSerial);
             return value;
         }
 
