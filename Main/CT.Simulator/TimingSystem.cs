@@ -48,12 +48,12 @@ namespace CT.Simulator
                 //        return "txtblckFlightDepart";
                 //    }
                 case 5:
-                    if (txtblckNameFlightNumber["txtblckFlightTerminal1"] == "---")
+                    if (txtblckNameFlightNumber["txtblckFlightTerminal1"] == "0")
                     {
                         newCheckpointSerial = 61;
                         return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightTerminal1", flight.IsAlive, isBoarding);
                     }
-                    else if (txtblckNameFlightNumber["txtblckFlightTerminal2"] == "---")
+                    else if (txtblckNameFlightNumber["txtblckFlightTerminal2"] == "0")
                     {
                         newCheckpointSerial = 62;
                         return RetrieveCheckpointName(txtblckNameFlightNumber, null, "FlightTerminal2", flight.IsAlive, isBoarding);
