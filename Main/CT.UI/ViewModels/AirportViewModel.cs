@@ -108,9 +108,9 @@ namespace CT.UI.ViewModels
         {
             simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Stop();
 
-            FlightDTO flight = null;
-            KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
-            KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
+            //FlightDTO flight = null;
+            //KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
+            //KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
 
             foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
             {
@@ -156,19 +156,6 @@ namespace CT.UI.ViewModels
                 else if (Terminal2State == $"...{TerminalState.Boarding}") isBoarding = true;
             }
 
-
-            //if (airportUserControl.txtblckFlightTerminal1.Text == flight.FlightSerial.ToString())
-            //{
-            //    if (airportUserControl.txtblckTerminal1Message.Text == "Unloading...") isBoarding = false;
-            //    else if (airportUserControl.txtblckTerminal1Message.Text == "...Boarding") isBoarding = true;
-            //}
-            //else if (airportUserControl.txtblckFlightTerminal2.Text == flight.FlightSerial.ToString())
-            //{
-            //    if (airportUserControl.txtblckTerminal2Message.Text == "Unloading...") isBoarding = false;
-            //    else if (airportUserControl.txtblckTerminal2Message.Text == "...Boarding") isBoarding = true;
-            //}
-
-
             RequestFlightPosition reqPosition = new RequestFlightPosition()
             {
                 TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
@@ -179,10 +166,11 @@ namespace CT.UI.ViewModels
 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
             KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
-            FlightDTO previousFlightObject = flight;
+            FlightDTO previousFlightObject = flight; // object with values in 'FlightSerial' property only
             flight = simProxy.GetFlight(flight.FlightSerial);
             KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[previousFlightObject]);
             simProxy.UpdateflightsTimersHash(flight, keyToRemove, keyToAdd);
+
             if (resPosition.IsSuccess)
             {
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
