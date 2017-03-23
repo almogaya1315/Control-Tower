@@ -21,7 +21,7 @@ namespace CT.Common.Converters
                 if ((int)value == -1) return 000;
                 else return value;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return DependencyProperty.UnsetValue;
             }
