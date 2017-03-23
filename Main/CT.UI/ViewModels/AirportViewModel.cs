@@ -176,6 +176,7 @@ namespace CT.UI.ViewModels
             };
 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
+            flight = simProxy.GetFlight(flight.FlightSerial);
             if (resPosition.IsSuccess)
             {
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
