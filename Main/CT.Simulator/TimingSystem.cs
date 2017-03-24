@@ -10,8 +10,20 @@ using System.Windows.Controls;
 
 namespace CT.Simulator
 {
+    /// <summary>
+    /// The system that determines the current flight's next position
+    /// </summary>
     public class TimingSystem
     {
+        /// <summary>
+        /// Public method exposed to the service that retrieves the flight's next position
+        /// </summary>
+        /// <param name="txtblckNameFlightNumber">the viewmodel's TextBlock name & current flight serial hash</param>
+        /// <param name="lstvwNameFlightList">the viewmodel's ListView name & current flight serial list hash</param>
+        /// <param name="flight">the current flight</param>
+        /// <param name="isBoarding">indicates if the flight is in landing or departure process</param>
+        /// <param name="newCheckpointSerial">[out] the new checkpoint serial</param>
+        /// <returns>next checkpoint TextBlock name or specified action & [out] next checkpoint serial</returns>
         public string GetFlightPosition(Dictionary<string, string> txtblckNameFlightNumber, Dictionary<string, List<string>> lstvwNameFlightList, FlightDTO flight, bool isBoarding, out int newCheckpointSerial)
         {
             if (flight.Checkpoint == null)
