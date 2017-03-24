@@ -11,6 +11,9 @@ using System.Timers;
 
 namespace CT.UI.Proxy
 {
+    /// <summary>
+    /// The UI's proxy connection to simulator service
+    /// </summary>
     public class SimServiceProxy : ISimService, ISimServiceCallback
     {
         #region proxy data
@@ -22,6 +25,9 @@ namespace CT.UI.Proxy
         public event EventHandler<FlightDTO> OnPromotionEvaluationEvent;
         public event EventHandler<int> OnDisposeEvent;
 
+        /// <summary>
+        /// Create the simulator service & initializes database
+        /// </summary>
         public SimServiceProxy()
         {
             var serviceFactory = new DuplexChannelFactory<ISimService>(this,
@@ -42,6 +48,12 @@ namespace CT.UI.Proxy
             flightsTimers = new Dictionary<FlightDTO, Timer>();
         }
 
+        /// <summary>
+        /// Updates the proxy's hash of current flights & their timers
+        /// </summary>
+        /// <param name="flight">the current flight</param>
+        /// <param name="toRemove">KeyValuePair to remove</param>
+        /// <param name="toAdd">KeyValuePair to add</param>
         public void UpdateflightsTimersHash(FlightDTO flight, KeyValuePair<FlightDTO, Timer> toRemove, KeyValuePair<FlightDTO, Timer> toAdd)
         {
             if (flight != null)
@@ -73,22 +85,27 @@ namespace CT.UI.Proxy
         {
             return simService.CreateFlightObject(req);
         }
+
         public ResponseFlightPosition GetFlightPosition(RequestFlightPosition req)
         {
             return simService.GetFlightPosition(req);
         }
+
         public ResponseCheckpointDuration GetCheckpointDuration(RequestCheckpointDuration req)
         {
             return simService.GetCheckpointDuration(req);
         }
+
         public FlightDTO GetFlight(int flightSerial)
         {
             return simService.GetFlight(flightSerial);
         }
+
         public ResponseDisposeFlight DisposeFlight(RequestDisposeFlight req)
         {
             return simService.DisposeFlight(req);
         }
+
         public void InitializeDatabase()
         {
             simService.InitializeDatabase();
