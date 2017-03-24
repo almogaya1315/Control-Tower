@@ -215,6 +215,7 @@ namespace CT.UI.ViewModels
             if (resDis.IsSuccess)
             {
                 FlightInDeparted = InitializeFlightBindingObject();
+                simProxy.UpdateflightsTimersHash()
                 //airportUserControl.txtblckFlightDepart.Text = "---";
                 //airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
                 return;
