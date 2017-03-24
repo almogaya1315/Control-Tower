@@ -185,20 +185,26 @@ namespace CT.UI.ViewModels
         }
 
         /// <summary>
-        /// 
+        /// The flight's checkpoint promotion evaluation method 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="flight"></param>
+        /// <param name="sender">the proxy caller</param>
+        /// <param name="flight">the current flight object</param>
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
+            //a request is being made to the service in order to calculate the flight's next checkpoint
             RequestFlightPosition reqPosition = new RequestFlightPosition()
             {
+                //a hash of all the checkpoints flight serial
                 TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
+                //a hash of the the stand-by flight serial list
                 LstvwNameFlightsListHash = SetLstvwHash(lstvwsCheckpoints),
+                //the cuurent flight's serial
                 FlightSerial = flight.FlightSerial.ToString(),
+                //bool value for is flight boarding
                 IsBoarding = EvaluateTerminalState(flight)
             };
 
+            //during the 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
 
             KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
