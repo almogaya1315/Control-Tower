@@ -112,12 +112,13 @@ namespace CT.UI.ViewModels
             //KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
             //KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
 
+            FlightDTO flight = null;
             foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
             {
                 if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
                 {
                     simProxy.OnPromotion(fdto);
-                    //flight = simProxy.GetFlight(fdto.FlightSerial);
+                    flight = simProxy.GetFlight(fdto.FlightSerial);
                     //keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
                     //if (flight != null)
                     //    keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);
@@ -139,13 +140,14 @@ namespace CT.UI.ViewModels
             //    return;
             //}
 
-            simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
+            simProxy.flightsTimers[flight].Start();
+            //simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
         }
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
             bool isBoarding = default(bool);
 
-            if(FlightInTerminal1.FlightSerial == flight.FlightSerial)
+            if (FlightInTerminal1.FlightSerial == flight.FlightSerial)
             {
                 if (Terminal1State == $"{TerminalState.Unloading}...") isBoarding = false;
                 else if (Terminal1State == $"...{TerminalState.Boarding}") isBoarding = true;
@@ -165,6 +167,7 @@ namespace CT.UI.ViewModels
             };
 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
+
             KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
             FlightDTO previousFlightObject = flight; // object with values in 'FlightSerial' property only
             flight = simProxy.GetFlight(flight.FlightSerial);
@@ -175,7 +178,7 @@ namespace CT.UI.ViewModels
             {
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
                 {
-                    double duration = flight.Checkpoint.Duration; 
+                    double duration = flight.Checkpoint.Duration;
                     simProxy.flightsTimers[flight].Interval = duration;
                 }
                 else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
@@ -200,9 +203,8 @@ namespace CT.UI.ViewModels
                     {
                         simProxy.OnDispose(flight.FlightSerial);
                         KeyValuePair<FlightDTO, Timer> keyToDispose = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
-                        KeyValuePair<FlightDTO, Timer> controlKey = new KeyValuePair<FlightDTO, Timer>();
-                        simProxy.UpdateflightsTimersHash(null, keyToDispose, controlKey);
-                            }
+                        simProxy.UpdateflightsTimersHash(null, keyToDispose, new KeyValuePair<FlightDTO, Timer>());
+                    }
                     return;
                 }
                 if (isFound == false)
@@ -219,7 +221,7 @@ namespace CT.UI.ViewModels
             if (resDis.IsSuccess)
             {
                 FlightInDeparted = InitializeFlightBindingObject();
-                
+
                 //airportUserControl.txtblckFlightDepart.Text = "---";
                 //airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
                 return;
@@ -313,7 +315,7 @@ namespace CT.UI.ViewModels
                     }
                 }
             });
-            
+
             return lstvwNameFlightsListHash;
         }
         #endregion
