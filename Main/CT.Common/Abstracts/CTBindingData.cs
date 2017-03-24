@@ -171,6 +171,7 @@ namespace CT.Common.Abstracts
                     {
                         FlightsInStandbyForUnloading.Remove(flight.FlightSerial.ToString());
                     });
+                    Terminal1State = $"{TerminalState.Unloading}...";
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
                     break;
                 case 62:
@@ -179,6 +180,7 @@ namespace CT.Common.Abstracts
                     {
                         FlightsInStandbyForUnloading.Remove(flight.FlightSerial.ToString());
                     });
+                    Terminal2State = $"{TerminalState.Unloading}...";
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     break;
                 //case 6:
