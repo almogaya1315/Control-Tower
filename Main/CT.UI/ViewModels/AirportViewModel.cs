@@ -274,40 +274,35 @@ namespace CT.UI.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// The simproxy flight object dispose event mothed
+        /// </summary>
+        /// <param name="sender">the sender object</param>
+        /// <param name="flightSerial">the flight serial to dispose</param>
         void SimProxy_OnDisposeEvent(object sender, int flightSerial)
         {
+            //a request is made to service to delete flight from DB
             RequestDisposeFlight reqDis = new RequestDisposeFlight() { FlightSerial = flightSerial };
             ResponseDisposeFlight resDis = simProxy.DisposeFlight(reqDis);
             if (resDis.IsSuccess)
             {
+                //last checkpoint binding data cleared
                 FlightInDeparted = InitializeFlightBindingObject();
-
-                //airportUserControl.txtblckFlightDepart.Text = "---";
-                //airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
                 return;
             }
             else throw new Exception("[UI] Service was unable to dispose the flight.");
         }
         #endregion
 
-        #region public commands
-        public ICommand AddFlightCommand { get; set; }
-
-        public void AddFlight()
-        {
-
-        }
-        #endregion
-
         #region private methods
+        /// <summary>
+        /// Finds all checkpoints TextBlock controls
+        /// </summary>
+        /// <param name="txtblckCheckpoints">the view model's list</param>
+        /// <returns>the initialized list</returns>
         ICollection<TextBlock> InitializeTxtblckCheckpoints(ICollection<TextBlock> txtblckCheckpoints) //UIElementCollection children, 
         {
-            //foreach (UIElement element in children)
-            //    if (element.GetType() != typeof(TextBlock))
-            //        if ((element as TextBlock).Name.Contains("txtblckFlight"))
-            //            txtblckCheckpoints.Add(element as TextBlock);
-            //return txtblckCheckpoints;
-
             return txtblckCheckpoints = new List<TextBlock>()
             {
                 airportUserControl.txtblckFlightArr1, airportUserControl.txtblckFlightArr2, airportUserControl.txtblckFlightArr3,
@@ -315,27 +310,27 @@ namespace CT.UI.ViewModels
                 airportUserControl.txtblckFlightTerminal2, airportUserControl.txtblckFlightDepart
             };
         }
+
+        /// <summary>
+        /// Finds all checkpoints ListView controls
+        /// </summary>
+        /// <param name="lstvwsCheckpoints">the view model's list</param>
+        /// <returns>the initialized list</returns>
         ICollection<ListView> InitializeLstvwsCheckpoints(ICollection<ListView> lstvwsCheckpoints) //UIElementCollection children,
         {
-            //foreach (UIElement element in children)
-            //    if (element is ListView)
-            //        if ((element as ListView).Name.Contains("lstvwPark"))
-            //            lstvwsCheckpoints.Add(element as ListView);
-            //return lstvwsCheckpoints;
-
             return lstvwsCheckpoints = new List<ListView>()
             {
                 airportUserControl.lstvwParkUnload, airportUserControl.lstvwParkDepart
             };
         }
+
+        /// <summary>
+        /// Finds all Image controls
+        /// </summary>
+        /// <param name="imgPlanes">the view model's list</param>
+        /// <returns>the initialized list</returns>
         ICollection<Image> InitializeImgPlanes(ICollection<Image> imgPlanes) //UIElementCollection children, 
         {
-            //foreach (UIElement element in children)
-            //    if (element is Image)
-            //        if ((element as Image).Name.Contains("imgPlane"))
-            //            imgPlanes.Add(element as Image);
-            //return imgPlanes;
-
             return imgPlanes = new List<Image>()
             {
                 airportUserControl.imgPlaneArr1, airportUserControl.imgPlaneArr2, airportUserControl.imgPlaneArr3,
@@ -344,6 +339,11 @@ namespace CT.UI.ViewModels
             };
         }
 
+        /// <summary>
+        /// Sets the checkpoint's flight serial data per promotion
+        /// </summary>
+        /// <param name="txtblckCheckpoints">the view model's initialized list</param>
+        /// <returns>hash of TextBlock name property & flight serial property</returns>
         Dictionary<string, string> SetTxtblckHash(ICollection<TextBlock> txtblckCheckpoints)
         {
             Dictionary<string, string> txtblckNameFlightNumberHash = new Dictionary<string, string>();
@@ -354,6 +354,12 @@ namespace CT.UI.ViewModels
             });
             return txtblckNameFlightNumberHash;
         }
+
+        /// <summary>
+        /// Sets the stand-by checkpoint's flight serial list data per promotion
+        /// </summary>
+        /// <param name="lstvwsCheckpoints">the view model's initialized list</param>
+        /// <returns>hash of ListView name property & list of flight serial property</returns>
         Dictionary<string, string[]> SetLstvwHash(ICollection<ListView> lstvwsCheckpoints)
         {
             Dictionary<string, string[]> lstvwNameFlightsListHash = new Dictionary<string, string[]>();
