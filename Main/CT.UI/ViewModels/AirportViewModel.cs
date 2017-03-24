@@ -69,13 +69,13 @@ namespace CT.UI.ViewModels
             {
                 Timer arrivalTimer = new Timer(resInitSim.TimerInterval);
                 arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
-                arrivalTimer.Start();
-                //CreateFlight_ArrivalTimerElapsed(null, null);
+                //arrivalTimer.Start();
+                CreateFlight_ArrivalTimerElapsed(null, null);
             }
         }
         void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (sender is Timer) (sender as Timer).Stop();
+            //if (sender is Timer) (sender as Timer).Stop();
 
             ResponseFlightObject resFlight = null;
             try
@@ -99,20 +99,20 @@ namespace CT.UI.ViewModels
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
 
                 simProxy.flightsTimers[resFlight.Flight].Start();
+                //PromotionTimer_Elapsed(simProxy.flightsTimers.Values.FirstOrDefault(), null);
             }
             else throw new Exception("No success retrieving flight response.");
 
-            (sender as Timer).Start();
+            //(sender as Timer).Start();
         }
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Stop();
 
-            //FlightDTO flight = null;
+            FlightDTO flight = null;
             //KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
             //KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
 
-            FlightDTO flight = null;
             foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
             {
                 if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
@@ -140,7 +140,8 @@ namespace CT.UI.ViewModels
             //    return;
             //}
 
-            simProxy.flightsTimers[flight].Start();
+            if (flight != null)
+                simProxy.flightsTimers.FirstOrDefault(pair => pair.Key.FlightSerial == flight.FlightSerial).Value.Start();
             //simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
         }
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)

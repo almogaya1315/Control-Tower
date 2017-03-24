@@ -198,10 +198,12 @@ namespace CT.Common.Abstracts
                 //    }
                 //    break;
                 case 71:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
                     Terminal1State = $"...{TerminalState.Boarding}";
                     break;
                 case 72:
+                    flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     Terminal2State = $"...{TerminalState.Boarding}";
                     break;
