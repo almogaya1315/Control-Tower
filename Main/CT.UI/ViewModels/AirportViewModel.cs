@@ -204,50 +204,71 @@ namespace CT.UI.ViewModels
                 IsBoarding = EvaluateTerminalState(flight)
             };
 
-            //during the 
+            //the service retrieves all the data for the flight's next checkpoint & updates database
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);
 
+            /**simproxy flight_timer hash update**/
+            //values to remove from the simproxy flight_timer hash
             KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
-            FlightDTO previousFlightObject = flight; // object with values in 'FlightSerial' property only
+            //flight object with values in 'FlightSerial' property only
+            FlightDTO previousFlightObject = flight; 
+            //flight object with full properties 
             flight = simProxy.GetFlight(flight.FlightSerial);
+            //values to replace the current flight_timer values in the simproxy hash
             KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[previousFlightObject]);
             simProxy.UpdateflightsTimersHash(flight, keyToRemove, keyToAdd);
 
             if (resPosition.IsSuccess)
             {
+                /**current flight's timer's interval set to next checkpoint's duration**/
+                //if the next checkpoint in not to land or depart, 
                 if (flight.Checkpoint != null && resPosition.NextCheckpointName != "Departed!")
                 {
+                    //set timer's interval to updated flight's checkpoint's duration
                     double duration = flight.Checkpoint.Duration;
                     simProxy.flightsTimers[flight].Interval = duration;
                 }
+                //if the next checkpoint serial & type has values,
                 else if (resPosition.CheckpointSerial != -1 && resPosition.CheckpointType != null)
                 {
+                    //request is made to service to retrieve the next checkpoint object 
                     RequestCheckpointDuration reqDur = new RequestCheckpointDuration()
                     { CheckpointSerial = resPosition.CheckpointSerial.ToString() };
                     ResponseCheckpointDuration resDur = simProxy.GetCheckpointDuration(reqDur);
+                    //and set timer's interval to next checkpoint duration
                     if (resDur.IsSuccess)
                     { simProxy.flightsTimers[flight].Interval = resDur.CheckpointDuration; }
                 }
 
+                /**binding data update**/
+                //if the last flight's position was in terminal 
                 if (resPosition.LastCheckpointPosition == "txtblckFlightTerminal1" || resPosition.LastCheckpointPosition == "txtblckFlightTerminal2")
                 {
+                    //update the binding data by next checkpoint serial
                     SwitchOnCheckpointSerial(airportUserControl.Dispatcher, resPosition.CheckpointSerial, resPosition.CheckpointType,
                         resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
                     return;
                 }
+                //update binding data by next checkpoint's textblock or listview name property
                 bool? isFound = SwitchOnNextCheckpointName(airportUserControl.Dispatcher, resPosition.NextCheckpointName, flight);
+                //if last switch returns null, 
                 if (isFound == null)
                 {
+                    //check if the flight's next checkpoint is to cercle around or depart
                     if (resPosition.NextCheckpointName == "Departed!" || resPosition.NextCheckpointName == "No access to field!")
                     {
+                        //dispose flight
                         simProxy.OnDispose(flight.FlightSerial);
                         KeyValuePair<FlightDTO, Timer> keyToDispose = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
+                        //dispose timer
                         simProxy.UpdateflightsTimersHash(null, keyToDispose, new KeyValuePair<FlightDTO, Timer>());
                     }
                     return;
                 }
+                //if the last switch returns false,
                 if (isFound == false)
                 {
+                    //update the binding data by next checkpoint serial for all other checkpoints
                     SwitchOnCheckpointSerial(airportUserControl.Dispatcher, resPosition.CheckpointSerial, resPosition.CheckpointType,
                         resPosition.NextCheckpointName, resPosition.LastCheckpointPosition, flight);
                 }
