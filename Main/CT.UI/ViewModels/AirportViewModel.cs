@@ -156,70 +156,47 @@ namespace CT.UI.ViewModels
         }
 
         /// <summary>
-        /// 
+        /// the current flight's promotion timer event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">the timer caller</param>
+        /// <param name="e">the event arguments of the event</param>
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            //the promotion timer pauses until the current promotion evaluation finishes
             simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Stop();
 
             FlightDTO flight = null;
-            //KeyValuePair<FlightDTO, Timer> keyToRemove = new KeyValuePair<FlightDTO, Timer>();
-            //KeyValuePair<FlightDTO, Timer> keyToAdd = new KeyValuePair<FlightDTO, Timer>();
-
+            //the flight that the timer belongs to is retreived from the simproxy flight_timer
             foreach (FlightDTO fdto in simProxy.flightsTimers.Keys)
             {
+                //the sender timer's hash code is compared
                 if (simProxy.flightsTimers[fdto].GetHashCode() == sender.GetHashCode())
                 {
+                    //the proxy raises the onpromotion event
                     simProxy.OnPromotion(fdto);
+                    //all additional data is retreived to the flight object
                     flight = simProxy.GetFlight(fdto.FlightSerial);
-                    //keyToRemove = new KeyValuePair<FlightDTO, Timer>(fdto, simProxy.flightsTimers[fdto]);
-                    //if (flight != null)
-                    //    keyToAdd = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[fdto]);
                     break;
                 }
             }
-
-            //simProxy.UpdateflightsTimersHash(flight, keyToRemove, keyToAdd);
-
-            //if (flight != null)
-            //{
-            //    simProxy.flightsTimers.Remove(keyToRemove.Key);
-            //    simProxy.flightsTimers.Add(keyToAdd.Key, keyToAdd.Value);
-            //}
-            //else
-            //{
-            //    simProxy.flightsTimers[keyToRemove.Key].Dispose();
-            //    simProxy.flightsTimers.Remove(keyToRemove.Key);
-            //    return;
-            //}
-
+            //after the last checkpoint, the flight & timer are disposed, so no need to unpause the promotion timer
             if (flight != null)
                 simProxy.flightsTimers.FirstOrDefault(pair => pair.Key.FlightSerial == flight.FlightSerial).Value.Start();
-            //simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Start();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="flight"></param>
         void SimProxy_OnPromotionEvaluationEvent(object sender, FlightDTO flight)
         {
-            bool isBoarding = default(bool);
-
-            if (FlightInTerminal1.FlightSerial == flight.FlightSerial)
-            {
-                if (Terminal1State == $"{TerminalState.Unloading}...") isBoarding = false;
-                else if (Terminal1State == $"...{TerminalState.Boarding}") isBoarding = true;
-            }
-            else if (FlightInTerminal2.FlightSerial == flight.FlightSerial)
-            {
-                if (Terminal2State == $"{TerminalState.Unloading}...") isBoarding = false;
-                else if (Terminal2State == $"...{TerminalState.Boarding}") isBoarding = true;
-            }
-
             RequestFlightPosition reqPosition = new RequestFlightPosition()
             {
                 TxtblckNameFlightNumberHash = SetTxtblckHash(txtblckCheckpoints),
                 LstvwNameFlightsListHash = SetLstvwHash(lstvwsCheckpoints),
                 FlightSerial = flight.FlightSerial.ToString(),
-                IsBoarding = isBoarding
+                IsBoarding = EvaluateTerminalState(flight)
             };
 
             ResponseFlightPosition resPosition = simProxy.GetFlightPosition(reqPosition);

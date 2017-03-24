@@ -69,6 +69,21 @@ namespace CT.Common.Abstracts
                 Process = flight.Process
             };
         }
+        protected bool EvaluateTerminalState(FlightDTO flight)
+        {
+            bool isBoarding = default(bool);
+            if (FlightInTerminal1.FlightSerial == flight.FlightSerial)
+            {
+                if (Terminal1State == $"{TerminalState.Unloading}...") isBoarding = false;
+                else if (Terminal1State == $"...{TerminalState.Boarding}") isBoarding = true;
+            }
+            else if (FlightInTerminal2.FlightSerial == flight.FlightSerial)
+            {
+                if (Terminal2State == $"{TerminalState.Unloading}...") isBoarding = false;
+                else if (Terminal2State == $"...{TerminalState.Boarding}") isBoarding = true;
+            }
+            return isBoarding;
+        }
         #endregion
 
         #region switchers
