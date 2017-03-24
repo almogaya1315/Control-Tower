@@ -39,12 +39,6 @@
                 </Border>
                 <Border Margin="10,100,10,10" >
                     <TextBlock Name="txtblckFlightArr1" Text="{Binding FlightInLanding1.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Width="60" FontSize="20" TextAlignment="Center"/>
-                    <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="DataContextChanged">
-                                <i:InvokeCommandAction Command="{Binding AddFlightCommand}"></i:InvokeCommandAction>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TextBlock>-->
                 </Border>
             </Grid>
             <Grid Canvas.Right="110">
