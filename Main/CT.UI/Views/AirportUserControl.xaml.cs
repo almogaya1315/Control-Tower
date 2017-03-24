@@ -23,6 +23,9 @@ using CT.UI.Locators;
 
 namespace CT.UI.Views
 {
+    /// <summary>
+    /// The main user control with service & binding data
+    /// </summary>
     public partial class AirportUserControl : UserControl
     {
         public AirportUserControl(MainWindow core)
