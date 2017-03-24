@@ -20,22 +20,31 @@ using CT.Common.Enums;
 
 namespace CT.SVC.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class SimService : ISimService
     {
+        #region private props & ctor
         ArrivalSim arrivalSim { get; set; }
         TimingSystem timingSim { get; set; }
         IControlTowerRepository ctRepo { get; set; }
-        CallbackChannelFactory<ISimCallback> objectChannelFactory { get; set; }
 
         public SimService()
         {
             arrivalSim = new ArrivalSim();
             timingSim = new TimingSystem();
             ctRepo = new ControlTowerRepository();
-            objectChannelFactory = new CallbackChannelFactory<ISimCallback>();
         }
+        #endregion
 
+        #region requset\response methods
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public ResponseInitializeSimulator InitializeSimulator(RequestInitializeSimulator req)
         {
             double timerInterval = default(double);
@@ -55,6 +64,10 @@ namespace CT.SVC.Services
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ResponseFlightsCollection GetFlightsCollection()
         {
             ICollection<FlightDTO> flights = null;
@@ -74,6 +87,11 @@ namespace CT.SVC.Services
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public ResponseFlightObject CreateFlightObject(RequestFlightObject req)
         {
             int flightSerial = default(int);
@@ -88,8 +106,6 @@ namespace CT.SVC.Services
                 throw new Exception($"Flight serial OR Flight object could not bet created. {e.Message}");
             }
 
-            var flightCallback = objectChannelFactory.CreateChannel(OperationContext.Current, flightSerial.ToString());
-
             return new ResponseFlightObject
             {
                 Flight = flight,
@@ -97,6 +113,12 @@ namespace CT.SVC.Services
                 Message = $"Flight #{flight.FlightSerial} has been created."
             };
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public ResponseFlightPosition GetFlightPosition(RequestFlightPosition req)
         {
             string newCheckpointName = default(string);
@@ -141,6 +163,11 @@ namespace CT.SVC.Services
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public ResponseCheckpointDuration GetCheckpointDuration(RequestCheckpointDuration req)
         {
             double duration = default(double);
@@ -160,6 +187,11 @@ namespace CT.SVC.Services
             };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public ResponseDisposeFlight DisposeFlight(RequestDisposeFlight req)
         {
             bool isDisposed = ctRepo.DisposeFlight(req.FlightSerial);
@@ -173,7 +205,9 @@ namespace CT.SVC.Services
             }
             else throw new Exception("Unable to dispose flight object.");
         }
+        #endregion
 
+        #region direct methods
         public FlightDTO GetFlight(int flightSerial)
         {
             return ctRepo.GetFlightObject(flightSerial);
@@ -183,5 +217,6 @@ namespace CT.SVC.Services
         {
             ctRepo.InitializeDatabase();
         }
+        #endregion
     }
 }
