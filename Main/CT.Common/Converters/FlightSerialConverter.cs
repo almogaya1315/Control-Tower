@@ -18,7 +18,7 @@ namespace CT.Common.Converters
 
             try
             {
-                if ((int)value == -1) return 000;
+                if ((int)value == -1) return "0";
                 else return value;
             }
             catch (Exception)
