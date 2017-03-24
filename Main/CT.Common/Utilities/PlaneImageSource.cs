@@ -14,7 +14,7 @@ namespace CT.Common.Utilities
         {
             get
             {
-                return new BitmapImage(new Uri(@"E:\TFS_Code\ControlTower\Main\CT.UI\Images\planeleft.png"));
+                return new BitmapImage(new Uri(@"E:\TFS_Code\ControlTower_MVVM\Main\CT.UI\Images\planeleft.png"));
             }
         }
 
@@ -22,7 +22,7 @@ namespace CT.Common.Utilities
         {
             get
             {
-                return new BitmapImage(new Uri(@"E:\TFS_Code\ControlTower\Main\CT.UI\Images\planedown.png"));
+                return new BitmapImage(new Uri(@"E:\TFS_Code\ControlTower_MVVM\Main\CT.UI\Images\planedown.png"));
             }
         }
 
