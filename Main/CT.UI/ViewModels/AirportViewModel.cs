@@ -197,8 +197,12 @@ namespace CT.UI.ViewModels
                 if (isFound == null)
                 {
                     if (resPosition.NextCheckpointName == "Departed!" || resPosition.NextCheckpointName == "No access to field!")
+                    {
                         simProxy.OnDispose(flight.FlightSerial);
-                    
+                        KeyValuePair<FlightDTO, Timer> keyToDispose = new KeyValuePair<FlightDTO, Timer>(flight, simProxy.flightsTimers[flight]);
+                        KeyValuePair<FlightDTO, Timer> controlKey = new KeyValuePair<FlightDTO, Timer>();
+                        simProxy.UpdateflightsTimersHash(null, keyToDispose, controlKey);
+                            }
                     return;
                 }
                 if (isFound == false)
@@ -215,7 +219,7 @@ namespace CT.UI.ViewModels
             if (resDis.IsSuccess)
             {
                 FlightInDeparted = InitializeFlightBindingObject();
-                simProxy.UpdateflightsTimersHash()
+                
                 //airportUserControl.txtblckFlightDepart.Text = "---";
                 //airportUserControl.imgPlanDepart.Source = PlaneImageSource.NoPlane;
                 return;
