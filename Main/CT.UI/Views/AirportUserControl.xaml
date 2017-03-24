@@ -81,8 +81,8 @@
             <TextBlock Text="1" FontSize="30" Foreground="Red"/>
         </Border>
         <Grid Grid.Row="2" Grid.Column="1">
-            <Border Margin="10,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" HorizontalAlignment="Right">
-                <Image Source="{Binding FlightInTerminal1.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneTerminal1" Width="60" Height="53"/>
+            <Border Margin="10,10,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" Height="70" HorizontalAlignment="Right">
+                <Image Source="{Binding FlightInTerminal1.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneTerminal1" Width="60" Height="70"/>
             </Border>
             <Border Margin="10,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal1}" HorizontalAlignment="Right">
                 <TextBlock Text="{Binding FlightInTerminal1.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Name="txtblckFlightTerminal1" Width="60" FontSize="20" TextAlignment="Center" Height="49" VerticalAlignment="Bottom"/>
@@ -96,8 +96,8 @@
             <TextBlock Text="2" FontSize="30" Foreground="Red"/>
         </Border>
         <Grid Grid.Row="2" Grid.Column="3">
-            <Border Margin="40,40,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal2}" HorizontalAlignment="Left">
-                <Image Source="{Binding FlightInTerminal2.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneTerminal2" Width="60" Height="53"/>
+            <Border Margin="40,10,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal2}" Height="70" HorizontalAlignment="Left">
+                <Image Source="{Binding FlightInTerminal2.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlaneTerminal2" Width="60" Height="70"/>
             </Border>
             <Border Margin="40,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightTerminal2}" HorizontalAlignment="Left">
                 <TextBlock Text="{Binding FlightInTerminal2.FlightSerial, Mode=TwoWay, FallbackValue='---', Converter={StaticResource localSerialConverter}}" Name="txtblckFlightTerminal2" Width="60" FontSize="20" TextAlignment="Center"/>
@@ -108,7 +108,7 @@
             <TextBlock Text="Departures" FontSize="30" Foreground="Red"/>
         </Border>
         <Grid Grid.Row="1" Grid.Column="0">
-            <Border Margin="40,30,10,80" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightDepart}" Height="53">
+            <Border Margin="40,20,10,70" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightDepart}" Height="53">
                 <Image Source="{Binding FlightInDeparted.PlaneImgPath, Mode=TwoWay, FallbackValue='NoPlane', Converter={StaticResource localImageConverter}}" Name="imgPlanDepart" Width="60" Height="53"/>
             </Border>
             <Border Margin="40,100,10,10" Width="{Binding Path=ActualWidth, ElementName=txtblckFlightDepart}" HorizontalAlignment="Center">
