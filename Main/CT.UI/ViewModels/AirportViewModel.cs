@@ -22,27 +22,52 @@ using System.Windows.Threading;
 
 namespace CT.UI.ViewModels
 {
+    /// <summary>
+    /// The binding data tier for the UI, inherits from data abstract class
+    /// </summary>
     public class AirportViewModel : CTBindingData
     {
         #region private props & ctor
+        /// <summary>
+        /// The simulator service proxy for the UI
+        /// </summary>
         SimServiceProxy simProxy;
+        /// <summary>
+        /// The user control that connects to the view model
+        /// </summary>
         AirportUserControl airportUserControl;
 
+        /// <summary>
+        /// A list of the checkpoints represented by 'TextBlock' controls
+        /// </summary>
         ICollection<TextBlock> txtblckCheckpoints { get; set; }
+        /// <summary>
+        /// A list of the checkpoints represented by 'ListView' controls
+        /// </summary>
         ICollection<ListView> lstvwsCheckpoints { get; set; }
+        /// <summary>
+        /// A list of the checkpoints images controls
+        /// </summary>
         ICollection<Image> imgPlanes { get; set; }
 
+        /// <summary>
+        /// The constructor of the view model. called from the user control by a locator.
+        /// </summary>
+        /// <param name="control">the user control that calls the view model</param>
+        /// <param name="proxy">the UI service proxy</param>
         public AirportViewModel(AirportUserControl control, SimServiceProxy proxy) : base()
         {
             airportUserControl = control;
+            //the view model listens to the loaded event of the user control to start the flight object generator after load.
             airportUserControl.Loaded += airportUserControl_Loaded;
 
             simProxy = proxy;
+            //the method that runs after the control loaded event
             simProxy.OnLoadEvent += SimProxy_OnLoadEvent;
+            //the method that runs each flight object checkpoint promotion event 
             simProxy.OnPromotionEvaluationEvent += SimProxy_OnPromotionEvaluationEvent;
+            //the method that runs when a flight object leaves the airport
             simProxy.OnDisposeEvent += SimProxy_OnDisposeEvent;
-
-            AddFlightCommand = new AddFlightCommand(AddFlight);
 
             txtblckCheckpoints = InitializeTxtblckCheckpoints(txtblckCheckpoints);
             lstvwsCheckpoints = InitializeLstvwsCheckpoints(lstvwsCheckpoints);
@@ -51,8 +76,14 @@ namespace CT.UI.ViewModels
         #endregion
 
         #region ui events
+        /// <summary>
+        /// The user control loaded event method
+        /// </summary>
+        /// <param name="sender">the caller of the event</param>
+        /// <param name="e">the event arguments of the event</param>
         void airportUserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            //after the page loads successfully, the proxy starts the flow
             if (sender is UserControl)
                 simProxy.OnLoad((sender as UserControl).IsLoaded);
             else throw new Exception($"sender object is not a type of 'UserControl'.");
@@ -60,26 +91,41 @@ namespace CT.UI.ViewModels
         #endregion
 
         #region service events
+        /// <summary>
+        /// the proxy's onload event method
+        /// </summary>
+        /// <param name="sender">the caller of the event</param>
+        /// <param name="isLoaded">a bool value of the control loaded event</param>
         void SimProxy_OnLoadEvent(object sender, bool isLoaded)
         {
+            //a request is being made to the service to initalite the flights simulator
             RequestInitializeSimulator reqInitSim =
                 new RequestInitializeSimulator() { IsWindowLoaded = isLoaded };
             ResponseInitializeSimulator resInitSim = simProxy.InitializeSimulator(reqInitSim);
+            //if the simulator is initialized successfully, a timer starts with the simulator data 
             if (resInitSim.IsSuccess)
             {
+                //resInitSim.TimerInterval => simulator data
                 Timer arrivalTimer = new Timer(resInitSim.TimerInterval);
                 arrivalTimer.Elapsed += CreateFlight_ArrivalTimerElapsed;
                 arrivalTimer.Start();
-                //CreateFlight_ArrivalTimerElapsed(null, null);
             }
         }
+
+        /// <summary>
+        /// the simulator timer's elapsed event
+        /// </summary>
+        /// <param name="sender">the timer caller</param>
+        /// <param name="e">the event arguments of the event</param>
         void CreateFlight_ArrivalTimerElapsed(object sender, ElapsedEventArgs e)
         {
+            //the timer pauses until the current flight is created fully
             if (sender is Timer) (sender as Timer).Stop();
 
             ResponseFlightObject resFlight = null;
             try
             {
+                //a request is being made to the service to create a flight objest
                 RequestFlightObject reqFlight = new RequestFlightObject()
                 {
                     CurrentFlights = simProxy.GetFlightsCollection().Flights
@@ -91,20 +137,29 @@ namespace CT.UI.ViewModels
                 throw new Exception($"Could not retrieve collection OR create flight object. {ex.Message}");
             }
 
+            //if the fligts has been created successfully
             if (resFlight.IsSuccess)
             {
+                //the first interval is retreived by the proxy from the first checkpoint
                 double initialDuration = simProxy.GetCheckpointDuration(new RequestCheckpointDuration()
                 { CheckpointSerial = "1", CheckpointType = CheckpointType.Landing.ToString() }).CheckpointDuration;
+                //the current flight & a new timer, for checkpoint promotion, are being saved into the simproxy hash 
                 simProxy.flightsTimers[resFlight.Flight] = new Timer(initialDuration);
                 simProxy.flightsTimers[resFlight.Flight].Elapsed += PromotionTimer_Elapsed;
 
                 simProxy.flightsTimers[resFlight.Flight].Start();
-                //PromotionTimer_Elapsed(simProxy.flightsTimers.Values.FirstOrDefault(), null);
             }
             else throw new Exception("No success retrieving flight response.");
 
+            //the object creation timer unpauses
             (sender as Timer).Start();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void PromotionTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             simProxy.flightsTimers.Values.FirstOrDefault(t => t == sender as Timer).Stop();

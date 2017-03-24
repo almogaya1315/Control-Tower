@@ -16,6 +16,9 @@ using System.Timers;
 
 namespace CT.UI.Views
 {
+    /// <summary>
+    /// The core window of the application
+    /// </summary>
     public partial class MainWindow : Window
     {
         AirportUserControl airportUserControl { get; set; }
