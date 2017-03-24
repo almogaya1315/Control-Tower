@@ -13,6 +13,7 @@ namespace CT.UI.Proxy
 {
     public class SimServiceProxy : ISimService, ISimServiceCallback
     {
+        #region proxy data
         ISimService simService { get; set; }
 
         public Dictionary<FlightDTO, Timer> flightsTimers { get; set; }
@@ -39,14 +40,23 @@ namespace CT.UI.Proxy
             }
 
             flightsTimers = new Dictionary<FlightDTO, Timer>();
-
-            (simService as IContextChannel).OperationTimeout = new TimeSpan(0, 10, 0);
-
-            //simService = new SimServiceClient(
-            //             new InstanceContext(typeof(SimServiceProxy)),
-            //             new WSDualHttpBinding(),
-            //             new EndpointAddress("http://localhost:4767/Services/SimService.svc"));
         }
+
+        public void UpdateflightsTimersHash(FlightDTO flight, KeyValuePair<FlightDTO, Timer> toRemove, KeyValuePair<FlightDTO, Timer> toAdd)
+        {
+            if (flight != null)
+            {
+                flightsTimers.Remove(toRemove.Key);
+                flightsTimers.Add(toAdd.Key, toAdd.Value);
+            }
+            else
+            {
+                flightsTimers[toRemove.Key].Dispose();
+                flightsTimers.Remove(toRemove.Key);
+                return;
+            }
+        }
+        #endregion
 
         #region service methods
         public ResponseInitializeSimulator InitializeSimulator(RequestInitializeSimulator req)
@@ -102,20 +112,5 @@ namespace CT.UI.Proxy
             OnDisposeEvent?.Invoke(this, flightSerial);
         }
         #endregion
-
-        public void UpdateflightsTimersHash(FlightDTO flight, KeyValuePair<FlightDTO, Timer> toRemove, KeyValuePair<FlightDTO, Timer> toAdd)
-        {
-            if (flight != null)
-            {
-                flightsTimers.Remove(toRemove.Key);
-                flightsTimers.Add(toAdd.Key, toAdd.Value);
-            }
-            else
-            {
-                flightsTimers[toRemove.Key].Dispose();
-                flightsTimers.Remove(toRemove.Key);
-                return;
-            }
-        }
     }
 }
