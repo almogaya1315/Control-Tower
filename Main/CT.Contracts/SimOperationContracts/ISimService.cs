@@ -9,6 +9,10 @@ using System.Text;
 
 namespace CT.Contracts.SimOperationContracts
 {
+    /// <summary>
+    /// The simulator service interface implemented by the service class & the UI's proxy.
+    /// </summary>
+    /// Contract annotation is the callback service interface
     [ServiceContract(CallbackContract = (typeof(ISimCallback)))]
     public interface ISimService
     {
