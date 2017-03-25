@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CT.Common.Extensions
 {
+    /// <summary>
+    /// Extension for the IEnumerable<T> object to enbale Observable bindings object
+    /// </summary>
     public static class ListExtension
     {
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> collection)
