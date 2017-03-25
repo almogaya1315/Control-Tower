@@ -12,6 +12,9 @@ using System.Windows.Threading;
 
 namespace CT.Common.Abstracts
 {
+    /// <summary>
+    /// An abstract class that holds all bindings data for the CT app view model
+    /// </summary>
     public abstract class CTBindingData : INotifyPropertyChanged
     {
         #region interface data
@@ -45,6 +48,10 @@ namespace CT.Common.Abstracts
         #endregion
 
         #region protected methods
+        /// <summary>
+        /// Creates a flight model with defualt values
+        /// </summary>
+        /// <returns>the initialized flight model</returns>
         protected FlightDTO InitializeFlightBindingObject()
         {
             return new FlightDTO()
@@ -57,6 +64,12 @@ namespace CT.Common.Abstracts
                 Process = null
             };
         }
+
+        /// <summary>
+        /// Creates a flight model by a specific model
+        /// </summary>
+        /// <param name="flight">the source model</param>
+        /// <returns>the initialized model</returns>
         protected FlightDTO InitializeFlightBindingObject(FlightDTO flight)
         {
             return new FlightDTO()
@@ -69,6 +82,12 @@ namespace CT.Common.Abstracts
                 Process = flight.Process
             };
         }
+
+        /// <summary>
+        /// Determines the terminal checkpoints's state
+        /// </summary>
+        /// <param name="flight">the current flight in check</param>
+        /// <returns>the terminal state represented in bool value</returns>
         protected bool EvaluateTerminalState(FlightDTO flight)
         {
             bool isBoarding = default(bool);
