@@ -21,7 +21,7 @@ using CT.Common.Enums;
 namespace CT.SVC.Services
 {
     /// <summary>
-    /// 
+    /// The simulator service class [single automatic instance, parallel threads]
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class SimService : ISimService
@@ -41,15 +41,16 @@ namespace CT.SVC.Services
 
         #region requset\response methods
         /// <summary>
-        /// 
+        /// The flight creation interval & serial simualtor class initialization request method
         /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">the request from the user side</param>
+        /// <returns>the response to the user side</returns>
         public ResponseInitializeSimulator InitializeSimulator(RequestInitializeSimulator req)
         {
             double timerInterval = default(double);
             try
             {
+                //retrieves a global timer fixed value
                 timerInterval = arrivalSim.ArrivalTimer.Interval;
             }
             catch (Exception e)
@@ -65,14 +66,15 @@ namespace CT.SVC.Services
         }
 
         /// <summary>
-        /// 
+        /// The list of current flight in DB request method
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the response to the user side</returns>
         public ResponseFlightsCollection GetFlightsCollection()
         {
             ICollection<FlightDTO> flights = null;
             try
             {
+                //retrieves the list from the repository
                 flights = ctRepo.GetFlightsCollection();
             }
             catch (Exception e)
@@ -88,17 +90,20 @@ namespace CT.SVC.Services
         }
 
         /// <summary>
-        /// 
+        /// The flight object creation request method
         /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">the request from the user side</param>
+        /// <returns>the response to the user side</returns>
         public ResponseFlightObject CreateFlightObject(RequestFlightObject req)
         {
             int flightSerial = default(int);
             FlightDTO flight = null;
             try
             {
+                //gets a random serial
                 flightSerial = arrivalSim.CreateFlightSerial();
+                //creates a flight object in DB with a serial property only.
+                //flight 'isAlive' prperty set to false
                 flight = ctRepo.CreateFlightObject(flightSerial);
             }
             catch (Exception e)
@@ -115,39 +120,55 @@ namespace CT.SVC.Services
         }
 
         /// <summary>
-        /// 
+        /// The current flight promotion evaluation method
         /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">the request from the user side</param>
+        /// <returns>the response to the user side</returns>
         public ResponseFlightPosition GetFlightPosition(RequestFlightPosition req)
         {
+            //the next checkpoint's control name
             string newCheckpointName = default(string);
+            //the current flight's checkpoint's control name
             string lastCheckpointPosition = default(string);
+            //the next checkpoint's serial
             int newCheckpointSerial = default(int);
+            //the current checkpoint's serial
             int lastCheckpointSerial = default(int);
             FlightDTO flight = null;
             try
             {
+                //get the flight object from DB by serial
                 flight = ctRepo.GetFlightObject(int.Parse(req.FlightSerial));
                 if (flight == null) throw new Exception("Flight serial was not found.");
+                //retrieves the current flight's serial & checkpoint's control name from DB
                 lastCheckpointPosition = ctRepo.GetFlightCheckpoint(req.TxtblckNameFlightNumberHash, req.LstvwNameFlightsListHash,
                     req.FlightSerial, req.IsBoarding, out lastCheckpointSerial);
+                //the simulator class calulates the next checkpoint's serial & control name 
                 newCheckpointName = timingSim.GetFlightPosition(req.TxtblckNameFlightNumberHash, req.LstvwNameFlightsListHash, flight, req.IsBoarding, out newCheckpointSerial);
             }
             catch (Exception e)
             {
                 throw new Exception($"Flight #{req.FlightSerial} new position was not computed. {e.Message}");
             }
+            //the next checkpoint's type enum
             string checkpointType = default(string);
+            //if the next checkpoint is outside the airport, no DB update accurs in this method (will accure later by the dispose request)
             if (newCheckpointName == "Departed!") { }
+            //if the last checkpoint is a terminal
             else if (lastCheckpointPosition == "txtblckFlightTerminal1" || lastCheckpointPosition == "txtblckFlightTerminal2")
             {
+                //the next checkpoint is the current position
                 newCheckpointName = lastCheckpointPosition;
+                //updates checkpoint entities in DB with the new checkpoint credencials only, retrieves the checkpoint's type enum
                 checkpointType = ctRepo.UpdateCheckpoints(newCheckpointSerial, newCheckpointName, lastCheckpointSerial, flight);
+                //updates the flight entity in DB with the new & last checkpoint's serial, 
+                //indicates if the flight is starting the landing process
                 ctRepo.UpdateFlightObject(flight, newCheckpointSerial, lastCheckpointSerial, false);
             }
+            //if the new checkpoint holds one of the following actions
             else if (newCheckpointName != "Stay in checkpoint!" && newCheckpointName != "No access to field!")
             {
+                //updates 
                 checkpointType = ctRepo.UpdateCheckpoints(newCheckpointSerial, lastCheckpointPosition, lastCheckpointSerial, flight);
                 if (lastCheckpointPosition != "none")
                     ctRepo.UpdateFlightObject(flight, newCheckpointSerial, lastCheckpointSerial, false);
