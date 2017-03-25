@@ -106,108 +106,116 @@ namespace CT.Common.Abstracts
         #endregion
 
         #region switchers
+        /// <summary>
+        /// The method that updates the binding objects of the UI by the checkpoint's control name retrieved from the timing system
+        /// </summary>
+        /// <param name="dispatcher">the UI's user control's thread dispatcher</param>
+        /// <param name="nextCheckpointName">the next checkpoint's control name</param>
+        /// <param name="flight">the current flight passing between checkpoints</param>
+        /// <returns></returns>
         public bool? SwitchOnNextCheckpointName(Dispatcher dispatcher, string nextCheckpointName, FlightDTO flight)
         {
             bool? isFound = default(bool);
             switch (nextCheckpointName)
             {
+                //if the next checkpoint is the standbyForUbloading
                 case "lstvwParkUnload":
+                    //no need for plane image
                     flight.PlaneImgPath = PlaneImageSource.NoPlane.ToString();
                     dispatcher.Invoke(() =>
                     {
+                        //add the current flight to the standby list
                         FlightsInStandbyForUnloading.Add(flight.FlightSerial.ToString());
                     });
+                    //resets the last checkpoint's flight binding to default
                     FlightInRunway = InitializeFlightBindingObject();
-                    //lstvwParkUnload.Items.Add(flight.FlightSerial.ToString());
-                    //txtblckFlightRunway.Text = "---";
-                    //imgPlaneRunway.Source = PlaneImageSource.NoPlane;
                     return isFound = true;
+                //if the next checkpoint is the last checkpoint
                 case "txtblckFlightDepart":
+                    //set the plane image accordingly
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
+                    //resets the current checkpoint's flight binding by the cuurent flight
                     FlightInDeparted = InitializeFlightBindingObject(flight);
+                    //resets the last checkpoint's flight binding to default
                     FlightInRunway = InitializeFlightBindingObject();
-                    //txtblckFlightDepart.Text = flight.FlightSerial.ToString();
-                    //imgPlanDepart.Source = PlaneImageSource.PlaneLeft;
-                    //txtblckFlightRunway.Text = "---";
-                    //imgPlaneRunway.Source = PlaneImageSource.NoPlane;
                     return isFound = true;
+                //if the following actions are specified, the method returns null bool, handled by view model 
                 case "Stay in checkpoint!":
                     return isFound = null;
                 case "Departed!":
-                    //SimProxy.OnDispose(flight.FlightSerial);
                     return isFound = null;
                 case "No access to field!":
-                    //SimProxy.OnDispose(flight.FlightSerial);
                     return isFound = null;
             }
+            //if the next checkpoint is non of the above, the binding updates are handled in next switch
             return isFound = false;
         }
+
+        /// <summary>
+        /// The method that updates the binding objects of the UI by the checkpoint's serial retrieved from the timing system
+        /// </summary>
+        /// <param name="dispatcher">the UI's user control's thread dispatcher</param>
+        /// <param name="checkpointSerial">the next checkpoint's serial</param>
+        /// <param name="checkpointType">the next checkpoint's type</param>
+        /// <param name="nextCheckpointName">the next checkpoint's control name</param>
+        /// <param name="lastCheckpointPosition">the previous checkpoint's control name</param>
+        /// <param name="flight">the current flight passing between checkpoints</param>
         public void SwitchOnCheckpointSerial(Dispatcher dispatcher, int checkpointSerial, string checkpointType,
             string nextCheckpointName, string lastCheckpointPosition, FlightDTO flight)
         {
             switch (checkpointSerial)
             {
+                //for the first checkpoint
                 case 1:
+                    //set the plane image accordingly
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
+                    //resets the current checkpoint's flight binding by the cuurent flight
                     FlightInLanding1 = InitializeFlightBindingObject(flight);
-                    //imgPlaneArr1.Source = PlaneImageSource.PlaneLeft;
-                    //txtblckFlightArr1.Text = flight.FlightSerial.ToString();
                     break;
+                //for the second checkpoint
                 case 2:
+                    //set the plane image accordingly
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
+                    //resets the last checkpoint's flight binding to default
                     FlightInLanding1 = InitializeFlightBindingObject();
+                    //resets the current checkpoint's flight binding by the cuurent flight
                     FlightInLanding2 = InitializeFlightBindingObject(flight);
-                    //imgPlaneArr1.Source = PlaneImageSource.NoPlane;
-                    //txtblckFlightArr1.Text = "---";
-                    //imgPlaneArr2.Source = PlaneImageSource.PlaneLeft;
-                    //txtblckFlightArr2.Text = flight.FlightSerial.ToString();
                     break;
+                //for the third checkpoint, same as case above
                 case 3:
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding2 = InitializeFlightBindingObject();
                     FlightInLanding3 = InitializeFlightBindingObject(flight);
-                    //imgPlaneArr2.Source = PlaneImageSource.NoPlane;
-                    //txtblckFlightArr2.Text = "---";
-                    //imgPlaneArr3.Source = PlaneImageSource.PlaneLeft;
-                    //txtblckFlightArr3.Text = flight.FlightSerial.ToString();
                     break;
+                //for the fourth checkpoint, same as case above
                 case 41:
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     FlightInLanding3 = InitializeFlightBindingObject();
                     FlightInRunway = InitializeFlightBindingObject(flight);
                     break;
+                //for the nineth checkpoint
                 case 42:
                     flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                     dispatcher.Invoke(() =>
                     {
+                        //removes the current binding flight object from the boarding standby list
                         FlightsInStandbyForBoarding.Remove(flight.FlightSerial.ToString());
                     });
                     FlightInRunway = InitializeFlightBindingObject(flight);
                     break;
-                //case 4:
-                //    if (checkpointType == "RunwayLanded")
-                //    {
-                //        imgPlaneArr3.Source = PlaneImageSource.NoPlane;
-                //        txtblckFlightArr3.Text = "---";
-                //        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
-                //        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
-                //    }
-                //    else if (checkpointType == "RunwayDeparting")
-                //    {
-                //        lstvwParkDepart.Items.Remove(flight.FlightSerial.ToString());
-                //        imgPlaneRunway.Source = PlaneImageSource.PlaneLeft;
-                //        txtblckFlightRunway.Text = flight.FlightSerial.ToString();
-                //    }
-                //    break;
+                //for the sixth checkpoint (fifth checkpoint handled in previous switch)
                 case 61:
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     dispatcher.Invoke(() =>
                     {
+                        //removes the current binding flight object from the unloading standby list
                         FlightsInStandbyForUnloading.Remove(flight.FlightSerial.ToString());
                     });
+                    //sets the UI's terminal state accordingly
                     Terminal1State = $"{TerminalState.Unloading}...";
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
                     break;
+                //same as case above
                 case 62:
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     dispatcher.Invoke(() =>
@@ -217,53 +225,39 @@ namespace CT.Common.Abstracts
                     Terminal2State = $"{TerminalState.Unloading}...";
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     break;
-                //case 6:
-                //    if (nextCheckpointName == "FlightTerminal1")
-                //    {
-                //        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
-                //        txtblckFlightTerminal1.Text = flight.FlightSerial.ToString();
-                //        imgPlaneTerminal1.Source = PlaneImageSource.PlaneDown;
-                //        txtblckTerminal1Message.Text = "Unloading...";
-                //    }
-                //    if (nextCheckpointName == "FlightTerminal2")
-                //    {
-                //        lstvwParkUnload.Items.Remove(flight.FlightSerial.ToString());
-                //        txtblckFlightTerminal2.Text = flight.FlightSerial.ToString();
-                //        imgPlaneTerminal2.Source = PlaneImageSource.PlaneDown;
-                //        txtblckTerminal2Message.Text = "Unloading...";
-                //    }
-                //    break;
+                //for the seventh checkpoint
                 case 71:
+                    //set the plane image accordingly
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
+                    //resets the current checkpoint's flight binding by the cuurent flight
                     FlightInTerminal1 = InitializeFlightBindingObject(flight);
+                    //sets the UI's terminal state accordingly
                     Terminal1State = $"...{TerminalState.Boarding}";
                     break;
+                //same as case above
                 case 72:
                     flight.PlaneImgPath = PlaneImageSource.PlaneDown.ToString();
                     FlightInTerminal2 = InitializeFlightBindingObject(flight);
                     Terminal2State = $"...{TerminalState.Boarding}";
                     break;
-                //case 7:
-                //    if (nextCheckpointName == "txtblckFlightTerminal1")
-                //        txtblckTerminal1Message.Text = "...Boarding";
-                //    if (nextCheckpointName == "txtblckFlightTerminal2")
-                //        txtblckTerminal2Message.Text = "...Boarding";
-                //    break;
+                //for eighth checkpoint
                 case 8:
+                    //tedermines the terminal the flight left
                     if (lastCheckpointPosition == "txtblckFlightTerminal1")
                     {
+                        //resets the last checkpoint's flight binding to default
                         FlightInTerminal1 = InitializeFlightBindingObject();
+                        //sets the UI's terminal state accordingly
                         Terminal1State = TerminalState.Idil.ToString();
+                        //set the plane image accordingly
                         flight.PlaneImgPath = PlaneImageSource.PlaneLeft.ToString();
                         dispatcher.Invoke(() =>
                         {
+                            //adds the current binding flight object to the boarding standby list
                             FlightsInStandbyForBoarding.Add(flight.FlightSerial.ToString());
                         });
-                        //txtblckFlightTerminal1.Text = "---";
-                        //imgPlaneTerminal1.Source = PlaneImageSource.NoPlane;
-                        //txtblckTerminal1Message.Text = string.Empty;
-                        //lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
                     }
+                    //same as above 'if' performed on terminal 2
                     if (lastCheckpointPosition == "txtblckFlightTerminal2")
                     {
                         FlightInTerminal2 = InitializeFlightBindingObject();
@@ -273,10 +267,6 @@ namespace CT.Common.Abstracts
                         {
                             FlightsInStandbyForBoarding.Add(flight.FlightSerial.ToString());
                         });
-                        //txtblckFlightTerminal2.Text = "---";
-                        //imgPlaneTerminal2.Source = PlaneImageSource.NoPlane;
-                        //txtblckTerminal2Message.Text = string.Empty;
-                        //lstvwParkDepart.Items.Add(flight.FlightSerial.ToString());
                     }
                     break;
             }
