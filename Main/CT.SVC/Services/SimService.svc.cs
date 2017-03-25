@@ -165,14 +165,18 @@ namespace CT.SVC.Services
                 //indicates if the flight is starting the landing process
                 ctRepo.UpdateFlightObject(flight, newCheckpointSerial, lastCheckpointSerial, false);
             }
-            //if the new checkpoint holds one of the following actions
+            //if the new checkpoint doesn't holds one of the following actions
             else if (newCheckpointName != "Stay in checkpoint!" && newCheckpointName != "No access to field!")
             {
-                //updates 
+                //updates checkpoint entities in DB with new & last checkpoint's credencials
                 checkpointType = ctRepo.UpdateCheckpoints(newCheckpointSerial, lastCheckpointPosition, lastCheckpointSerial, flight);
+                //if the last checkpoint doesn't holds the following action
                 if (lastCheckpointPosition != "none")
+                    //updates the flight entity in DB 
                     ctRepo.UpdateFlightObject(flight, newCheckpointSerial, lastCheckpointSerial, false);
             }
+
+            //returns all the necessary data to the user side
             return new ResponseFlightPosition()
             {
                 IsSuccess = true,
@@ -185,16 +189,18 @@ namespace CT.SVC.Services
         }
 
         /// <summary>
-        /// 
+        /// The current flight's checkpoint's duration request method
         /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">the request from the user side</param>
+        /// <returns>the response to the user side</returns>
         public ResponseCheckpointDuration GetCheckpointDuration(RequestCheckpointDuration req)
         {
             double duration = default(double);
             try
             {
+                //if the flight' checkpoint has values
                 if (req.CheckpointSerial != "-1" || req.CheckpointType != null)
+                    //set the local value using the repository 
                     duration = ctRepo.GetCheckpoint(req.CheckpointSerial, req.CheckpointType).Duration;
             }
             catch (Exception e)
@@ -209,12 +215,13 @@ namespace CT.SVC.Services
         }
 
         /// <summary>
-        /// 
+        /// The current flight's dispole request method
         /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        /// <param name="req">the request from the user side</param>
+        /// <returns>the response to the user side</returns>
         public ResponseDisposeFlight DisposeFlight(RequestDisposeFlight req)
         {
+            //performs a dispose action on the flight object using the repository, returns a bool value
             bool isDisposed = ctRepo.DisposeFlight(req.FlightSerial);
             if (isDisposed)
             {
