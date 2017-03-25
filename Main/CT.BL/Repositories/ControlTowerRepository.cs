@@ -128,6 +128,13 @@ namespace CT.BL.Repositories
             else return CTDB.Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).Checkpoint.CheckpointType.ToString();
         }
 
+        /// <summary>
+        /// Updates the flight object's checkpoint
+        /// </summary>
+        /// <param name="flight">the current flight object</param>
+        /// <param name="newCheckpointSerial">the next checkpoint's serial</param>
+        /// <param name="lastCheckpointSerial">the last checkpoint's serial</param>
+        /// <param name="isNew">indicates if the flight is new or not</param>
         public void UpdateFlightObject(FlightDTO flight, int newCheckpointSerial, int lastCheckpointSerial, bool isNew)
         {
             CTDB.UpdateFlight(ConvertToEntity(flight), newCheckpointSerial, lastCheckpointSerial, isNew);
