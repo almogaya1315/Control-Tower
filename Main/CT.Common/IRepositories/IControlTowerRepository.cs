@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace CT.Common.IRepositories
 {
+    /// <summary>
+    /// The interface for the CT app repository
+    /// </summary>
     public interface IControlTowerRepository
     {
         ICollection<ProcessDTO> ProcessesDTOs { get; set; }

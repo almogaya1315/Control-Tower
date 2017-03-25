@@ -10,8 +10,12 @@ using System.Timers;
 
 namespace CT.Common.DTO_Models
 {
+    /// <summary>
+    /// The model class that comunicates with the UI's bindings
+    /// </summary>
     public class FlightDTO : INotifyPropertyChanged
     {
+        #region props
         bool isAlive;
         int flightSerial;
         int processId;
@@ -95,12 +99,15 @@ namespace CT.Common.DTO_Models
 
         public virtual CheckpointDTO Checkpoint { get; set; }
         public virtual ProcessDTO Process { get; set; }
+        #endregion
 
+        #region interface data
         public event PropertyChangedEventHandler PropertyChanged;
 
         void RaisePropertyChanged([CallerMemberName]string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }
