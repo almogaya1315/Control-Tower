@@ -10,12 +10,14 @@ using CT.Common.Enums;
 
 namespace CT.DAL
 {
+    /// <summary>
+    /// The control tower application's database context class 
+    /// </summary>
     public partial class CTContext : DbContext
     {
+        #region base data
         public CTContext()
-            : base("name=CT_DB")
-        {
-        }
+            : base("name=CT_DB") { }
 
         public virtual DbSet<Checkpoint> Checkpoints { get; set; }
         public virtual DbSet<Flight> Flights { get; set; }
@@ -23,18 +25,12 @@ namespace CT.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Flight>()
-            //    .HasRequired(f => f.Process)
-            //    .WithMany()
-            //    .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Flight>()
-            //    .HasOptional(f => f.CheckpointId);
-
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
+        #endregion
 
+        #region service repository related operations
         public Flight CreateFlight(Flight flight)
         {
             try
@@ -53,32 +49,53 @@ namespace CT.DAL
         {
             return Flights.FirstOrDefault(f => f.FlightSerial == flightSerial);
         }
+
         public Checkpoint GetCheckpoint(int serial)
         {
             return Checkpoints.FirstOrDefault(cp => cp.Serial == serial);
         }
+
         public Process GetProcess(string processType)
         {
             return Processes.FirstOrDefault(p => p.ProcessType == processType);
         }
 
+        /// <summary>
+        /// Updates the checkpoints the current flight passes between
+        /// </summary>
+        /// <param name="newCheckpointSerial">the next checkpoint's serial</param>
+        /// <param name="lastCheckpointSerial">the last checkpoint's serial</param>
+        /// <param name="flight">the current flight</param>
         public void UpdateCheckpoint(int newCheckpointSerial, int lastCheckpointSerial, Flight flight)
         {
+            //if the last checkpoint's serial is 8, it's the depart checkpoint
             if (lastCheckpointSerial == 8)
                 Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).Checkpoint =
                     Checkpoints.FirstOrDefault(cp => cp.CheckpointType == CheckpointType.RunwayDeparting.ToString());
+            //all other checkpoints will be updated by the new checkpoint serial
             else Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).Checkpoint =
                     Checkpoints.FirstOrDefault(cp => cp.Serial == newCheckpointSerial);
             SaveChanges();
         }
+
+        /// <summary>
+        /// Updates the current flight' checkpoint
+        /// </summary>
+        /// <param name="flight">the current flight</param>
+        /// <param name="newCheckpointSerial">the next checkpoint's serial</param>
+        /// <param name="lastCheckpointSerial">the last checkpoint's serial</param>
+        /// <param name="isNew">indicates if the flight is not alive</param>
         public void UpdateFlight(Flight flight, int newCheckpointSerial, int lastCheckpointSerial, bool isNew)
         {
+            //if the flight is new, it's alive state is modified
             if (isNew)
                 Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).IsAlive = true;
 
+            //f the last checkpoint's serial is 8, it's the depart checkpoint
             if (lastCheckpointSerial == 8)
                 Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).Checkpoint =
                     Checkpoints.FirstOrDefault(cp => cp.CheckpointType == CheckpointType.RunwayDeparting.ToString());
+            //all other checkpoints will be updated by the new checkpoint serial
             else Flights.FirstOrDefault(f => f.FlightSerial == flight.FlightSerial).Checkpoint =
                     Checkpoints.FirstOrDefault(cp => cp.Serial == newCheckpointSerial);
             SaveChanges();
@@ -97,11 +114,10 @@ namespace CT.DAL
                 throw new Exception(e.Message);
             }
             return true;
-            
-            //if (Flights.Contains(toRemove) == false) return true;
-            //else return false;
         }
+        #endregion
 
+        #region database initialization
         public void InitializeDatabase()
         {
             ClearDatabase();
@@ -116,14 +132,6 @@ namespace CT.DAL
                 Flights.RemoveRange(flightEntities);
                 SaveChanges();
             }
-
-            //IEnumerable<Checkpoint> checkpointEntities = Checkpoints.ToList();
-            //Checkpoints.RemoveRange(checkpointEntities);
-            //SaveChanges();
-
-            //IEnumerable<Process> processEntities = Processes.ToList();
-            //Processes.RemoveRange(processEntities);
-            //SaveChanges();
         }
         void InitializeLandingProcess()
         {
@@ -299,5 +307,6 @@ namespace CT.DAL
             departure.Checkpoints.Add(departed);
             SaveChanges();
         }
+        #endregion
     }
 }
