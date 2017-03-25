@@ -8,6 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace CT.Common.Utilities
 {
+    /// <summary>
+    /// A static class representing bitmap images for the CT app
+    /// </summary>
     public static class PlaneImageSource
     {
         public static BitmapImage PlaneLeft
