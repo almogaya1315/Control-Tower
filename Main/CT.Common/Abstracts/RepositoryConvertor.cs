@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace CT.Common.Abstracts
 {
     /// <summary>
-    /// 
+    /// An abstract class that converts between T entity & model
     /// </summary>
-    /// <typeparam name="Entity"></typeparam>
-    /// <typeparam name="DTO"></typeparam>
+    /// <typeparam name="Entity">the entity type</typeparam>
+    /// <typeparam name="DTO">the model type</typeparam>
     public abstract class RepositoryConvertor<Entity, DTO>
         where Entity : class, new()
         where DTO : class, new()
