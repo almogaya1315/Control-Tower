@@ -7,6 +7,9 @@ using System.Timers;
 
 namespace CT.Common.Utilities
 {
+    /// <summary>
+    /// A static class representing global level values for the CT app
+    /// </summary>
     public static class GlobalValues
     {
         public static Random GlobalRandom
