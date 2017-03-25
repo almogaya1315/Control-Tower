@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CT.Common.Abstracts
 {
+    /// <summary>
+    /// An abstract base class for all response classes of the service's data contracts
+    /// </summary>
     [DataContract]
     public abstract class ResponseBase
     {

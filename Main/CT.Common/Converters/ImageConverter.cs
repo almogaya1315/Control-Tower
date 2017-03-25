@@ -11,6 +11,9 @@ using System.Windows.Media.Imaging;
 
 namespace CT.Common.Converters
 {
+    /// <summary>
+    /// The class that edits the UI's images sources to match the app's needs in the XAML bindings
+    /// </summary>
     public class ImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
