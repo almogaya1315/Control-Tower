@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace CT.Common.Abstracts
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="Entity"></typeparam>
+    /// <typeparam name="DTO"></typeparam>
     public abstract class RepositoryConvertor<Entity, DTO>
         where Entity : class, new()
         where DTO : class, new()

@@ -10,6 +10,9 @@ using System.Windows.Data;
 
 namespace CT.Common.Converters
 {
+    /// <summary>
+    /// The class that edits the UI's List Views items source to match the app's needs in the XAML bindings
+    /// </summary>
     public class CollectionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
